@@ -64,6 +64,6 @@ google-chrome --headless=new --enable-logging=stderr --virtual-time-budget=15000
 
 ## Source material
 
-Built from Fuad Hajiyev's *Lecture Notes on Discrete Structures* (v.4, Fall 2026: Lecture 1, Lectures 2–3, Lectures 4–5) the MATH 1101 HW1 sheet, and the two Fall 2025 Midterm 1 solution sheets. Those PDFs are not included here.
+Built from Fuad Hajiyev's *Lecture Notes on Discrete Structures* (v.4, Fall 2026: Lecture 1, Lectures 2–3, Lectures 4–5) the MATH 1101 HW1 sheet, and the two Fall 2025 Midterm 1 solution sheets. The two Midterm 1 solution sheets are in `pdfs/`; the lecture notes and HW1 sheet are not included here.
 
 The HW1 section contains full answers. HW1 is due 19 October 2026.

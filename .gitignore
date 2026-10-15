@@ -1,8 +1,9 @@
 # generated test pages
 build/
 
-# course PDFs (the instructor's material) stay out of the repository
+# course PDFs stay out of the repository, except the Midterm 1 solution sheets in pdfs/
 *.pdf
+!pdfs/*.pdf
 
 __pycache__/
 *.pyc
