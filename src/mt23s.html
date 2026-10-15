@@ -1,0 +1,107 @@
+
+    <section class="chapter" id="mt23s">
+      <p class="eyebrow">Sample tasks · Midterm 1, Fall 2023 · 25 points · 90 minutes</p>
+      <h2>Midterm 1 sample tasks (Fall 2023)</h2>
+      <p class="intro">The practice sheet handed out before the Fall 2023 midterm. It has six tasks of the same kinds, slightly shorter, including a second Prim's algorithm graph.</p>
+      <p class="small muted">Tasks and solutions: <a href="pdfs/_MATH%201101%20DS%20Fall%202023%20-%20Midterm%201%20-%20SAMPLE%20TASKS.pdf">sample tasks (PDF)</a> · <a href="pdfs/_SOLUTION%20SHEET-%20MATH%201101%20DS%20Fall%202023%20-%20SAMPLE%20TASKS%20for%20Midterm%201.pdf">solution sheet (PDF)</a></p>
+
+      <div class="probs">
+        <article class="prob" id="mts-1">
+          <div class="p-head"><span class="pnum">Task 1</span><h4>Minimal AND–OR circuit · 4 pt</h4></div>
+          <div class="p-body"><p>Design a three-input minimal AND–OR circuit <span class="m">L</span> with truth table <span class="m">T[x, y, z; L]</span> = [<span class="bits">00001111</span>, <span class="bits">00110011</span>, <span class="bits">01010101</span>; <span class="bits">01011111</span>].</p></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="x'y'z+x'yz+xy'z'+xy'z+xyz'+xyz" data-label="Step 1 CSoP:"></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyz" data-answer="x+z" data-label="Step 3 MSoP:"></div>
+          <details><summary>Solution</summary><div class="d-body">
+            <p>Step 1: positions 2, 4, 5, 6, 7, 8 give <span class="m">L = x′y′z + x′yz + xy′z′ + xy′z + xyz′ + xyz</span>.</p>
+            <p>Steps 2–3: the whole <span class="m">x</span> row and the four <span class="m">z</span> squares are two 4-square blocks, so <span class="m">L = x + z</span>. The circuit is a single OR gate with inputs <span class="m">x</span> and <span class="m">z</span>; no AND gates are needed.</p>
+            <div class="kmap" data-n="3" data-m="1,3,4,5,6,7" data-solve="sums"></div>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mts-2">
+          <div class="p-head"><span class="pnum">Task 2</span><h4>Truth table of an expression · 4 pt</h4></div>
+          <div class="p-body"><p>Find <span class="m">T(E)</span> for <span class="m wrap">E = (x′y′ + z)′yz′ + (x′z + y)′(y′z + x) + x′z + xy′z′</span>. Step 1: an SoP form (2 pt). Step 2: the CSoP form (1 pt). Step 3: <span class="m">T(E)</span> (1 pt).</p></div>
+          <div class="check" data-kind="bool" data-mode="sop" data-vars="xyz" data-answer="yz'+xy'+x'z" data-label="Step 1 SoP:"></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="xyz'+x'yz'+xy'z+xy'z'+x'yz+x'y'z" data-label="Step 2 CSoP:"></div>
+          <div class="check" data-kind="bits" data-answer="01111110" data-label="Step 3 T(E) ="></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p><span class="m">(x′y′ + z)′ = (x + y)z′</span> and <span class="m">(x′z + y)′ = (x + z′)y′</span>. Finish with absorption.</p></div></details>
+          <details><summary>Solution</summary><div class="d-body">
+            <p><span class="m wrap">(x + y)z′ · yz′ = xyz′ + yz′ = yz′</span></p>
+            <p><span class="m wrap">(xy′ + y′z′)(y′z + x) = xy′z + xy′ + y′z′y′z + xy′z′ = xy′</span></p>
+            <p>So <span class="m wrap">E = yz′ + xy′ + x′z + xy′z′ = yz′ + xy′ + x′z</span>.</p>
+            <p>CSoP: <span class="m wrap">xyz′ + x′yz′ + xy′z + xy′z′ + x′yz + x′y′z</span>: every minterm except <span class="m">x′y′z′</span> and <span class="m">xyz</span>. So <span class="m">T(E)</span> = <span class="bits">01111110</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mts-3">
+          <div class="p-head"><span class="pnum">Task 3</span><h4>MSoP from a truth table · 3 pt</h4></div>
+          <div class="p-body"><p>Find <span class="m">E(x, y, z)</span> in MSoP form with <span class="m">T(E)</span> = <span class="bits">11011100</span>.</p></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="x'y'z'+x'y'z+x'yz+xy'z'+xy'z" data-label="Step 1 CSoP:"></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyz" data-answer="y'+x'z" data-label="Step 2 MSoP:"></div>
+          <details><summary>Solution</summary><div class="d-body">
+            <p>Positions 1, 2, 4, 5, 6: <span class="m">CSoP(E) = x′y′z′ + x′y′z + x′yz + xy′z′ + xy′z</span>.</p>
+            <p>The four <span class="m">y′</span> squares form a block, and <span class="m">x′yz</span> pairs with <span class="m">x′y′z</span>: <span class="m">E = y′ + x′z</span>.</p>
+            <div class="kmap" data-n="3" data-m="0,1,3,4,5" data-solve="sums"></div>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mts-4">
+          <div class="p-head"><span class="pnum">Task 4</span><h4>Prim's algorithm · 3 pt</h4></div>
+          <div class="p-body"><p>Use Prim's algorithm to find a minimum spanning tree in the graph. Press the edges in the order Prim's algorithm adds them.</p></div>
+          <div class="prim" data-rows="a b c d|e f g h|i j k l" data-e="a-b:2 b-c:3 c-d:1 e-f:4 f-g:3 g-h:3 i-j:3 j-k:3 k-l:1 a-e:3 b-f:1 c-g:2 d-h:5 e-i:4 f-j:2 g-k:4 h-l:3"></div>
+          <details><summary>Solution</summary><div class="d-body">
+            <p>The sheet's order, starting from <span class="m">{b, f}</span>:</p>
+            <table class="data">
+              <thead><tr><th>Choice</th><th>Edge</th><th>Weight</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td class="m">{b, f}</td><td>1</td></tr>
+                <tr><td>2</td><td class="m">{a, b}</td><td>2</td></tr>
+                <tr><td>3</td><td class="m">{f, j}</td><td>2</td></tr>
+                <tr><td>4</td><td class="m">{a, e}</td><td>3</td></tr>
+                <tr><td>5</td><td class="m">{i, j}</td><td>3</td></tr>
+                <tr><td>6</td><td class="m">{f, g}</td><td>3</td></tr>
+                <tr><td>7</td><td class="m">{c, g}</td><td>2</td></tr>
+                <tr><td>8</td><td class="m">{c, d}</td><td>1</td></tr>
+                <tr><td>9</td><td class="m">{g, h}</td><td>3</td></tr>
+                <tr><td>10</td><td class="m">{h, l}</td><td>3</td></tr>
+                <tr><td>11</td><td class="m">{k, l}</td><td>1</td></tr>
+              </tbody>
+            </table>
+            <p>Total weight <strong>24</strong>. From step 4 on there are several edges of weight 3 to choose from, so other orders (and other trees) are possible, all of weight 24.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mts-5">
+          <div class="p-head"><span class="pnum">Task 5</span><h4>Two 4-variable maps · 4 pt</h4></div>
+          <div class="p-body"><p>Find an MSoP for each map. The checked squares, as they appear on the sheet:</p>
+            <p>(A) <span class="m wrap">xyzt, xyzt′, xyz′t, xy′z′t′, xy′z′t, x′y′zt, x′y′zt′, the whole row x′y</span></p>
+            <p>(B) <span class="m wrap">xyzt, xyz′t, xy′zt′, xy′z′t′, xy′z′t, the whole row x′y′, x′yzt, x′yzt′</span></p>
+            <div class="km-trio">
+              <figure><div class="kmap" data-n="4" data-m="2,3,4,5,6,7,8,9,13,14,15"></div><figcaption>Map (A)</figcaption></figure>
+              <figure><div class="kmap" data-n="4" data-m="0,1,2,3,6,7,8,9,10,13,15"></div><figcaption>Map (B)</figcaption></figure>
+            </div></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="x'y+x'z+yz+yt+xy'z'" data-label="(A) E ="></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="x'z+y'z'+y't'+xyt" data-label="(B) E ="></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>(A) needs five products, four of them 2×2 blocks. (B) needs four; two of the blocks wrap around the edges of the map.</p></div></details>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(A) One minimal sum: <span class="m">E = x′y + x′z + yz + yt + xy′z′</span> (5 products, 11 literals).</p>
+            <div class="kmap" data-n="4" data-m="2,3,4,5,6,7,8,9,13,14,15" data-solve></div>
+            <p style="margin-top:1rem">(B) One minimal sum: <span class="m">E = x′z + y′z′ + y′t′ + xyt</span> (4 products, 9 literals).</p>
+            <div class="kmap" data-n="4" data-m="0,1,2,3,6,7,8,9,10,13,15" data-solve></div>
+            <p class="small muted">The sheet counts 12 literals for (A); the sum it gives has 11.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mts-6">
+          <div class="p-head"><span class="pnum">Task 6</span><h4>Quantifiers · 5 pt</h4></div>
+          <div class="mcq" data-a="2"><p class="q">6.1 The negation of <span class="m">∀x ∃y ∀z P(x, y, z)</span> is</p><ul><li><span class="m">∃x ∃y ∃z ¬P(x, y, z)</span></li><li><span class="m">∀x ∃y ∀z ¬P(x, y, z)</span></li><li><span class="m">∃x ∀y ∃z ¬P(x, y, z)</span></li><li><span class="m">∃x ∀y ∀z ¬P(x, y, z)</span></li></ul><p class="why"><span class="m">¬∀x ∃y ∀z P = ∃x ¬∃y ∀z P = ∃x ∀y ¬∀z P = ∃x ∀y ∃z ¬P</span>.</p></div>
+          <div class="p-body"><p>6.2 Over the integers, what are the truth values?</p></div>
+          <ol class="tf">
+            <li data-a="F"><span class="q"><span class="m">∃!x(x &gt; 1)</span></span><span class="why">2, 3, 4, … all work: not unique.</span></li>
+            <li data-a="F"><span class="q"><span class="m">∃!x(x² = 1)</span></span><span class="why">Two solutions: <span class="m">x = 1</span> and <span class="m">x = −1</span>.</span></li>
+            <li data-a="T"><span class="q"><span class="m">∃!x(x + 3 = 2x)</span></span><span class="why">Only <span class="m">x = 3</span>.</span></li>
+            <li data-a="F"><span class="q"><span class="m">∃!x(x = x + 1)</span></span><span class="why">It would need <span class="m">0 = 1</span>: no solution.</span></li>
+          </ol>
+        </article>
+      </div>
+    </section>

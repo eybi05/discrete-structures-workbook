@@ -205,6 +205,23 @@ svg.circ .part path, svg.circ .part circle { stroke: var(--ink); stroke-width: 1
 svg.circ .dot circle { fill: var(--ink); }
 svg.circ text.lab { font: italic 14px var(--f-body); fill: var(--ink); }
 svg.circ text.gl { font: 600 8px var(--f-mono); fill: var(--ink-3); letter-spacing: 0.04em; }
+.prim { margin: 0.6rem 0 0.8rem; }
+.prim-wrap { overflow-x: auto; max-width: 100%; }
+svg.prim-svg { display: block; max-width: none; }
+.prim-svg .edge { cursor: pointer; outline: none; }
+.prim-svg .edge .hit { stroke: transparent; stroke-width: 18; }
+.prim-svg .edge .ln { stroke: var(--ink-3); stroke-width: 1.6; }
+.prim-svg .edge:hover .ln, .prim-svg .edge:focus-visible .ln { stroke: var(--ink); stroke-width: 3; }
+.prim-svg .edge.on .ln { stroke: var(--accent); stroke-width: 4.5; stroke-linecap: round; }
+.prim-svg .edge text.w { font: 500 13px var(--f-mono); fill: var(--ink-2); }
+.prim-svg .edge.on text.w { fill: var(--accent-ink); font-weight: 700; }
+.prim-svg .vx circle { fill: var(--panel); stroke: var(--ink); stroke-width: 1.6; }
+.prim-svg .vx.on circle { fill: var(--accent); stroke: var(--accent); }
+.prim-svg .vx text.vl { font: italic 15px var(--f-body); fill: var(--ink); }
+.prim-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.7rem; margin-top: 0.5rem; }
+.prim-total { font: 500 var(--fs-xs) var(--f-mono); color: var(--ink-2); margin-right: auto; }
+.prim-log { columns: 2 9rem; font-size: var(--fs-s); color: var(--ink-2); margin: 0.5rem 0 0; padding-left: 1.6rem; }
+.prim-log:empty { display: none; }
 .fig-row { display: flex; flex-wrap: wrap; gap: 1.2rem 2rem; align-items: flex-start; }
 .fig-row > * { min-width: 0; }
 

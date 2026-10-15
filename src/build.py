@@ -14,7 +14,7 @@ from pathlib import Path
 
 SRC = Path(__file__).resolve().parent
 ROOT = SRC.parent
-PARTS = ["head.html", "body_top.html", "s1.html", "s2.html", "s3.html", "tools.html", "hw.html", "mt1.html", "end.html"]
+PARTS = ["head.html", "body_top.html", "s1.html", "s2.html", "s3.html", "tools.html", "hw.html", "mt1.html", "mt24.html", "mt23.html", "mt23s.html", "end.html"]
 
 
 def read(name: str, folder: Path = SRC) -> str:

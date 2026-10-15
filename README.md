@@ -2,14 +2,20 @@
 
 An interactive study page for **MATH 1101 Discrete Structures** (Fall 2026, Lectures 1–5): sets and functions, propositions and quantifiers, logic circuits and Boolean algebra.
 
-Open **`index.html`** in any browser. It is one self-contained file; the fonts come from Google Fonts when you are online.
+**Live page: https://eybi05.github.io/discrete-structures-workbook/** (GitHub Pages, served from `index.html` on `main`).
+
+Or open **`index.html`** in any browser. It is one self-contained file; the fonts come from Google Fonts when you are online.
 
 ## What's inside
 
 - **Notes** for each lecture, with worked examples from the lecture notes and a table that shows the laws of sets, logic and Boolean algebra side by side.
 - **Practice:** 63 problems in 7 sets, plus 30 quick true/false checks. Most answers can be typed into a box that says whether they are right (equivalent, in SoP form, minimal) without showing the solution. Hint, answer and full solution sit behind buttons.
 - **HW1 answer check:** all 23 tasks, with the same answer boxes and model answers.
-- **Midterm 1 practice:** both variants of the Fall 2025 Midterm 1 (7 tasks each), with answer boxes, K-map solutions, circuits and model proofs.
+- **Midterm 1 practice:** past exams after the HW1 section, with answer boxes, K-map solutions, circuits and model proofs:
+  - Fall 2025, both variants (7 tasks each)
+  - Fall 2024, both variants (7 tasks each)
+  - Fall 2023 (7 tasks, including a Prim's algorithm graph you solve by clicking edges)
+  - Fall 2023 sample tasks (6 tasks, including a second Prim's graph)
 - **Tools:** a truth-table and equivalence checker, a Karnaugh map solver that lists every minimal sum (with a random-map practice mode), and a Venn diagram shader.
 - **Errata:** 11 typos found in the lecture notes while checking every example.
 
@@ -37,9 +43,10 @@ src/
   body_top.html      header, contents, "big picture" and typing help
   s1.html s2.html    Lecture 1; Lectures 2-3
   s3.html            Lectures 4-5
-  tools.html hw.html mt1.html end.html
+  tools.html hw.html end.html
+  mt1.html mt24.html mt23.html mt23s.html   Midterm 1: Fall 2025, Fall 2024, Fall 2023, Fall 2023 sample tasks
   core.js            logic engine: parser, truth tables, Quine-McCluskey, minimal sums, answer grading
-  ui.js              answer boxes, quizzes, Karnaugh maps, circuit drawings, Venn diagrams, tools
+  ui.js              answer boxes, quizzes, Karnaugh maps, circuit drawings, Prim's algorithm graphs, Venn diagrams, tools
   build.py           assembles index.html and runs structural checks
 tests/
   test_core.js       unit tests for core.js
@@ -64,6 +71,8 @@ google-chrome --headless=new --enable-logging=stderr --virtual-time-budget=15000
 
 ## Source material
 
-Built from Fuad Hajiyev's *Lecture Notes on Discrete Structures* (v.4, Fall 2026: Lecture 1, Lectures 2–3, Lectures 4–5) the MATH 1101 HW1 sheet, and the two Fall 2025 Midterm 1 solution sheets. The two Midterm 1 solution sheets are in `pdfs/`; the lecture notes and HW1 sheet are not included here.
+Built from Fuad Hajiyev's *Lecture Notes on Discrete Structures* (v.4, Fall 2026: Lecture 1, Lectures 2–3, Lectures 4–5), the MATH 1101 HW1 sheet, and the Midterm 1 solution sheets for Fall 2025 (two variants), Fall 2024 (two variants), Fall 2023, and the Fall 2023 sample tasks. The midterm sheets are in `pdfs/` and are linked from each section. The lecture notes and the HW1 sheet are not included here.
+
+One correction to a sheet: in Fall 2024, Variant 2, Task 4(A), the given sum contains a redundant product `z′t`. The page explains this and gives the minimal sum.
 
 The HW1 section contains full answers. HW1 is due 19 October 2026.

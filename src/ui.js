@@ -451,6 +451,97 @@
     el.append(svg);
   }
 
+  // ------------------------------------------------------------ Prim's algorithm on a grid graph
+  // data-rows="a b c d|e f g h|i j k l" places the vertices; data-e="a-b:2 b-c:3 …" lists the weighted edges.
+  // Each click must add an edge Prim's algorithm could choose next (the first one: any lightest edge).
+  function buildPrim(el) {
+    const rows = el.dataset.rows.split('|').map((r) => r.trim().split(/\s+/));
+    const pos = {};
+    const gx = 120, gy = 96, pad = 30;
+    rows.forEach((r, i) => r.forEach((v, j) => { pos[v] = [pad + j * gx, pad + i * gy]; }));
+    const edges = el.dataset.e.trim().split(/\s+/).map((t) => {
+      const [, u, v, w] = t.match(/^(\w+)-(\w+):(\d+)$/);
+      return { u, v, w: +w, name: `{${u}, ${v}}` };
+    });
+    const nV = Object.keys(pos).length;
+    const W = pad * 2 + (Math.max(...rows.map((r) => r.length)) - 1) * gx, H = pad * 2 + (rows.length - 1) * gy;
+    const svg = s('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H, class: 'prim-svg', role: 'group', 'aria-label': 'Weighted graph: press an edge to add it to the tree' });
+    const chosen = [];
+    const inTree = () => new Set(chosen.flatMap((e) => [e.u, e.v]));
+    const fb = h('p', { class: 'fb', role: 'status', 'aria-live': 'polite' });
+    const log = h('ol', { class: 'prim-log' });
+    const total = h('span', { class: 'prim-total' });
+
+    function candidates() {
+      const T = inTree();
+      const free = edges.filter((e) => !chosen.includes(e) && (chosen.length === 0 || T.has(e.u) !== T.has(e.v)));
+      const min = Math.min(...free.map((e) => e.w));
+      return { T, min, ok: free.filter((e) => e.w === min) };
+    }
+    function render() {
+      edges.forEach((e) => {
+        const on = chosen.includes(e);
+        e.g.classList.toggle('on', on);
+        e.g.setAttribute('aria-pressed', String(on));
+      });
+      const T = inTree();
+      Object.entries(pos).forEach(([v]) => svg.querySelector(`[data-v="${v}"]`).classList.toggle('on', T.has(v)));
+      log.replaceChildren(...chosen.map((e) => h('li', {}, h('span', { class: 'm' }, e.name), ` — ${e.w}`)));
+      total.textContent = `${chosen.length} of ${nV - 1} edges · total weight ${chosen.reduce((a, e) => a + e.w, 0)}`;
+      typeset(log);
+    }
+    function pick(e) {
+      if (chosen.length === nV - 1) return;
+      if (chosen.includes(e)) { showFb(fb, { status: 'error', msg: `${e.name} is already in the tree. Use Undo to take the last edge back.` }); return; }
+      const { T, min, ok } = candidates();
+      if (ok.includes(e)) {
+        chosen.push(e);
+        render();
+        const sum = chosen.reduce((a, x) => a + x.w, 0);
+        if (chosen.length === nV - 1) showFb(fb, { status: 'ok', msg: `Done: ${nV - 1} edges reach all ${nV} vertices. Minimum spanning tree, total weight ${sum}.` });
+        else showFb(fb, { status: 'ok', msg: `${e.name} (weight ${e.w}) is a correct choice.` });
+        return;
+      }
+      let msg;
+      if (chosen.length === 0) msg = `Start with an edge of the smallest weight in the graph (${min}).`;
+      else if (T.has(e.u) && T.has(e.v)) msg = `Both ends of ${e.name} are already in the tree, so it would close a circuit.`;
+      else if (!T.has(e.u) && !T.has(e.v)) msg = `${e.name} does not touch the tree yet. Prim's algorithm only adds edges with one end in the tree.`;
+      else msg = `${e.name} leaves the tree, but a lighter edge does too (weight ${min}).`;
+      showFb(fb, { status: 'wrong', msg });
+    }
+
+    edges.forEach((e) => {
+      const [x1, y1] = pos[e.u], [x2, y2] = pos[e.v];
+      const horiz = Math.abs(y1 - y2) < 1;
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      e.g = s('g', { class: 'edge', tabindex: 0, role: 'button', 'aria-label': `Edge ${e.u}–${e.v}, weight ${e.w}` });
+      e.g.append(
+        s('line', { x1, y1, x2, y2, class: 'hit' }),
+        s('line', { x1, y1, x2, y2, class: 'ln' }),
+        s('text', { x: horiz ? mx : mx - 10, y: horiz ? my - 8 : my + 5, class: 'w', 'text-anchor': horiz ? 'middle' : 'end' }, String(e.w)),
+      );
+      e.g.addEventListener('click', () => pick(e));
+      e.g.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); pick(e); } });
+      svg.append(e.g);
+    });
+    Object.entries(pos).forEach(([v, [x, y]]) => {
+      const g = s('g', { class: 'vx', 'data-v': v, 'aria-hidden': 'true' });
+      const above = y < H / 2;
+      g.append(s('circle', { cx: x, cy: y, r: 5 }), s('text', { x: x + 8, y: above ? y - 9 : y + 19, class: 'vl' }, v));
+      svg.append(g);
+    });
+
+    const undo = h('button', { type: 'button', class: 'btn ghost', onclick: () => { chosen.pop(); fb.replaceChildren(); fb.className = 'fb'; render(); } }, 'Undo');
+    const reset = h('button', { type: 'button', class: 'btn ghost', onclick: () => { chosen.length = 0; fb.replaceChildren(); fb.className = 'fb'; render(); } }, 'Start again');
+    el.append(
+      h('div', { class: 'prim-wrap' }, svg),
+      h('div', { class: 'prim-bar' }, total, undo, reset),
+      fb,
+      log,
+    );
+    render();
+  }
+
   // ------------------------------------------------------------ Venn diagrams (canvas)
   const colorCache = new Map();
   function rgbOf(cssColor) {
@@ -739,6 +830,7 @@
     $$('.kmap').forEach((el) => { try { buildKmap(el); } catch (e) { console.error('kmap', el, e); } });
     $$('.circuit').forEach((el) => { try { buildCircuit(el); } catch (e) { console.error('circuit', el, e); } });
     $$('.check').forEach((el) => { try { buildCheck(el); } catch (e) { console.error('check', el, e); } });
+    $$('.prim').forEach((el) => { try { buildPrim(el); } catch (e) { console.error('prim', el, e); } });
     $$('.tf > li').forEach(buildTF);
     $$('.mcq').forEach(buildMCQ);
     $$('main .prob').forEach(buildProb);

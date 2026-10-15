@@ -71,6 +71,19 @@ const expected = {
   'mt-b3|Step 1 CSoP:': '#10110011', 'mt-b3|Step 2 MSoP:': '#10110011',
   'mt-b4|(A) E =': "xyzt'+xyz't'+xyz't+xy'zt'+xy'z't'+xy'z't+x'y'zt'+x'yzt+x'yz't'+x'yz't",
   'mt-b4|(B) E =': "xyz't'+xy'+x'y'zt+x'y'z't'+x'yzt+x'yz't'+x'yz't",
+  'mt24-a1|Step 1 CSoP:': '#10011011', 'mt24-a1|Step 3 MSoP:': '#10011011', 'mt24-a3|Step 1 CSoP:': '#10011011', 'mt24-a3|Step 2 MSoP:': '#10011011',
+  'mt24-a2|Step 1 SoP:': "(x'y+z)'(x'+y'z)+(x'z+y)(y'z)'+xz'+x'y'z", 'mt24-a2|Step 2 CSoP:': "(x'y+z)'(x'+y'z)+(x'z+y)(y'z)'+xz'+x'y'z",
+  'mt24-a4|(A) E =': "xy+x'y+xy'zt'+xy'z't'+x'y'zt'", 'mt24-a4|(B) E =': "xyz't'+xyz't+xy'zt'+xy'z't'+x'y'zt+x'y'z't'+x'yzt+x'yz't'+x'yz't",
+  'mt24-b1|Step 1 CSoP:': '#01011011', 'mt24-b1|Step 3 MSoP:': '#01011011', 'mt24-b3|Step 1 CSoP:': '#01011011', 'mt24-b3|Step 2 MSoP:': '#01011011',
+  'mt24-b2|Step 1 SoP:': "((x+y)'+z)'(x'+yz')'+(xy+z')'(yz')+x'z+x'yz'", 'mt24-b2|Step 2 CSoP:': "((x+y)'+z)'(x'+yz')'+(xy+z')'(yz')+x'z+x'yz'",
+  'mt24-b4|(A) E =': "xyzt'+xyz't'+xyz't+xy'zt+xy'z't'+xy'z't+x'y'zt+x'y'zt'+x'y'z't+x'yz't'+x'yz't", 'mt24-b4|(B) E =': "xyzt+xyz't'+xyz't+xy'+x'yzt+x'yz't'+x'yz't",
+  'mt23-1|Step 1 CSoP:': '#11011001', 'mt23-1|Step 3 MSoP:': '#11011001', 'mt23-3|Step 1 CSoP:': '#11011001', 'mt23-3|Step 2 MSoP:': '#11011001',
+  'mt23-2|Step 1 SoP:': "(xy'+z')'(x+yz')+(x'z+y)'(y'z)+x'z+xy'z'", 'mt23-2|Step 2 CSoP:': "(xy'+z')'(x+yz')+(x'z+y)'(y'z)+x'z+xy'z'",
+  'mt23-4|(A) E =': "xyz't'+xyz't+xy'zt+xy'zt'+xy'z't'+x'y'zt'+x'yzt+x'yz't'+x'yz't",
+  'mt23-4|(B) E =': "xyzt+xyz't'+xyz't+xy'+x'y'z't'+x'yzt+x'yz't'+x'yz't",
+  'mts-1|Step 1 CSoP:': '#01011111', 'mts-1|Step 3 MSoP:': '#01011111', 'mts-3|Step 1 CSoP:': '#11011100', 'mts-3|Step 2 MSoP:': '#11011100',
+  'mts-2|Step 1 SoP:': "(x'y'+z)'yz'+(x'z+y)'(y'z+x)+x'z+xy'z'", 'mts-2|Step 2 CSoP:': "(x'y'+z)'yz'+(x'z+y)'(y'z+x)+x'z+xy'z'",
+  'mts-5|(A) E =': "xyzt+xyzt'+xyz't+xy'z't'+xy'z't+x'y'zt+x'y'zt'+x'y", 'mts-5|(B) E =': "xyzt+xyz't+xy'zt'+xy'z't'+xy'z't+x'y'+x'yzt+x'yzt'",
   // bits
   'p2-7|u ∨ v =': OR('11010110', '10111100'), 'p2-7|u ∧ v =': AND('11010110', '10111100'), 'p2-7|u ⊕ v =': '01101010',
   'p4-1|ABC =': AND('101101', '111001', '011101'), 'p4-1|A + B + C =': OR('101101', '111001', '011101'), 'p4-1|A′ =': NOT('101101'),
@@ -81,6 +94,8 @@ const expected = {
   'hw-27|(a) Y =': OR('100011', '100101', '100001'), 'hw-27|(b) Y =': OR('10000001', '00100100', '00000011'), 'hw-27|(c) Y =': OR('00111100', '11110000', '10000001'),
   'hw-28|(a) Y =': NOT('11100111'), 'hw-28|(b) Y =': NOT('10001000'), 'hw-28|(c) Y =': NOT('11111000'),
   'mt-a2|Step 3 T(E) =': tt("(xy'+z')'(x+yz')+(x'z+y)(y'z)'+x'z+xy'z'", 'xyz'), 'mt-b2|Step 3 T(E) =': tt("(xy+z')(x+y'z')'+(xy'+z)'(yz')'+x'y+x'yz'", 'xyz'),
+  'mt24-a2|Step 3 T(E) =': tt("(x'y+z)'(x'+y'z)+(x'z+y)(y'z)'+xz'+x'y'z", 'xyz'), 'mt24-b2|Step 3 T(E) =': tt("((x+y)'+z)'(x'+yz')'+(xy+z')'(yz')+x'z+x'yz'", 'xyz'),
+  'mt23-2|Step 3 T(E) =': tt("(xy'+z')'(x+yz')+(x'z+y)'(y'z)+x'z+xy'z'", 'xyz'), 'mts-2|Step 3 T(E) =': tt("(x'y'+z)'yz'+(x'z+y)'(y'z+x)+x'z+xy'z'", 'xyz'),
   'hw-29|(a) T(E) =': tt("xy+x'z", 'xyz'), 'hw-29|(b) T(E) =': tt("xyz'+xy'z'+x'y'z'", 'xyz'),
 };
 const seen = new Set();
