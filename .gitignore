@@ -1,0 +1,9 @@
+# generated test pages
+build/
+
+# course PDFs (the instructor's material) stay out of the repository
+*.pdf
+
+__pycache__/
+*.pyc
+.DS_Store

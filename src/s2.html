@@ -1,0 +1,463 @@
+    <section class="chapter" id="logic">
+      <p class="eyebrow">Lectures 2–3</p>
+      <h2>Propositions and quantifiers</h2>
+      <p class="intro">Logic gives mathematical statements a precise meaning. Part 1 is the algebra of propositions (connectives, truth tables, equivalences). Part 2 adds predicates and the quantifiers ∀ and ∃.</p>
+
+      <h3 id="l-props"><span class="num">2.1</span>Propositions and connectives</h3>
+      <div class="blk def"><div class="lbl">Definition 1</div><div class="body">
+        <p>A <strong>proposition</strong> is a declarative sentence that is either true (T) or false (F), but not both. “Baku is the capital of Azerbaijan” is true; “2 + 2 = 3” is false. Not propositions: questions (“What time is it?”), commands (“Do your homework.”), and open sentences such as <span class="m">x + 1 = 2</span>, which get a truth value only once <span class="m">x</span> is fixed or quantified.</p>
+        <p>A <strong>compound</strong> proposition is built from simpler ones with connectives; its truth value depends only on the truth values of the parts and on how they are connected.</p>
+      </div></div>
+      <div class="scroll" style="margin-bottom:1.2rem"><table class="tt">
+        <thead><tr><th class="var m">p</th><th class="var m">q</th><th class="m">¬p</th><th class="m">p ∧ q</th><th class="m">p ∨ q</th><th class="m">p ⊕ q</th><th class="m">p → q</th><th class="m">p ↔ q</th></tr></thead>
+        <tbody>
+          <tr><td class="var">T</td><td class="var">T</td><td class="zero">F</td><td>T</td><td>T</td><td class="zero">F</td><td>T</td><td>T</td></tr>
+          <tr><td class="var">T</td><td class="var">F</td><td class="zero">F</td><td class="zero">F</td><td>T</td><td>T</td><td class="zero">F</td><td class="zero">F</td></tr>
+          <tr><td class="var">F</td><td class="var">T</td><td>T</td><td class="zero">F</td><td>T</td><td>T</td><td>T</td><td class="zero">F</td></tr>
+          <tr><td class="var">F</td><td class="var">F</td><td>T</td><td class="zero">F</td><td class="zero">F</td><td class="zero">F</td><td>T</td><td>T</td></tr>
+        </tbody>
+      </table></div>
+      <div class="blk key"><div class="lbl">Remember</div><div class="body">
+        <dl class="pairs">
+          <dt class="m">∧ and</dt><dd>true only when both parts are true.</dd>
+          <dt class="m">∨ or</dt><dd>inclusive: false only when both parts are false.</dd>
+          <dt class="m">⊕ xor</dt><dd>true when exactly one part is true (“coffee or tea comes with dinner”).</dd>
+          <dt class="m">→ if…then</dt><dd>false only when the hypothesis is true and the conclusion false, like a broken promise: “If you get 100% on the final, then you get an A.”</dd>
+          <dt class="m">↔ iff</dt><dd>true when both parts have the same truth value; <span class="m">p ↔ q ≡ (p → q) ∧ (q → p)</span>.</dd>
+        </dl>
+      </div></div>
+      <div class="blk trap"><div class="lbl">Watch out</div><div class="body">
+        <p>A conditional with a false hypothesis is true. “If Aynur has a smartphone, then <span class="m">2 + 3 = 6</span>” is true when Aynur has no smartphone. A conditional says nothing about cause and effect.</p>
+      </div></div>
+      <div class="blk"><div class="lbl">Saying p → q</div><div class="body">
+        <p>if <span class="m">p</span>, then <span class="m">q</span> · if <span class="m">p, q</span> · <span class="m">q</span> if <span class="m">p</span> · <span class="m">q</span> when <span class="m">p</span> · <span class="m">q</span> whenever <span class="m">p</span> · <span class="m">p</span> implies <span class="m">q</span> · <span class="m">p</span> only if <span class="m">q</span> · <span class="m">p</span> is sufficient for <span class="m">q</span> · <span class="m">q</span> is necessary for <span class="m">p</span> · <span class="m">q</span> follows from <span class="m">p</span> · <span class="m">q</span> unless <span class="m">¬p</span></p>
+        <p>The two that cause mistakes: “<span class="m">p</span> only if <span class="m">q</span>” is <span class="m">p → q</span> (not <span class="m">q → p</span>), and “<span class="m">q</span> unless <span class="m">¬p</span>” is also <span class="m">p → q</span>. For <span class="m">p ↔ q</span>: “<span class="m">p</span> is necessary and sufficient for <span class="m">q</span>”, “<span class="m">p</span> iff <span class="m">q</span>”.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Precedence</div><div class="body">
+        <p><span class="m">¬</span> first, then <span class="m">∧</span>, then <span class="m">∨</span>, then <span class="m">→</span>, then <span class="m">↔</span> (Table 7). So <span class="m">¬p ∧ q</span> means <span class="m">(¬p) ∧ q</span> and <span class="m">p ∨ q ∧ r</span> means <span class="m">p ∨ (q ∧ r)</span>. When in doubt, use brackets.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Related conditionals</div><div class="body">
+        <p>For <span class="m">p → q</span>: the <strong>converse</strong> is <span class="m">q → p</span>, the <strong>inverse</strong> is <span class="m">¬p → ¬q</span>, and the <strong>contrapositive</strong> is <span class="m">¬q → ¬p</span>. A conditional is equivalent to its contrapositive; the converse is equivalent to the inverse; the converse is <em>not</em> equivalent to the original.</p>
+        <p>Example 17: “The home team wins whenever it is raining” means “If it is raining, then the home team wins.” Contrapositive: “If the home team does not win, then it is not raining.” Converse: “If the home team wins, then it is raining.” Inverse: “If it is not raining, then the home team does not win.”</p>
+      </div></div>
+
+      <h3 id="l-equiv"><span class="num">2.2</span>Truth tables, tautologies and equivalence</h3>
+      <div class="blk ex"><div class="lbl">Example 12</div><div class="body">
+        <p>With <span class="m">n</span> variables there are <span class="m">2ⁿ</span> rows. Add a column for each sub-expression, working inside out. For <span class="m">(p ∨ ¬q) → (p ∧ q)</span>:</p>
+        <div class="scroll"><table class="tt">
+          <thead><tr><th class="var m">p</th><th class="var m">q</th><th class="m">¬q</th><th class="m">p ∨ ¬q</th><th class="m">p ∧ q</th><th class="m fin">(p ∨ ¬q) → (p ∧ q)</th></tr></thead>
+          <tbody>
+            <tr><td class="var">T</td><td class="var">T</td><td class="zero">F</td><td>T</td><td>T</td><td class="fin">T</td></tr>
+            <tr><td class="var">T</td><td class="var">F</td><td>T</td><td>T</td><td class="zero">F</td><td class="fin">F</td></tr>
+            <tr><td class="var">F</td><td class="var">T</td><td class="zero">F</td><td class="zero">F</td><td class="zero">F</td><td class="fin">T</td></tr>
+            <tr><td class="var">F</td><td class="var">F</td><td>T</td><td>T</td><td class="zero">F</td><td class="fin">F</td></tr>
+          </tbody>
+        </table></div>
+        <p style="margin-top:0.6rem"><button type="button" class="load-tt" data-tt="(p ∨ ¬q) → (p ∧ q)">Open in the truth-table tool</button></p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Definitions 7–8</div><div class="body">
+        <p>A <strong>tautology</strong> is true in every row (<span class="m">p ∨ ¬p</span>); a <strong>contradiction</strong> is false in every row (<span class="m">p ∧ ¬p</span>). Substituting any propositions for the variables of a tautology gives a tautology (Theorem 1). <span class="m">P ≡ Q</span> (<strong>logically equivalent</strong>) means identical truth tables, or equivalently that <span class="m">P ↔ Q</span> is a tautology.</p>
+      </div></div>
+      <div class="blk key"><div class="lbl">Key equivalences</div><div class="body">
+        <div class="scroll"><table class="data">
+          <tbody>
+            <tr><td class="m">p → q ≡ ¬p ∨ q</td><td class="m">¬(p → q) ≡ p ∧ ¬q</td></tr>
+            <tr><td class="m">p → q ≡ ¬q → ¬p</td><td class="m">p ∨ q ≡ ¬p → q</td></tr>
+            <tr><td class="m">p ⊕ q ≡ (p ∧ ¬q) ∨ (¬p ∧ q)</td><td class="m">p ∧ q ≡ ¬(p → ¬q)</td></tr>
+            <tr><td class="m">p ↔ q ≡ (p ∧ q) ∨ (¬p ∧ ¬q)</td><td class="m">p ↔ q ≡ ¬p ↔ ¬q</td></tr>
+            <tr><td class="m">¬(p ↔ q) ≡ p ↔ ¬q ≡ ¬p ↔ q</td><td class="m">(p → q) ∧ (p → r) ≡ p → (q ∧ r)</td></tr>
+            <tr><td class="m">(p → r) ∧ (q → r) ≡ (p ∨ q) → r</td><td class="m">(p → q) ∨ (p → r) ≡ p → (q ∨ r)</td></tr>
+            <tr><td class="m">(p → r) ∨ (q → r) ≡ (p ∧ q) → r</td><td></td></tr>
+          </tbody>
+        </table></div>
+        <p style="margin-top:0.6rem">So every connective can be written with <span class="m">¬, ∧, ∨</span> alone: this set is <strong>functionally complete</strong> (Theorem 2). The laws of the algebra of propositions are the “Propositions” column of <a href="#laws-table">the laws table</a>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 20</div><div class="body">
+        <p>Show <span class="m">¬(p ∨ (¬p ∧ q)) ≡ ¬p ∧ ¬q</span> with laws, one step at a time.</p>
+        <ol class="chain">
+          <li><span class="m">¬(p ∨ (¬p ∧ q)) ≡ ¬p ∧ ¬(¬p ∧ q)</span><span class="why-law">De Morgan</span></li>
+          <li><span class="m">≡ ¬p ∧ (p ∨ ¬q)</span><span class="why-law">De Morgan, double negation</span></li>
+          <li><span class="m">≡ (¬p ∧ p) ∨ (¬p ∧ ¬q)</span><span class="why-law">distributive</span></li>
+          <li><span class="m">≡ <span class="up">F</span> ∨ (¬p ∧ ¬q) ≡ ¬p ∧ ¬q</span><span class="why-law">complement, identity</span></li>
+        </ol>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 21</div><div class="body">
+        <p><span class="m">(p ∧ q) → (p ∨ q) ≡ ¬(p ∧ q) ∨ (p ∨ q) ≡ (¬p ∨ ¬q) ∨ (p ∨ q) ≡ (¬p ∨ p) ∨ (¬q ∨ q) ≡ <span class="up">T</span></span>, so it is a tautology.</p>
+      </div></div>
+      <div class="blk key"><div class="lbl">Negating English</div><div class="body">
+        <ol class="steps">
+          <li>Name the simple statements, for example <span class="m">p</span> = “Farid has a cellphone”, <span class="m">q</span> = “Farid has a laptop”.</li>
+          <li>Write the statement as a formula: <span class="m">p ∧ q</span>.</li>
+          <li>Negate with De Morgan and <span class="m">¬(p → q) ≡ p ∧ ¬q</span>: <span class="m">¬p ∨ ¬q</span>.</li>
+          <li>Translate back: “Farid does not have a cellphone or he does not have a laptop.” (Example 18)</li>
+        </ol>
+        <p>For a conditional: the negation of “If she works, she will earn money” is “She works and she will not earn money” (Exercise 1.8).</p>
+      </div></div>
+      <div class="blk trap"><div class="lbl">Watch out</div><div class="body">
+        <p>The negation of “all the students completed their homework” is “some student did not complete their homework”, not “no student completed it”. You need this for HW1 Task 3.</p>
+      </div></div>
+
+      <h3 id="l-bits"><span class="num">2.3</span>Bits and bit strings</h3>
+      <div class="blk"><div class="lbl">Section 5</div><div class="body">
+        <p>Use 1 for T and 0 for F. Bitwise OR, AND and XOR act position by position on strings of equal length:</p>
+        <div class="scroll"><table class="tt" style="text-align:left">
+          <tbody>
+            <tr><th class="m"></th><td class="bits">1 0 1 0 1 0 1 1 1 0 1</td></tr>
+            <tr><th class="m"></th><td class="bits">1 1 1 0 1 0 1 0 0 0 1</td></tr>
+            <tr><th>OR</th><td class="bits">1 1 1 0 1 0 1 1 1 0 1</td></tr>
+            <tr><th>AND</th><td class="bits">1 0 1 0 1 0 1 0 0 0 1</td></tr>
+            <tr><th>XOR</th><td class="bits fin">0 1 0 0 0 0 0 1 1 0 0</td></tr>
+          </tbody>
+        </table></div>
+      </div></div>
+
+      <h3 id="l-quant"><span class="num">2.4</span>Predicates and quantifiers</h3>
+      <div class="blk def"><div class="lbl">Definitions 13–14</div><div class="body">
+        <p>A <strong>predicate</strong> (propositional function) <span class="m">P(x)</span> on a domain <span class="m">A</span> turns into a proposition for each <span class="m">a ∈ A</span>; formally <span class="m">P: A → {0, 1}</span>. With <span class="m">P(x)</span> = “<span class="m">x &lt; 10</span>”, <span class="m">P(5)</span> is true and <span class="m">P(12)</span> false. Predicates can have several variables: <span class="m">Q(x, y)</span> = “<span class="m">x + y = 5</span>”.</p>
+        <p>The <strong>truth set</strong> is <span class="m">T<sub>P</sub> = {x ∈ A | P(x)</span> is true<span class="m">}</span>. Logic meets sets: <span class="m">T<sub>¬P</sub> = (T<sub>P</sub>)′</span>, <span class="m">T<sub>P∧Q</sub> = T<sub>P</sub> ∩ T<sub>Q</sub></span>, <span class="m">T<sub>P∨Q</sub> = T<sub>P</sub> ∪ T<sub>Q</sub></span>.</p>
+      </div></div>
+      <div class="scroll" style="margin-bottom:1.3rem"><table class="data">
+        <thead><tr><th>Statement</th><th>True when</th><th>False when</th></tr></thead>
+        <tbody>
+          <tr><td class="m">∀x P(x)</td><td><span class="m">P(x)</span> holds for every <span class="m">x</span> (<span class="m">T<sub>P</sub> = A</span>)</td><td>there is a counterexample: some <span class="m">x</span> with <span class="m">P(x)</span> false</td></tr>
+          <tr><td class="m">∃x P(x)</td><td><span class="m">P(x)</span> holds for at least one <span class="m">x</span> (<span class="m">T<sub>P</sub> ≠ ∅</span>)</td><td><span class="m">P(x)</span> is false for every <span class="m">x</span></td></tr>
+          <tr><td class="m">∃!x P(x)</td><td>exactly one <span class="m">x</span> makes <span class="m">P(x)</span> true</td><td>no <span class="m">x</span> does, or at least two do</td></tr>
+        </tbody>
+      </table></div>
+      <div class="blk trap"><div class="lbl">Watch out</div><div class="body">
+        <p>The domain must be stated, and it changes the answer. <span class="m">∀x (x² ≥ x)</span> is false over <span class="m">ℝ</span> (<span class="m">x = 1/2</span>) but true over <span class="m">ℤ</span>. Over <span class="m">ℕ</span>: <span class="m">∀n (n + 4 &gt; 3)</span> is true, <span class="m">∀n (n + 2 &gt; 8)</span> is false (<span class="m">n = 5</span>), <span class="m">∃n (n + 5 &lt; 10)</span> is true, and <span class="m">∃n (n + 10 &lt; 5)</span> is false.</p>
+      </div></div>
+      <div class="blk thm"><div class="lbl">Rules 1–2</div><div class="body">
+        <p>If the domain is <span class="m">{x₁, …, xₙ}</span>, then <span class="m">∀x P(x) ≡ P(x₁) ∧ … ∧ P(xₙ)</span> and <span class="m">∃x P(x) ≡ P(x₁) ∨ … ∨ P(xₙ)</span>.</p>
+        <p>Restrictions remove terms. With domain <span class="m">{0, 1, 2, 3, 4}</span>: <span class="m">∀x((x ≠ 3) → P(x)) ≡ P(0) ∧ P(1) ∧ P(2) ∧ P(4)</span>, because the <span class="m">x = 3</span> term is <span class="m"><span class="up">F</span> → P(3)</span>, which is true. Likewise <span class="m">∃x((x ≥ 2) ∧ P(x)) ≡ P(2) ∨ P(3) ∨ P(4)</span>.</p>
+        <p>Uniqueness on a two-element domain <span class="m">{a, b}</span>: <span class="m">∃!x P(x) ≡ (P(a) ∧ ¬P(b)) ∨ (¬P(a) ∧ P(b))</span>. On a bigger domain, write one conjunction for each element that could be “the one”.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Precedence</div><div class="body">
+        <p><span class="m">∀</span> and <span class="m">∃</span> bind more tightly than every connective: <span class="m">∀x P(x) ∨ Q(x)</span> means <span class="m">(∀x P(x)) ∨ Q(x)</span>.</p>
+      </div></div>
+      <div class="blk thm"><div class="lbl">Theorems 7–8</div><div class="body">
+        <p><strong>De Morgan for quantifiers:</strong> <span class="m">¬∀x P(x) ≡ ∃x ¬P(x)</span> and <span class="m">¬∃x P(x) ≡ ∀x ¬P(x)</span>. “Not everyone passed” means “someone failed”. Moving <span class="m">¬</span> past a quantifier flips it. Example 34: <span class="m">¬∀x(P(x) → Q(x)) ≡ ∃x ¬(P(x) → Q(x)) ≡ ∃x(P(x) ∧ ¬Q(x))</span>.</p>
+      </div></div>
+      <div class="blk thm"><div class="lbl">Theorem 6</div><div class="body">
+        <p><span class="m">∀x(P(x) ∧ Q(x)) ≡ ∀x P(x) ∧ ∀x Q(x)</span> and <span class="m">∃x(P(x) ∨ Q(x)) ≡ ∃x P(x) ∨ ∃x Q(x)</span>. The other two do <strong>not</strong> hold: over <span class="m">ℤ</span> with <span class="m">P</span> = “even” and <span class="m">Q</span> = “odd”, <span class="m">∀x(P(x) ∨ Q(x))</span> is true but <span class="m">∀x P(x) ∨ ∀x Q(x)</span> is false, and <span class="m">∃x P(x) ∧ ∃x Q(x)</span> is true but <span class="m">∃x(P(x) ∧ Q(x))</span> is false.</p>
+      </div></div>
+      <div class="blk key"><div class="lbl">Translating</div><div class="body">
+        <div class="scroll"><table class="data">
+          <thead><tr><th>English (domain: everyone)</th><th>Logic</th></tr></thead>
+          <tbody>
+            <tr><td>Every S is P</td><td class="m">∀x(S(x) → P(x))</td></tr>
+            <tr><td>Some S is P</td><td class="m">∃x(S(x) ∧ P(x))</td></tr>
+            <tr><td>No S is P</td><td class="m">∀x(S(x) → ¬P(x)) ≡ ¬∃x(S(x) ∧ P(x))</td></tr>
+            <tr><td>Not every S is P</td><td class="m">∃x(S(x) ∧ ¬P(x)) ≡ ¬∀x(S(x) → P(x))</td></tr>
+          </tbody>
+        </table></div>
+        <p style="margin-top:0.6rem">If the domain is already “the students in the class”, drop <span class="m">S</span>: <span class="m">∀x P(x)</span>, <span class="m">∃x P(x)</span> (Way 1 versus Way 2 in Exercise 1.14).</p>
+      </div></div>
+      <div class="blk trap"><div class="lbl">Watch out</div><div class="body">
+        <p><span class="m">∀</span> goes with <span class="m">→</span> and <span class="m">∃</span> goes with <span class="m">∧</span>. <span class="m">∀x(S(x) ∧ P(x))</span> claims everyone is an <span class="m">S</span>. <span class="m">∃x(S(x) → P(x))</span> is true as soon as one person is not an <span class="m">S</span>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 39</div><div class="body">
+        <p>Lewis Carroll's argument, with <span class="m">P(x)</span> = “<span class="m">x</span> is a lion”, <span class="m">Q(x)</span> = “<span class="m">x</span> drinks coffee”, <span class="m">R(x)</span> = “<span class="m">x</span> is fierce” (labels as defined in the notes; see <a href="#errata">errata</a>): “All lions are fierce” is <span class="m">∀x(P(x) → R(x))</span>; “Some lions do not drink coffee” is <span class="m">∃x(P(x) ∧ ¬Q(x))</span>; “Some fierce creatures do not drink coffee” is <span class="m">∃x(R(x) ∧ ¬Q(x))</span>.</p>
+      </div></div>
+
+      <h3 id="l-nested"><span class="num">2.5</span>Nested quantifiers</h3>
+      <div class="scroll" style="margin-bottom:1.3rem"><table class="data">
+        <thead><tr><th>Statement</th><th>True when</th><th>False when</th></tr></thead>
+        <tbody>
+          <tr><td class="m">∀x∀y P(x, y)</td><td><span class="m">P(x, y)</span> holds for every pair</td><td>some pair fails</td></tr>
+          <tr><td class="m">∀x∃y P(x, y)</td><td>for every <span class="m">x</span> there is a <span class="m">y</span> (which may depend on <span class="m">x</span>)</td><td>some <span class="m">x</span> has no partner <span class="m">y</span></td></tr>
+          <tr><td class="m">∃x∀y P(x, y)</td><td>one <span class="m">x</span> works with every <span class="m">y</span></td><td>for every <span class="m">x</span> some <span class="m">y</span> fails</td></tr>
+          <tr><td class="m">∃x∃y P(x, y)</td><td>some pair works</td><td>every pair fails</td></tr>
+        </tbody>
+      </table></div>
+      <div class="blk ex"><div class="lbl">Examples 41–42</div><div class="body">
+        <p>Domain <span class="m">{1, …, 9}</span>, <span class="m">P(x, y)</span> = “<span class="m">x + y = 10</span>”: <span class="m">∀x∃y P(x, y)</span> is true (take <span class="m">y = 10 − x</span>), but <span class="m">∃y∀x P(x, y)</span> is false (no single <span class="m">y</span> works for every <span class="m">x</span>). Same-type quantifiers commute; mixed ones usually do not.</p>
+        <p>Domain <span class="m">{1, 2, 3}</span>: <span class="m">∃x∀y(x² &lt; y + 1)</span> is true (<span class="m">x = 1</span>); <span class="m">∀x∃y(x² + y² &lt; 12)</span> is true (<span class="m">y = 1</span>); <span class="m">∀x∀y(x² + y² &lt; 12)</span> is false (<span class="m">x = 2, y = 3</span>).</p>
+      </div></div>
+      <div class="blk thm"><div class="lbl">Negation rule</div><div class="body">
+        <p>Pass <span class="m">¬</span> from left to right, flipping every quantifier, and negate the predicate: <span class="m">¬∀x∃y∃z P(x, y, z) ≡ ∃x∀y∀z ¬P(x, y, z)</span>.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Free variables</div><div class="body">
+        <p>With a quantifier for only some variables, the result is still a predicate. For <span class="m">A = {1, …, 10}</span>, <span class="m">(∀y ∈ A)(x + y &lt; 14)</span> is a predicate in <span class="m">x</span> with truth set <span class="m">{1, 2, 3}</span> (Exercise 1.15).</p>
+      </div></div>
+
+      <h3 id="l-quick">Quick check</h3>
+      <ol class="tf num">
+        <li data-a="F"><span class="q">“<span class="m">x + 2 = 5</span>” is a proposition.</span><span class="why">It is an open sentence: its truth depends on <span class="m">x</span>.</span></li>
+        <li data-a="T"><span class="q">If <span class="m">p</span> is false, then <span class="m">p → q</span> is true.</span><span class="why">The only false row of <span class="m">→</span> is T → F.</span></li>
+        <li data-a="F"><span class="q">The converse of <span class="m">p → q</span> is equivalent to <span class="m">p → q</span>.</span><span class="why">The contrapositive is; the converse is not.</span></li>
+        <li data-a="F"><span class="q"><span class="m">¬(p ∧ q) ≡ ¬p ∧ ¬q</span></span><span class="why">De Morgan gives <span class="m">¬p ∨ ¬q</span>.</span></li>
+        <li data-a="F"><span class="q">“<span class="m">p</span> only if <span class="m">q</span>” means <span class="m">q → p</span>.</span><span class="why">It means <span class="m">p → q</span>.</span></li>
+        <li data-a="T"><span class="q"><span class="m">p ⊕ q ≡ ¬(p ↔ q)</span></span><span class="why">Exclusive or is true exactly when the two values differ.</span></li>
+        <li data-a="T"><span class="q"><span class="m">¬∀x P(x) ≡ ∃x ¬P(x)</span></span><span class="why">De Morgan for quantifiers.</span></li>
+        <li data-a="F"><span class="q"><span class="m">∃x(P(x) ∧ Q(x)) ≡ ∃x P(x) ∧ ∃x Q(x)</span></span><span class="why"><span class="m">∃</span> does not distribute over <span class="m">∧</span>; try even/odd over <span class="m">ℤ</span>.</span></li>
+        <li data-a="T"><span class="q">Over <span class="m">ℤ</span>, <span class="m">∀x∃y(x + y = 0)</span> is true.</span><span class="why">Take <span class="m">y = −x</span>.</span></li>
+        <li data-a="F"><span class="q">Over <span class="m">ℤ</span>, <span class="m">∃y∀x(x + y = 0)</span> is true.</span><span class="why">One fixed <span class="m">y</span> cannot cancel every <span class="m">x</span>.</span></li>
+      </ol>
+
+      <section class="pset" id="ps2">
+        <div class="pset-head"><h3>Practice 2 · Propositions</h3><p>9 problems</p></div>
+        <div class="probs">
+
+          <article class="prob" id="p2-1">
+            <div class="p-head"><span class="pnum">P2.1</span><h4>Proposition or not?</h4></div>
+            <ol class="tf" data-tf-labels="Yes,No">
+              <li data-a="T"><span class="q">7 is a prime number.</span><span class="why">A true proposition.</span></li>
+              <li data-a="F"><span class="q"><span class="m">x + 2 = 5</span></span><span class="why">An open sentence; it becomes a proposition once <span class="m">x</span> is given or quantified.</span></li>
+              <li data-a="F"><span class="q">Close the door.</span><span class="why">A command is not declarative.</span></li>
+              <li data-a="T"><span class="q">Every even number greater than 2 is the sum of two primes.</span><span class="why">It is true or false, even though nobody knows which yet (Goldbach's conjecture).</span></li>
+              <li data-a="F"><span class="q">Is it raining?</span><span class="why">A question.</span></li>
+              <li data-a="T"><span class="q"><span class="m">2 + 2 = 5</span></span><span class="why">A false proposition is still a proposition.</span></li>
+            </ol>
+          </article>
+
+          <article class="prob" id="p2-2">
+            <div class="p-head"><span class="pnum">P2.2</span><h4>Tautology, contradiction or neither?</h4></div>
+            <div class="p-body"><p>Build a truth table for each, then classify it.</p></div>
+            <div class="mcq" data-a="0"><p class="q"><span class="m">((p → q) ∧ (q → r)) → (p → r)</span></p><ul><li>tautology</li><li>contradiction</li><li>neither</li></ul><p class="why">All 8 rows are T. This is the chain rule (hypothetical syllogism). <button type="button" class="load-tt" data-tt="((p → q) ∧ (q → r)) → (p → r)">See the table</button></p></div>
+            <div class="mcq" data-a="0"><p class="q"><span class="m">(p ∧ q) → p</span></p><ul><li>tautology</li><li>contradiction</li><li>neither</li></ul><p class="why">If <span class="m">p ∧ q</span> is true then <span class="m">p</span> is true, so no row is T → F.</p></div>
+            <div class="mcq" data-a="2"><p class="q"><span class="m">p → (p ∧ q)</span></p><ul><li>tautology</li><li>contradiction</li><li>neither</li></ul><p class="why">False when <span class="m">p</span> = T, <span class="m">q</span> = F; true otherwise.</p></div>
+            <div class="mcq" data-a="1"><p class="q"><span class="m">(p ∨ q) ∧ ¬p ∧ ¬q</span></p><ul><li>tautology</li><li>contradiction</li><li>neither</li></ul><p class="why"><span class="m">¬p ∧ ¬q ≡ ¬(p ∨ q)</span>, so this is <span class="m">X ∧ ¬X</span>.</p></div>
+          </article>
+
+          <article class="prob" id="p2-3">
+            <div class="p-head"><span class="pnum">P2.3</span><h4>Prove with the laws</h4></div>
+            <div class="p-body"><p>Name the law used at each step.</p><ol class="parts">
+              <li><span class="m">(p ∧ q) ∨ (p ∧ ¬q) ≡ p</span></li>
+              <li><span class="m">p → (q → r) ≡ (p ∧ q) → r</span></li>
+              <li><span class="m">p ∨ (p ∧ q) ≡ p</span> (absorption, from the other laws)</li>
+              <li><span class="m">¬(p ↔ q) ≡ p ⊕ q</span> (a truth table is fine)</li>
+            </ol></div>
+            <p><button type="button" class="load-tt" data-tt="p → (q → r)" data-tt2="(p ∧ q) → r">Check (b) in the tool</button></p>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>For (b), replace each <span class="m">→</span> using <span class="m">a → b ≡ ¬a ∨ b</span>. For (c), write <span class="m">p</span> as <span class="m">p ∧ <span class="up">T</span></span> first.</p></div></details>
+            <details><summary>Solution</summary><div class="d-body">
+              <ol class="chain">
+                <li><span class="m">(p ∧ q) ∨ (p ∧ ¬q) ≡ p ∧ (q ∨ ¬q)</span><span class="why-law">distributive</span></li>
+                <li><span class="m">≡ p ∧ <span class="up">T</span> ≡ p</span><span class="why-law">complement, identity</span></li>
+              </ol>
+              <ol class="chain">
+                <li><span class="m">p → (q → r) ≡ ¬p ∨ (¬q ∨ r)</span><span class="why-law"><span class="m">a → b ≡ ¬a ∨ b</span> twice</span></li>
+                <li><span class="m">≡ (¬p ∨ ¬q) ∨ r</span><span class="why-law">associative</span></li>
+                <li><span class="m">≡ ¬(p ∧ q) ∨ r ≡ (p ∧ q) → r</span><span class="why-law">De Morgan, then <span class="m">a → b</span> again</span></li>
+              </ol>
+              <ol class="chain">
+                <li><span class="m">p ∨ (p ∧ q) ≡ (p ∧ <span class="up">T</span>) ∨ (p ∧ q)</span><span class="why-law">identity</span></li>
+                <li><span class="m">≡ p ∧ (<span class="up">T</span> ∨ q) ≡ p ∧ <span class="up">T</span> ≡ p</span><span class="why-law">distributive, domination, identity</span></li>
+              </ol>
+              <p>(d) Both sides have the column F, T, T, F (rows TT, TF, FT, FF): each is true exactly when <span class="m">p</span> and <span class="m">q</span> differ.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p2-4">
+            <div class="p-head"><span class="pnum">P2.4</span><h4>Converse, inverse, contrapositive</h4></div>
+            <div class="p-body"><p>For “If a number is divisible by 6, then it is divisible by 3”, write the converse, the inverse and the contrapositive, and say which are true.</p></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p><strong>Converse:</strong> If a number is divisible by 3, then it is divisible by 6. False (9).</p>
+              <p><strong>Inverse:</strong> If a number is not divisible by 6, then it is not divisible by 3. False (9 again).</p>
+              <p><strong>Contrapositive:</strong> If a number is not divisible by 3, then it is not divisible by 6. True, since it is equivalent to the original.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p2-5">
+            <div class="p-head"><span class="pnum">P2.5</span><h4>Rewrite as “if … then”</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>You can log in only if you have the password.</li>
+              <li>A sufficient condition for passing is scoring at least 60.</li>
+              <li>The alarm sounds unless the code is entered.</li>
+              <li>A working battery is necessary for the phone to turn on.</li>
+            </ol></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>“<span class="m">p</span> only if <span class="m">q</span>”, “<span class="m">p</span> is sufficient for <span class="m">q</span>”, “<span class="m">q</span> is necessary for <span class="m">p</span>” and “<span class="m">q</span> unless <span class="m">¬p</span>” all mean <span class="m">p → q</span>.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) If you can log in, then you have the password. (b) If you score at least 60, then you pass. (c) If the code is not entered, then the alarm sounds. (d) If the phone turns on, then it has a working battery.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p2-6">
+            <div class="p-head"><span class="pnum">P2.6</span><h4>Negate in English</h4></div>
+            <div class="p-body"><p>Same format as HW1 Task 3: name the propositions, write the formula, negate it, and translate back.</p><ol class="parts">
+              <li>If it rains, then the match is cancelled.</li>
+              <li>All the lights are off and the door is locked.</li>
+              <li>Some windows are open or the alarm is off.</li>
+            </ol></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Make the “all” statement a single proposition, for example <span class="m">w</span> = “all the windows are closed”. Then “some window is open” is <span class="m">¬w</span>.</p></div></details>
+            <details><summary>Solution</summary><div class="d-body">
+              <p>(a) <span class="m">r</span> = “it rains”, <span class="m">c</span> = “the match is cancelled”. Statement <span class="m">r → c</span>; negation <span class="m">r ∧ ¬c</span>: “It rains and the match is not cancelled.”</p>
+              <p>(b) <span class="m">ℓ</span> = “all the lights are off”, <span class="m">d</span> = “the door is locked”. Statement <span class="m">ℓ ∧ d</span>; negation <span class="m">¬ℓ ∨ ¬d</span>: “Some light is on or the door is unlocked.”</p>
+              <p>(c) <span class="m">w</span> = “all the windows are closed”, <span class="m">a</span> = “the alarm is on”. Statement <span class="m">¬w ∨ ¬a</span>; negation <span class="m">w ∧ a</span>: “All the windows are closed and the alarm is on.”</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p2-7">
+            <div class="p-head"><span class="pnum">P2.7</span><h4>Bitwise operations</h4></div>
+            <div class="p-body"><p>For <span class="m">u</span> = <span class="bits">11010110</span> and <span class="m">v</span> = <span class="bits">10111100</span>, find <span class="m">u ∨ v</span>, <span class="m">u ∧ v</span> and <span class="m">u ⊕ v</span>.</p></div>
+            <div class="check" data-kind="bits" data-answer="11111110" data-label="u ∨ v ="></div>
+            <div class="check" data-kind="bits" data-answer="10010100" data-label="u ∧ v ="></div>
+            <div class="check" data-kind="bits" data-answer="01101010" data-label="u ⊕ v ="></div>
+            <details><summary>Answer</summary><div class="d-body"><p><span class="m">u ∨ v</span> = <span class="bits">11111110</span>, <span class="m">u ∧ v</span> = <span class="bits">10010100</span>, <span class="m">u ⊕ v</span> = <span class="bits">01101010</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p2-8">
+            <div class="p-head"><span class="pnum">P2.8</span><h4>Precedence</h4></div>
+            <div class="p-body"><p>Insert all brackets: (a) <span class="m">¬p ∨ q ∧ r → s</span> (b) <span class="m">p → q ↔ ¬q → ¬p</span>. Is (b) a tautology?</p></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m">((¬p) ∨ (q ∧ r)) → s</span>. (b) <span class="m">(p → q) ↔ ((¬q) → (¬p))</span>, a tautology, because a conditional is equivalent to its contrapositive. <button type="button" class="load-tt" data-tt="p → q ↔ ¬q → ¬p">Check it</button></p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p2-9">
+            <div class="p-head"><span class="pnum">P2.9</span><h4>Only ¬, ∧ and ∨</h4></div>
+            <div class="p-body"><p>Rewrite using only <span class="m">¬, ∧, ∨</span>. The checker rejects any other connective.</p></div>
+            <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="pq" data-answer="¬p ∨ q" data-keys="¬ ∧ ∨" data-ph="e.g. ¬p ∨ q" data-label="p → q ≡"></div>
+            <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="pq" data-answer="(p ∧ q) ∨ (¬p ∧ ¬q)" data-keys="¬ ∧ ∨" data-ph="use ¬ ∧ ∨ ( )" data-label="p ↔ q ≡"></div>
+            <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="pq" data-answer="(p ∧ ¬q) ∨ (¬p ∧ q)" data-keys="¬ ∧ ∨" data-ph="use ¬ ∧ ∨ ( )" data-label="p ⊕ q ≡"></div>
+            <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="pq" data-answer="p ∧ ¬q" data-keys="¬ ∧ ∨" data-ph="use ¬ ∧ ∨ ( )" data-label="¬(p → q) ≡"></div>
+            <details><summary>Answer</summary><div class="d-body"><p><span class="m">¬p ∨ q</span>; <span class="m">(p ∧ q) ∨ (¬p ∧ ¬q)</span>; <span class="m">(p ∧ ¬q) ∨ (¬p ∧ q)</span>; <span class="m">p ∧ ¬q</span> (Example 16, Table 16).</p></div></details>
+          </article>
+        </div>
+      </section>
+
+      <section class="pset" id="ps3">
+        <div class="pset-head"><h3>Practice 3 · Quantifiers</h3><p>10 problems</p></div>
+        <div class="probs">
+
+          <article class="prob" id="p3-1">
+            <div class="p-head"><span class="pnum">P3.1</span><h4>One predicate, seven questions</h4></div>
+            <div class="p-body"><p>Domain <span class="m">ℤ</span>, <span class="m">P(x)</span> = “<span class="m">x² &lt; 3x</span>”. Truth values:</p></div>
+            <ol class="tf">
+              <li data-a="F"><span class="q"><span class="m">P(0)</span></span><span class="why"><span class="m">0 &lt; 0</span> is false.</span></li>
+              <li data-a="T"><span class="q"><span class="m">P(1)</span></span><span class="why"><span class="m">1 &lt; 3</span>.</span></li>
+              <li data-a="F"><span class="q"><span class="m">P(3)</span></span><span class="why"><span class="m">9 &lt; 9</span> is false.</span></li>
+              <li data-a="T"><span class="q"><span class="m">∃x P(x)</span></span><span class="why"><span class="m">x = 1</span> works.</span></li>
+              <li data-a="F"><span class="q"><span class="m">∀x P(x)</span></span><span class="why"><span class="m">x = 0</span> is a counterexample.</span></li>
+              <li data-a="T"><span class="q"><span class="m">∃x ¬P(x)</span></span><span class="why"><span class="m">x = 0</span>.</span></li>
+              <li data-a="F"><span class="q"><span class="m">∀x ¬P(x)</span></span><span class="why"><span class="m">P(1)</span> is true.</span></li>
+            </ol>
+            <div class="check" data-kind="set" data-answer="1,2" data-label="Tₚ ="></div>
+            <details class="hint"><summary>Hint for the truth set</summary><div class="d-body"><p><span class="m">x² &lt; 3x ⟺ x(x − 3) &lt; 0 ⟺ 0 &lt; x &lt; 3</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p3-2">
+            <div class="p-head"><span class="pnum">P3.2</span><h4>Over the real numbers</h4></div>
+            <ol class="tf">
+              <li data-a="T"><span class="q"><span class="m">∃x(x³ = −8)</span></span><span class="why"><span class="m">x = −2</span>.</span></li>
+              <li data-a="T"><span class="q"><span class="m">∀x(x² ≥ 0)</span></span><span class="why">Squares of reals are never negative.</span></li>
+              <li data-a="F"><span class="q"><span class="m">∀x(x² &gt; x)</span></span><span class="why">Fails for <span class="m">x = 1/2</span> (and for 0 and 1).</span></li>
+              <li data-a="F"><span class="q"><span class="m">∃x(x² + 1 = 0)</span></span><span class="why"><span class="m">x² + 1 ≥ 1</span>.</span></li>
+              <li data-a="T"><span class="q"><span class="m">∀x(|x| ≥ x)</span></span><span class="why">Equal when <span class="m">x ≥ 0</span>, bigger when <span class="m">x &lt; 0</span>.</span></li>
+              <li data-a="T"><span class="q"><span class="m">∃x(x² = x)</span></span><span class="why"><span class="m">x = 0</span> or <span class="m">x = 1</span>.</span></li>
+            </ol>
+          </article>
+
+          <article class="prob" id="p3-3">
+            <div class="p-head"><span class="pnum">P3.3</span><h4>A finite domain, then negate</h4></div>
+            <div class="p-body"><p><span class="m">A = {2, 4, 6, 8}</span>. Decide each, then write its negation.</p></div>
+            <ol class="tf">
+              <li data-a="T"><span class="q"><span class="m">(∃x ∈ A)(x + 5 = 11)</span></span><span class="why"><span class="m">x = 6</span>. Negation: <span class="m">(∀x ∈ A)(x + 5 ≠ 11)</span>, false.</span></li>
+              <li data-a="T"><span class="q"><span class="m">(∀x ∈ A)</span>(<span class="m">x</span> is even)</span><span class="why">Negation: <span class="m">(∃x ∈ A)</span>(<span class="m">x</span> is odd), false.</span></li>
+              <li data-a="F"><span class="q"><span class="m">(∀x ∈ A)(x + 2 &lt; 10)</span></span><span class="why"><span class="m">8 + 2 = 10</span>. Negation: <span class="m">(∃x ∈ A)(x + 2 ≥ 10)</span>, true.</span></li>
+              <li data-a="F"><span class="q"><span class="m">(∃x ∈ A)(x &gt; 8)</span></span><span class="why">Negation: <span class="m">(∀x ∈ A)(x ≤ 8)</span>, true.</span></li>
+            </ol>
+            <p class="small muted">A negation always has the opposite truth value, which is a quick way to check your work.</p>
+          </article>
+
+          <article class="prob" id="p3-4">
+            <div class="p-head"><span class="pnum">P3.4</span><h4>Exactly one</h4></div>
+            <div class="p-body"><p>Domain <span class="m">ℤ</span>.</p></div>
+            <ol class="tf">
+              <li data-a="F"><span class="q"><span class="m">∃!x(x² = 4)</span></span><span class="why">Both 2 and −2 work.</span></li>
+              <li data-a="F"><span class="q"><span class="m">∃!x(2x = 7)</span></span><span class="why">No integer works.</span></li>
+              <li data-a="T"><span class="q"><span class="m">∃!x(x² = 0)</span></span><span class="why">Only 0.</span></li>
+              <li data-a="T"><span class="q"><span class="m">∃!x(x − 5 = 0)</span></span><span class="why">Only 5.</span></li>
+              <li data-a="T"><span class="q"><span class="m">∃!x(x² &lt; 1)</span></span><span class="why">Among integers, only 0.</span></li>
+            </ol>
+          </article>
+
+          <article class="prob" id="p3-5">
+            <div class="p-head"><span class="pnum">P3.5</span><h4>Expand over a finite domain</h4></div>
+            <div class="p-body"><p>Domain <span class="m">{1, 2, 3, 4}</span>. Write each using only <span class="m">¬, ∧, ∨</span>.</p><ol class="parts">
+              <li><span class="m">∃x P(x)</span></li>
+              <li><span class="m">∀x((x ≠ 2) → P(x))</span></li>
+              <li><span class="m">∃x((x &gt; 2) ∧ ¬P(x))</span></li>
+              <li><span class="m">¬∀x P(x)</span></li>
+              <li><span class="m">∀x((x</span> is odd<span class="m">) → P(x)) ∧ ∃x ¬P(x)</span></li>
+            </ol></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m">P(1) ∨ P(2) ∨ P(3) ∨ P(4)</span></p>
+              <p>(b) <span class="m">P(1) ∧ P(3) ∧ P(4)</span>, because the <span class="m">x = 2</span> term is automatically true.</p>
+              <p>(c) <span class="m">¬P(3) ∨ ¬P(4)</span></p>
+              <p>(d) <span class="m">¬P(1) ∨ ¬P(2) ∨ ¬P(3) ∨ ¬P(4)</span></p>
+              <p>(e) <span class="m wrap">(P(1) ∧ P(3)) ∧ (¬P(1) ∨ ¬P(2) ∨ ¬P(3) ∨ ¬P(4))</span>, which simplifies to <span class="m">P(1) ∧ P(3) ∧ (¬P(2) ∨ ¬P(4))</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p3-6">
+            <div class="p-head"><span class="pnum">P3.6</span><h4>Counting with connectives</h4></div>
+            <div class="p-body"><p>Domain <span class="m">{1, 2, 3}</span>, writing <span class="m">Pᵢ</span> for <span class="m">P(i)</span>. Express with <span class="m">¬, ∧, ∨</span>: (a) exactly two <span class="m">x</span> satisfy <span class="m">P(x)</span>; (b) at most one <span class="m">x</span> satisfies <span class="m">P(x)</span>.</p></div>
+            <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="abc" data-answer="ab¬c ∨ a¬bc ∨ ¬abc" data-keys="¬ ∧ ∨" data-ph="write a, b, c for P₁, P₂, P₃" data-label="(a)"></div>
+            <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="abc" data-answer="(¬a ∧ ¬b) ∨ (¬a ∧ ¬c) ∨ (¬b ∧ ¬c)" data-keys="¬ ∧ ∨" data-ph="write a, b, c for P₁, P₂, P₃" data-label="(b)"></div>
+            <p class="small muted">In the boxes, type <span class="m">a, b, c</span> for <span class="m">P₁, P₂, P₃</span>.</p>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m wrap">(P₁ ∧ P₂ ∧ ¬P₃) ∨ (P₁ ∧ ¬P₂ ∧ P₃) ∨ (¬P₁ ∧ P₂ ∧ P₃)</span></p>
+              <p>(b) “At most one true” means “at least two false”: <span class="m wrap">(¬P₁ ∧ ¬P₂) ∨ (¬P₁ ∧ ¬P₃) ∨ (¬P₂ ∧ ¬P₃)</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p3-7">
+            <div class="p-head"><span class="pnum">P3.7</span><h4>Translate into logic</h4></div>
+            <div class="p-body"><p>Domain: all people. <span class="m">S(x)</span>: <span class="m">x</span> is a student in this class; <span class="m">M(x)</span>: <span class="m">x</span> likes math; <span class="m">T(x)</span>: <span class="m">x</span> owns a tablet.</p><ol class="parts">
+              <li>Every student in this class likes math.</li>
+              <li>Some student in this class owns a tablet.</li>
+              <li>No student in this class owns a tablet.</li>
+              <li>Not every student in this class likes math.</li>
+              <li>Every student in this class who owns a tablet likes math.</li>
+            </ol><p>Then redo (a)–(d) with the domain “students in this class”.</p></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m">∀x(S(x) → M(x))</span> (b) <span class="m">∃x(S(x) ∧ T(x))</span> (c) <span class="m">∀x(S(x) → ¬T(x))</span>, or <span class="m">¬∃x(S(x) ∧ T(x))</span> (d) <span class="m">∃x(S(x) ∧ ¬M(x))</span> (e) <span class="m">∀x((S(x) ∧ T(x)) → M(x))</span></p>
+              <p>Domain “students in this class”: <span class="m">∀x M(x)</span>, <span class="m">∃x T(x)</span>, <span class="m">∀x ¬T(x)</span>, <span class="m">∃x ¬M(x)</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p3-8">
+            <div class="p-head"><span class="pnum">P3.8</span><h4>Spot the mistake</h4></div>
+            <div class="p-body"><p>Explain why each translation (domain: all people) is wrong.</p><ol class="parts">
+              <li>“Some student in this class owns a tablet” as <span class="m">∃x(S(x) → T(x))</span>.</li>
+              <li>“Every student in this class likes math” as <span class="m">∀x(S(x) ∧ M(x))</span>.</li>
+            </ol></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) It is true as soon as anyone is not in this class, because <span class="up">F</span> → anything is true. Use <span class="m">∧</span> with <span class="m">∃</span>.</p>
+              <p>(b) It claims that every person is a student in this class. Use <span class="m">→</span> with <span class="m">∀</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p3-9">
+            <div class="p-head"><span class="pnum">P3.9</span><h4>Negate and push ¬ inside</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li><span class="m">∀x(P(x) → Q(x))</span></li>
+              <li><span class="m">∃x(P(x) ∧ ¬Q(x))</span></li>
+              <li><span class="m">∀x∃y(x + y = 0)</span></li>
+              <li><span class="m">∃x∀y P(x, y)</span></li>
+              <li><span class="m">∀x∃y∀z P(x, y, z)</span></li>
+            </ol></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m">∃x(P(x) ∧ ¬Q(x))</span> (b) <span class="m">∀x(¬P(x) ∨ Q(x)) ≡ ∀x(P(x) → Q(x))</span> (c) <span class="m">∃x∀y(x + y ≠ 0)</span> (d) <span class="m">∀x∃y ¬P(x, y)</span> (e) <span class="m">∃x∀y∃z ¬P(x, y, z)</span></p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p3-10">
+            <div class="p-head"><span class="pnum">P3.10</span><h4>Nested quantifiers</h4></div>
+            <div class="p-body"><p>First on <span class="m">A = {1, 2, 3}</span>, then on <span class="m">ℤ</span>.</p></div>
+            <ol class="tf">
+              <li data-a="F"><span class="q">On <span class="m">A</span>: <span class="m">∀x∃y(x &lt; y)</span></span><span class="why"><span class="m">x = 3</span> has no bigger <span class="m">y</span> in <span class="m">A</span>.</span></li>
+              <li data-a="T"><span class="q">On <span class="m">A</span>: <span class="m">∃y∀x(x ≤ y)</span></span><span class="why"><span class="m">y = 3</span>.</span></li>
+              <li data-a="T"><span class="q">On <span class="m">A</span>: <span class="m">∀x∀y(x + y ≤ 6)</span></span><span class="why">The largest sum is <span class="m">3 + 3 = 6</span>.</span></li>
+              <li data-a="T"><span class="q">On <span class="m">A</span>: <span class="m">∃x∀y(xy = y)</span></span><span class="why"><span class="m">x = 1</span>.</span></li>
+              <li data-a="T"><span class="q">On <span class="m">A</span>: <span class="m">∀y∃x(x + y = 4)</span></span><span class="why"><span class="m">x = 4 − y</span> is in <span class="m">A</span> for <span class="m">y = 1, 2, 3</span>.</span></li>
+              <li data-a="T"><span class="q">On <span class="m">ℤ</span>: <span class="m">∀x∃y(y = x + 1)</span></span><span class="why">Take <span class="m">y = x + 1</span>.</span></li>
+              <li data-a="F"><span class="q">On <span class="m">ℤ</span>: <span class="m">∃y∀x(y = x + 1)</span></span><span class="why">One <span class="m">y</span> cannot be the successor of every <span class="m">x</span>.</span></li>
+              <li data-a="F"><span class="q">On <span class="m">ℤ</span>: <span class="m">∀x∃y(x = 2y)</span></span><span class="why">Fails for odd <span class="m">x</span>.</span></li>
+              <li data-a="T"><span class="q">On <span class="m">ℤ</span>: <span class="m">∃x∀y(xy = 0)</span></span><span class="why"><span class="m">x = 0</span>.</span></li>
+            </ol>
+          </article>
+        </div>
+      </section>
+    </section>

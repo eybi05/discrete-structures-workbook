@@ -1,0 +1,371 @@
+    <section class="chapter" id="hw1">
+      <p class="eyebrow">Homework 1 · due Monday 19 October 2026, 23:59</p>
+      <h2>HW1 answer check</h2>
+      <p class="intro">All 23 HW1 tasks, in order. Solve each on paper first. Then type your answer into its box: the page says whether it is right without showing the solution. If you are stuck, the answer and the method are behind the buttons.</p>
+      <div class="hw-note">
+        <h4>Before you submit</h4>
+        <ul>
+          <li>Handwritten solutions with page numbers, scanned into one multipage PDF and uploaded to Blackboard.</li>
+          <li>At the top of page 1: your name and surname, your program (computer science, math, EEE, …), “Fall 25, Discrete Structures”, and “HW1”.</li>
+          <li>File name: <code>Name_Surname_Fall 25_DS_HW1_CRN_xxx.pdf</code>. The template says “Fall 25” although the course runs in Fall 2026, probably carried over from last year; follow it unless your instructor says otherwise.</li>
+          <li>HW1 is worth 1 point, and each day late costs 0.2.</li>
+        </ul>
+      </div>
+
+      <p class="hw-group">Sets and operations · Lecture 1</p>
+      <div class="probs">
+        <article class="prob" id="hw-t1">
+          <div class="p-head"><span class="pnum">Task 1</span><h4>Union and intersection of all Aₙ</h4></div>
+          <div class="p-body"><p>Let <span class="m">Aₙ</span> be the set of all positive integers divisible by <span class="m">n</span>. Find (a) <span class="m">⋃<sub>n=2</sub><sup>∞</sup> Aₙ</span> and (b) <span class="m">⋂<sub>n=2</sub><sup>∞</sup> Aₙ</span>.</p></div>
+          <div class="mcq" data-a="3"><p class="q">(a) <span class="m">⋃<sub>n=2</sub><sup>∞</sup> Aₙ</span> is</p><ul><li><span class="m">∅</span></li><li><span class="m">{1}</span></li><li><span class="m">ℕ</span></li><li><span class="m">ℕ ∖ {1} = {2, 3, 4, …}</span></li><li>the prime numbers</li></ul><p class="why">Every <span class="m">m ≥ 2</span> lies in <span class="m">A<sub>m</sub></span>, and 1 lies in no <span class="m">Aₙ</span> with <span class="m">n ≥ 2</span>.</p></div>
+          <div class="mcq" data-a="0"><p class="q">(b) <span class="m">⋂<sub>n=2</sub><sup>∞</sup> Aₙ</span> is</p><ul><li><span class="m">∅</span></li><li><span class="m">{1}</span></li><li><span class="m">A₂</span>, the even numbers</li><li><span class="m">ℕ</span></li></ul><p class="why">An element would have to be divisible by every <span class="m">n ≥ 2</span>, including <span class="m">n = m + 1 &gt; m</span>.</p></div>
+          <details><summary>Answer with reasons</summary><div class="d-body">
+            <p>(a) <span class="m">⋃<sub>n=2</sub><sup>∞</sup> Aₙ = {2, 3, 4, …} = ℕ ∖ {1}</span>. If <span class="m">m ≥ 2</span>, then <span class="m">m</span> is divisible by itself, so <span class="m">m ∈ A<sub>m</sub></span> and <span class="m">m</span> is in the union. The number 1 is divisible by no <span class="m">n ≥ 2</span>, so it is in none of the sets.</p>
+            <p>(b) <span class="m">⋂<sub>n=2</sub><sup>∞</sup> Aₙ = ∅</span>. Suppose <span class="m">m</span> is in every <span class="m">Aₙ</span>. Then <span class="m">m ∈ A<sub>m+1</sub></span>, so <span class="m">m + 1</span> divides <span class="m">m</span>; but <span class="m">0 &lt; m &lt; m + 1</span>, a contradiction.</p>
+            <p class="small muted">This is Exercise 2.9 of Lecture 1. Compare Exercise 1.6(c), where the union runs over the primes and gives the same answer.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-t2">
+          <div class="p-head"><span class="pnum">Task 2</span><h4>M is equivalent to M ∪ A</h4></div>
+          <div class="p-body"><p>Let <span class="m">M</span> be any infinite set and <span class="m">A</span> any countable set. Prove that <span class="m">M</span> is equivalent to <span class="m">M ∪ A</span>.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Three ingredients from Part 4 of Lecture 1: the new elements are <span class="m">A ∖ M</span> (Theorem 10 says how many there can be); <span class="m">M</span> has a countable subset (Theorem 12); and two countable sets can be matched up (Theorem 11). Then copy the shift of <a href="#p1-14">P1.14</a>.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">A₁ = A ∖ M</span>. Then <span class="m">M ∪ A = M ∪ A₁</span> and <span class="m">M ∩ A₁ = ∅</span>. As a subset of the countable set <span class="m">A</span>, <span class="m">A₁</span> is finite or countable (Theorem 10). If <span class="m">A₁ = ∅</span>, then <span class="m">M ∪ A = M</span> and the identity map is a bijection. So assume <span class="m">A₁ ≠ ∅</span>.</p>
+            <p>Since <span class="m">M</span> is infinite, it contains a countable subset <span class="m">B = {b₁, b₂, b₃, …}</span> (Theorem 12). The set <span class="m">B ∪ A₁</span> is countable (Theorem 11: a union of a countable and a finite or countable set). List it without repetition as <span class="m">c₁, c₂, c₃, …</span>; then <span class="m">g(bₙ) = cₙ</span> is a bijection <span class="m">g: B → B ∪ A₁</span>.</p>
+            <p>Define <span class="m">f: M → M ∪ A</span> by <span class="m">f(x) = g(x)</span> for <span class="m">x ∈ B</span> and <span class="m">f(x) = x</span> for <span class="m">x ∈ M ∖ B</span>. We have the disjoint unions</p>
+            <p class="m wrap" style="text-align:center">M = (M ∖ B) ∪ B  and  M ∪ A = (M ∖ B) ∪ (B ∪ A₁).</p>
+            <p><span class="m">f</span> maps <span class="m">M ∖ B</span> onto itself by the identity and <span class="m">B</span> onto <span class="m">B ∪ A₁</span> by the bijection <span class="m">g</span>, and the pieces do not overlap. So <span class="m">f</span> is one-to-one and onto, and <span class="m">M ~ M ∪ A</span>. ∎</p>
+            <p><strong>Explicit version of g</strong> (Hilbert's hotel). If <span class="m">A₁ = {α₁, …, α<sub>k</sub>}</span> is finite: <span class="m">g(bₙ) = αₙ</span> for <span class="m">n ≤ k</span> and <span class="m">g(bₙ) = b<sub>n−k</sub></span> for <span class="m">n &gt; k</span>. If <span class="m">A₁ = {α₁, α₂, …}</span> is countable: <span class="m">g(b<sub>2n−1</sub>) = bₙ</span> and <span class="m">g(b<sub>2n</sub>) = αₙ</span>.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Did you use <span class="m">A ∖ M</span>, so that elements of <span class="m">A</span> already in <span class="m">M</span> are not counted twice?</li>
+              <li>Did you cover the case where <span class="m">A ∖ M</span> is finite (or empty), not only the countable case?</li>
+              <li>Did you find a countable subset of <span class="m">M</span> and say why it exists?</li>
+              <li>Did you define an actual bijection and check both one-to-one and onto?</li>
+              <li>“Both sets are infinite, so they are equivalent” is not a proof: <span class="m">ℕ</span> and <span class="m">ℝ</span> are both infinite and not equivalent.</li>
+            </ul>
+          </div></details>
+        </article>
+      </div>
+
+      <p class="hw-group">Propositions · Lectures 2–3</p>
+      <div class="probs">
+        <article class="prob" id="hw-t3">
+          <div class="p-head"><span class="pnum">Task 3</span><h4>Write, negate, translate</h4></div>
+          <div class="p-body">
+            <p>For each statement: (1) introduce propositions, (2) write it as a compound proposition, (3) negate it, (4) write the negation in English.</p>
+            <ol class="parts">
+              <li>If the teacher is absent, then some students do not complete their homework.</li>
+              <li>All the students completed their homework and the teacher is present.</li>
+              <li>Some of the students did not complete their homework or the teacher is absent.</li>
+            </ol>
+          </div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Two propositions are enough for all three statements, as long as one of them is about <em>all</em> the students. Then “some students do not complete” is just its negation. Use <span class="m">¬(p → q) ≡ p ∧ ¬q</span> and De Morgan.</p></div></details>
+          <details><summary>Model answer</summary><div class="d-body">
+            <p>(1) Let <span class="m">p</span> = “The teacher is present” and <span class="m">q</span> = “All the students completed their homework”. Then <span class="m">¬p</span> = “The teacher is absent” and <span class="m">¬q</span> = “Some students did not complete their homework”.</p>
+            <div class="scroll"><table class="data">
+              <thead><tr><th></th><th>(2) Formula</th><th>(3) Negation</th><th>(4) In English</th></tr></thead>
+              <tbody>
+                <tr><th>(a)</th><td class="m">¬p → ¬q</td><td class="m">¬(¬p → ¬q) ≡ ¬p ∧ q</td><td>The teacher is absent and all the students completed their homework.</td></tr>
+                <tr><th>(b)</th><td class="m">q ∧ p</td><td class="m">¬(q ∧ p) ≡ ¬q ∨ ¬p</td><td>Some students did not complete their homework or the teacher is absent.</td></tr>
+                <tr><th>(c)</th><td class="m">¬q ∨ ¬p</td><td class="m">¬(¬q ∨ ¬p) ≡ q ∧ p</td><td>All the students completed their homework and the teacher is present.</td></tr>
+              </tbody>
+            </table></div>
+            <p style="margin-top:0.6rem">Notice that (b) and (c) are negations of each other, which is a good check. Choosing <span class="m">p</span> = “the teacher is absent” and <span class="m">q</span> = “some students did not complete their homework” also works: the formulas change (for example (a) becomes <span class="m">p → q</span>, negated to <span class="m">p ∧ ¬q</span>), but the English answers are the same.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-t4">
+          <div class="p-head"><span class="pnum">Task 4</span><h4>Q(x): “x + 1 &gt; 2x” over the integers</h4></div>
+          <div class="p-body"><p>What are the truth values?</p></div>
+          <ol class="tf">
+            <li data-a="T"><span class="q"><span class="m">Q(0)</span></span><span class="why"><span class="m">1 &gt; 0</span>.</span></li>
+            <li data-a="T"><span class="q"><span class="m">Q(−1)</span></span><span class="why"><span class="m">0 &gt; −2</span>.</span></li>
+            <li data-a="F"><span class="q"><span class="m">Q(1)</span></span><span class="why"><span class="m">2 &gt; 2</span> is false.</span></li>
+            <li data-a="T"><span class="q"><span class="m">∃x Q(x)</span></span><span class="why"><span class="m">x = 0</span> works.</span></li>
+            <li data-a="F"><span class="q"><span class="m">∀x Q(x)</span></span><span class="why"><span class="m">x = 1</span> is a counterexample.</span></li>
+            <li data-a="T"><span class="q"><span class="m">∃x ¬Q(x)</span></span><span class="why"><span class="m">x = 1</span>.</span></li>
+            <li data-a="F"><span class="q"><span class="m">∀x ¬Q(x)</span></span><span class="why"><span class="m">Q(0)</span> is true.</span></li>
+          </ol>
+          <details><summary>Method</summary><div class="d-body"><p><span class="m">x + 1 &gt; 2x ⟺ x &lt; 1</span>, so over the integers the truth set is <span class="m">T<sub>Q</sub> = {…, −2, −1, 0}</span>. It is neither empty nor all of <span class="m">ℤ</span>, which settles (d)–(g) at once.</p></div></details>
+        </article>
+
+        <article class="prob" id="hw-t5">
+          <div class="p-head"><span class="pnum">Task 5</span><h4>Over the real numbers</h4></div>
+          <ol class="tf">
+            <li data-a="T"><span class="q"><span class="m">∃x(x² = 2)</span></span><span class="why"><span class="m">x = √2</span>.</span></li>
+            <li data-a="F"><span class="q"><span class="m">∃x(x² = −1)</span></span><span class="why">A real square is never negative.</span></li>
+            <li data-a="T"><span class="q"><span class="m">∀x(x² + 2 ≥ 1)</span></span><span class="why"><span class="m">x² + 2 ≥ 2 ≥ 1</span>.</span></li>
+            <li data-a="F"><span class="q"><span class="m">∀x(x² ≠ x)</span></span><span class="why"><span class="m">x = 0</span> (or <span class="m">x = 1</span>) gives <span class="m">x² = x</span>.</span></li>
+          </ol>
+        </article>
+
+        <article class="prob" id="hw-t6">
+          <div class="p-head"><span class="pnum">Task 6</span><h4>A = {1, 2, 3, 4, 5}</h4></div>
+          <div class="p-body"><p>Subtask 1: truth values. Subtask 2: negate each proposition.</p></div>
+          <ol class="tf">
+            <li data-a="F"><span class="q"><span class="m">(∃x ∈ A)(x + 3 = 10)</span></span><span class="why">It would need <span class="m">x = 7 ∉ A</span>.</span></li>
+            <li data-a="T"><span class="q"><span class="m">(∀x ∈ A)(x + 3 &lt; 10)</span></span><span class="why">The largest value is <span class="m">5 + 3 = 8</span>.</span></li>
+            <li data-a="T"><span class="q"><span class="m">(∃x ∈ A)(x + 3 &lt; 5)</span></span><span class="why"><span class="m">x = 1</span> gives 4.</span></li>
+            <li data-a="F"><span class="q"><span class="m">(∀x ∈ A)(x + 3 ≤ 7)</span></span><span class="why"><span class="m">x = 5</span> gives 8.</span></li>
+          </ol>
+          <details><summary>Subtask 2: negations</summary><div class="d-body">
+            <p>(a) <span class="m">(∀x ∈ A)(x + 3 ≠ 10)</span>, true. (b) <span class="m">(∃x ∈ A)(x + 3 ≥ 10)</span>, false. (c) <span class="m">(∀x ∈ A)(x + 3 ≥ 5)</span>, false. (d) <span class="m">(∃x ∈ A)(x + 3 &gt; 7)</span>, true.</p>
+            <p class="small muted">Flip the quantifier and negate the condition (<span class="m">=</span> becomes <span class="m">≠</span>, <span class="m">&lt;</span> becomes <span class="m">≥</span>, <span class="m">≤</span> becomes <span class="m">&gt;</span>). Each negation has the opposite truth value of the original.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-t7">
+          <div class="p-head"><span class="pnum">Task 7</span><h4>Uniqueness over the integers</h4></div>
+          <ol class="tf">
+            <li data-a="F"><span class="q"><span class="m">∃!x(x &gt; 1)</span></span><span class="why">2, 3, 4, … all work.</span></li>
+            <li data-a="F"><span class="q"><span class="m">∃!x(x² = 1)</span></span><span class="why">Both 1 and −1.</span></li>
+            <li data-a="T"><span class="q"><span class="m">∃!x(x + 3 = 2x)</span></span><span class="why">Only <span class="m">x = 3</span>.</span></li>
+            <li data-a="F"><span class="q"><span class="m">∃!x(x = x + 1)</span></span><span class="why">No integer satisfies it.</span></li>
+          </ol>
+        </article>
+
+        <article class="prob" id="hw-t8">
+          <div class="p-head"><span class="pnum">Task 8</span><h4>Expand over {−5, −3, −1, 1, 3, 5}</h4></div>
+          <div class="p-body">
+            <p>Write each with disjunctions, conjunctions and negations only: (a) <span class="m">∃x P(x)</span> (b) <span class="m">∀x P(x)</span> (c) <span class="m">∀x((x ≠ 1) → P(x))</span> (d) <span class="m">∃x((x ≥ 0) ∧ P(x))</span> (e) <span class="m">∃x(¬P(x)) ∧ ∀x((x &lt; 0) → P(x))</span>.</p>
+            <p class="small muted">To check in the boxes, write <span class="m">a, b, c, d, e, f</span> for <span class="m">P(−5), P(−3), P(−1), P(1), P(3), P(5)</span>.</p>
+          </div>
+          <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="abcdef" data-answer="a∨b∨c∨d∨e∨f" data-keys="¬ ∧ ∨" data-ph="e.g. a ∨ b ∨ …" data-label="(a)"></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="abcdef" data-answer="a∧b∧c∧d∧e∧f" data-keys="¬ ∧ ∨" data-ph="use a … f with ¬ ∧ ∨" data-label="(b)"></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="abcdef" data-answer="a∧b∧c∧e∧f" data-keys="¬ ∧ ∨" data-ph="use a … f with ¬ ∧ ∨" data-label="(c)"></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="abcdef" data-answer="d∨e∨f" data-keys="¬ ∧ ∨" data-ph="use a … f with ¬ ∧ ∨" data-label="(d)"></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="abcdef" data-answer="(¬a∨¬b∨¬c∨¬d∨¬e∨¬f)∧(a∧b∧c)" data-keys="¬ ∧ ∨" data-ph="use a … f with ¬ ∧ ∨" data-label="(e)"></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p><span class="m">∀</span> becomes a conjunction and <span class="m">∃</span> a disjunction over the six elements. A restriction such as <span class="m">x ≠ 1</span> removes the term for <span class="m">x = 1</span>, because <span class="m"><span class="up">F</span> → P(1)</span> is true and <span class="m"><span class="up">F</span> ∧ P(1)</span> is false.</p></div></details>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(a) <span class="m wrap">P(−5) ∨ P(−3) ∨ P(−1) ∨ P(1) ∨ P(3) ∨ P(5)</span></p>
+            <p>(b) <span class="m wrap">P(−5) ∧ P(−3) ∧ P(−1) ∧ P(1) ∧ P(3) ∧ P(5)</span></p>
+            <p>(c) <span class="m wrap">P(−5) ∧ P(−3) ∧ P(−1) ∧ P(3) ∧ P(5)</span></p>
+            <p>(d) <span class="m wrap">P(1) ∨ P(3) ∨ P(5)</span></p>
+            <p>(e) <span class="m wrap">(¬P(−5) ∨ ¬P(−3) ∨ ¬P(−1) ∨ ¬P(1) ∨ ¬P(3) ∨ ¬P(5)) ∧ (P(−5) ∧ P(−3) ∧ P(−1))</span>. Since the second part makes <span class="m">P(−5), P(−3), P(−1)</span> true, this simplifies to <span class="m wrap">P(−5) ∧ P(−3) ∧ P(−1) ∧ (¬P(1) ∨ ¬P(3) ∨ ¬P(5))</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-t9">
+          <div class="p-head"><span class="pnum">Task 9</span><h4>∃!x P(x) on D = {1, 2, 3}</h4></div>
+          <div class="p-body"><p>Write <span class="m">∃!x P(x)</span> with negations, conjunctions and disjunctions. To check, write <span class="m">a, b, c</span> for <span class="m">P(1), P(2), P(3)</span>.</p></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-only="and,or,not" data-vars="abc" data-answer="(a∧¬b∧¬c)∨(¬a∧b∧¬c)∨(¬a∧¬b∧c)" data-keys="¬ ∧ ∨" data-ph="use a, b, c with ¬ ∧ ∨" data-label="∃!x P(x) ≡"></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Exactly one element is true. Write one conjunction for each choice of that element, then join them with <span class="m">∨</span>.</p></div></details>
+          <details><summary>Answer</summary><div class="d-body"><p><span class="m wrap">(P(1) ∧ ¬P(2) ∧ ¬P(3)) ∨ (¬P(1) ∧ P(2) ∧ ¬P(3)) ∨ (¬P(1) ∧ ¬P(2) ∧ P(3))</span></p></div></details>
+        </article>
+      </div>
+
+      <p class="hw-group">Boolean expressions and prime implicants · Lectures 4–5</p>
+      <div class="probs">
+        <article class="prob" id="hw-21">
+          <div class="p-head"><span class="pnum">2.1</span><h4>Reduce the products</h4></div>
+          <div class="p-body"><p>Reduce each product to 0 or a fundamental product.</p></div>
+          <div class="check" data-kind="bool" data-mode="prod" data-vars="xyzst" data-answer="xy'z" data-label="(a) xy′zxy′ ="></div>
+          <div class="check" data-kind="bool" data-mode="prod" data-vars="xyzst" data-answer="0" data-label="(b) xyz′sy′ts ="></div>
+          <div class="check" data-kind="bool" data-mode="prod" data-vars="xyzst" data-answer="xy'z't" data-label="(c) xy′xz′ty′ ="></div>
+          <div class="check" data-kind="bool" data-mode="prod" data-vars="xyzst" data-answer="0" data-label="(d) xyz′ty′t ="></div>
+          <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">xxy′y′z = xy′z</span> (b) 0, because it contains <span class="m">y</span> and <span class="m">y′</span> (c) <span class="m">xxy′y′z′t = xy′z′t</span> (d) 0, because of <span class="m">y</span> and <span class="m">y′</span>. Laws used: commutative, <span class="m">xx = x</span>, <span class="m">xx′ = 0</span>.</p></div></details>
+        </article>
+
+        <article class="prob" id="hw-22">
+          <div class="p-head"><span class="pnum">2.2</span><h4>SoP and CSoP forms</h4></div>
+          <div class="p-body"><p>Express each <span class="m">E(x, y, z)</span> as an SoP and then in CSoP form. The boxes check the form as well as the value.</p>
+            <ol class="parts">
+              <li><span class="m">E = x(xy′ + x′y + y′z)</span></li>
+              <li><span class="m">E = (x + y′z)(y + z′)</span></li>
+              <li><span class="m">E = (x′ + y)′ + y′z</span></li>
+              <li><span class="m">E = (x′y)′(x′ + xyz′)</span></li>
+              <li><span class="m">E = (x + y)′(xy′)′</span></li>
+              <li><span class="m">E = y(x + yz)′</span></li>
+            </ol></div>
+          <div class="check" data-kind="bool" data-mode="sop" data-vars="xyz" data-answer="xy'" data-label="(a) SoP:"></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="xy'z+xy'z'" data-label="(a) CSoP:"></div>
+          <div class="check" data-kind="bool" data-mode="sop" data-vars="xyz" data-answer="xy+xz'" data-label="(b) SoP:"></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="xyz+xyz'+xy'z'" data-label="(b) CSoP:"></div>
+          <div class="check" data-kind="bool" data-mode="sop" data-vars="xyz" data-answer="xy'+y'z" data-label="(c) SoP:"></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="xy'z+xy'z'+x'y'z" data-label="(c) CSoP:"></div>
+          <div class="check" data-kind="bool" data-mode="sop" data-vars="xyz" data-answer="xyz'+x'y'" data-label="(d) SoP:"></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="xyz'+x'y'z+x'y'z'" data-label="(d) CSoP:"></div>
+          <div class="check" data-kind="bool" data-mode="sop" data-vars="xyz" data-answer="x'y'" data-label="(e) SoP:"></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="x'y'z+x'y'z'" data-label="(e) CSoP:"></div>
+          <div class="check" data-kind="bool" data-mode="sop" data-vars="xyz" data-answer="x'yz'" data-label="(f) SoP:"></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="x'yz'" data-label="(f) CSoP:"></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Algorithm 1: De Morgan first, then multiply out, kill <span class="m">xx′</span> products, absorb. Algorithm 2: multiply each short product by <span class="m">(v + v′)</span> for each missing variable <span class="m">v</span>.</p></div></details>
+          <details><summary>Solution</summary><div class="d-body">
+            <p>(a) <span class="m">xxy′ + xx′y + xy′z = xy′ + 0 + xy′z = xy′</span> (absorption). CSoP: <span class="m">xy′(z + z′) = xy′z + xy′z′</span>.</p>
+            <p>(b) <span class="m">xy + xz′ + y′zy + y′zz′ = xy + xz′</span>. CSoP: <span class="m">xy(z + z′) + x(y + y′)z′ = xyz + xyz′ + xy′z′</span>.</p>
+            <p>(c) <span class="m">(x′ + y)′ = xy′</span>, so <span class="m">E = xy′ + y′z</span>. CSoP: <span class="m">xy′z + xy′z′ + x′y′z</span> (the product <span class="m">xy′z</span> appears twice and is kept once).</p>
+            <p>(d) <span class="m">(x′y)′ = x + y′</span>, so <span class="m">E = (x + y′)(x′ + xyz′) = xx′ + xyz′ + x′y′ + xyy′z′ = xyz′ + x′y′</span>. CSoP: <span class="m">xyz′ + x′y′z + x′y′z′</span>.</p>
+            <p>(e) <span class="m">(x + y)′ = x′y′</span> and <span class="m">(xy′)′ = x′ + y</span>, so <span class="m">E = x′y′(x′ + y) = x′y′ + x′yy′ = x′y′</span>. CSoP: <span class="m">x′y′z + x′y′z′</span>.</p>
+            <p>(f) <span class="m">(x + yz)′ = x′(yz)′ = x′(y′ + z′)</span>, so <span class="m">E = yx′y′ + yx′z′ = x′yz′</span>, which is already a minterm.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-23">
+          <div class="p-head"><span class="pnum">2.3</span><h4>Minimal SoP forms</h4></div>
+          <div class="p-body"><ol class="parts">
+            <li><span class="m">E₁ = xy′z′ + x′y + x′y′z′ + x′yz</span></li>
+            <li><span class="m">E₂ = xy′ + x′z′t + xyzt′ + x′y′zt′</span></li>
+            <li><span class="m">E₃ = xyzt + xyz′t′ + xz′t′ + x′y′z′ + x′yz′t</span></li>
+          </ol></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyz" data-answer="x'y+y'z'" data-label="(a) E₁ ="></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="xy'+xzt'+x'z't+y'zt'" data-label="(b) E₂ ="></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="xyzt+xz't'+x'z't+y'z't'" data-label="(c) E₃ ="></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Draw the map (3 variables for <span class="m">E₁</span>, 4 for the others), expanding each product into all its squares. <span class="m">E₃</span> has two different minimal sums.</p></div></details>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(a) <span class="m">E₁ = x′y + y′z′</span>. The squares are <span class="m">xy′z′, x′yz, x′yz′, x′y′z′</span>; the prime implicants are <span class="m">x′y, x′z′, y′z′</span>, of which <span class="m">x′y</span> and <span class="m">y′z′</span> are essential and already cover everything.</p>
+            <div class="kmap" data-n="3" data-expr="xy'z'+x'y+x'y'z'+x'yz" data-solve></div>
+            <p style="margin-top:1rem">(b) <span class="m">E₂ = xy′ + xzt′ + x′z′t + y′zt′</span>, unique (4 products, 11 literals). All four are essential.</p>
+            <div class="kmap" data-n="4" data-expr="xy'+x'z't+xyzt'+x'y'zt'" data-solve></div>
+            <p style="margin-top:1rem">(c) Two minimal sums: <span class="m">E₃ = xyzt + xz′t′ + x′z′t + y′z′t′</span> and <span class="m">E₃ = xyzt + xz′t′ + x′z′t + x′y′z′</span>. The square <span class="m">xyzt</span> is isolated, so it stays a 4-literal product; <span class="m">xz′t′</span> and <span class="m">x′z′t</span> are essential; the square <span class="m">x′y′z′t′</span> can go with either neighbour.</p>
+            <div class="kmap" data-n="4" data-expr="xyzt+xyz't'+xz't'+x'y'z'+x'yz't" data-solve></div>
+          </div></details>
+        </article>
+      </div>
+
+      <p class="hw-group">Logic gates and truth tables · Lectures 4–5</p>
+      <div class="probs">
+        <article class="prob" id="hw-24">
+          <div class="p-head"><span class="pnum">2.4</span><h4>Read Figure 24</h4></div>
+          <div class="p-body"><p>Express the output <span class="m">Y</span> of each circuit in Figure 24 (in the HW PDF) in terms of <span class="m">A, B, C</span>.</p></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-vars="ABC" data-answer="A'BC+A'C'+BC'" data-label="(a) Y ="></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-vars="ABC" data-answer="ABC+A'BC+AB'C'" data-label="(b) Y ="></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Trace each AND gate's inputs back to the input lines, one wire at a time. A triangle with a bubble on a wire complements that input.</p></div></details>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(a) The AND gates receive <span class="m">(A′, B, C)</span>, <span class="m">(A′, C′)</span> and <span class="m">(B, C′)</span>, so <span class="m">Y = A′BC + A′C′ + BC′</span>.</p>
+            <p>(b) The AND gates receive <span class="m">(A, B, C)</span>, <span class="m">(A′, B, C)</span> and <span class="m">(A, B′, C′)</span>, so <span class="m">Y = ABC + A′BC + AB′C′</span>.</p>
+            <p class="small muted">Not asked, but useful practice: (a) simplifies to <span class="m">A′B + A′C′ + BC′</span>, and (b) to <span class="m">BC + AB′C′</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-25">
+          <div class="p-head"><span class="pnum">2.5</span><h4>Draw the circuits</h4></div>
+          <div class="p-body"><p>Draw the logic circuit with inputs <span class="m">A, B, C</span> and output <span class="m">Y</span> for (a) <span class="m">Y = AB′C + AC′ + A′C</span> (b) <span class="m">Y = A′BC + A′BC′ + ABC′</span>.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>These are sums of products, so each is an AND–OR circuit: one AND gate per product, an inverter for each complemented input, and one OR gate at the end (Example 2).</p></div></details>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(a) Three AND gates (3, 2 and 2 inputs) into a three-input OR gate:</p>
+            <div class="circuit" data-expr="AB'C+AC'+A'C" data-inputs="ABC"></div>
+            <p>(b) Three three-input AND gates into a three-input OR gate:</p>
+            <div class="circuit" data-expr="A'BC+A'BC'+ABC'" data-inputs="ABC"></div>
+            <p class="small muted">Your drawing can be arranged differently; what matters is which inputs, complemented or not, reach each AND gate.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-26">
+          <div class="p-head"><span class="pnum">2.6</span><h4>AND gate outputs</h4></div>
+          <div class="p-body"><p><span class="m">Y = ABC</span> for (a) <span class="m">A</span> = <span class="bits">110001</span>, <span class="m">B</span> = <span class="bits">101101</span>, <span class="m">C</span> = <span class="bits">110011</span>; (b) <span class="m">A</span> = <span class="bits">01111100</span>, <span class="m">B</span> = <span class="bits">10111010</span>, <span class="m">C</span> = <span class="bits">00111100</span>; (c) <span class="m">A</span> = <span class="bits">00111110</span>, <span class="m">B</span> = <span class="bits">01111100</span>, <span class="m">C</span> = <span class="bits">11110011</span>.</p></div>
+          <div class="check" data-kind="bits" data-answer="100001" data-label="(a) Y ="></div>
+          <div class="check" data-kind="bits" data-answer="00111000" data-label="(b) Y ="></div>
+          <div class="check" data-kind="bits" data-answer="00110000" data-label="(c) Y ="></div>
+          <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="bits">100001</span> (positions 1 and 6 are all ones) (b) <span class="bits">00111000</span> (positions 3, 4, 5) (c) <span class="bits">00110000</span> (positions 3, 4).</p></div></details>
+        </article>
+
+        <article class="prob" id="hw-27">
+          <div class="p-head"><span class="pnum">2.7</span><h4>OR gate outputs</h4></div>
+          <div class="p-body"><p><span class="m">Y = A + B + C</span> for (a) <span class="m">A</span> = <span class="bits">100011</span>, <span class="m">B</span> = <span class="bits">100101</span>, <span class="m">C</span> = <span class="bits">100001</span>; (b) <span class="m">A</span> = <span class="bits">10000001</span>, <span class="m">B</span> = <span class="bits">00100100</span>, <span class="m">C</span> = <span class="bits">00000011</span>; (c) <span class="m">A</span> = <span class="bits">00111100</span>, <span class="m">B</span> = <span class="bits">11110000</span>, <span class="m">C</span> = <span class="bits">10000001</span>.</p></div>
+          <div class="check" data-kind="bits" data-answer="100111" data-label="(a) Y ="></div>
+          <div class="check" data-kind="bits" data-answer="10100111" data-label="(b) Y ="></div>
+          <div class="check" data-kind="bits" data-answer="11111101" data-label="(c) Y ="></div>
+          <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="bits">100111</span> (all zeros only in positions 2 and 3) (b) <span class="bits">10100111</span> (positions 2, 4, 5) (c) <span class="bits">11111101</span> (position 7).</p></div></details>
+        </article>
+
+        <article class="prob" id="hw-28">
+          <div class="p-head"><span class="pnum">2.8</span><h4>NOT gate outputs</h4></div>
+          <div class="p-body"><p><span class="m">Y = A′</span> for (a) <span class="bits">11100111</span> (b) <span class="bits">10001000</span> (c) <span class="bits">11111000</span>.</p></div>
+          <div class="check" data-kind="bits" data-answer="00011000" data-label="(a) Y ="></div>
+          <div class="check" data-kind="bits" data-answer="01110111" data-label="(b) Y ="></div>
+          <div class="check" data-kind="bits" data-answer="00000111" data-label="(c) Y ="></div>
+          <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="bits">00011000</span> (b) <span class="bits">01110111</span> (c) <span class="bits">00000111</span></p></div></details>
+        </article>
+
+        <article class="prob" id="hw-29">
+          <div class="p-head"><span class="pnum">2.9</span><h4>Truth tables</h4></div>
+          <div class="p-body"><p>Find <span class="m">T(E)</span> for (a) <span class="m">E = xy + x′z</span> (b) <span class="m">E = xyz′ + xy′z′ + x′y′z′</span>.</p></div>
+          <div class="check" data-kind="bits" data-answer="01010011" data-label="(a) T(E) ="></div>
+          <div class="check" data-kind="bits" data-answer="10001010" data-label="(b) T(E) ="></div>
+          <details><summary>Solution</summary><div class="d-body">
+            <p>(a) <span class="m">xy</span> = <span class="bits">00001111</span> · <span class="bits">00110011</span> = <span class="bits">00000011</span>; <span class="m">x′z</span> = <span class="bits">11110000</span> · <span class="bits">01010101</span> = <span class="bits">01010000</span>; sum <span class="bits">01010011</span>.</p>
+            <p>(b) A sum of minterms, so read the positions from Table 5: <span class="m">xyz′</span> → 7, <span class="m">xy′z′</span> → 5, <span class="m">x′y′z′</span> → 1, giving <span class="bits">10001010</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-210">
+          <div class="p-head"><span class="pnum">2.10</span><h4>From truth tables to expressions</h4></div>
+          <div class="p-body"><p>Find <span class="m">E(x, y, z)</span> for (a) <span class="m">T(E)</span> = <span class="bits">10001010</span> (b) <span class="bits">00010001</span> (c) <span class="bits">00110000</span>. Any equivalent form is accepted.</p></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-vars="xyz" data-answer="x'y'z'+xy'z'+xyz'" data-label="(a) E ="></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-vars="xyz" data-answer="x'yz+xyz" data-label="(b) E ="></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-vars="xyz" data-answer="x'yz'+x'yz" data-label="(c) E ="></div>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(a) Positions 1, 5, 7: <span class="m">E = x′y′z′ + xy′z′ + xyz′</span>, which simplifies to <span class="m">y′z′ + xz′</span>. This is the same function as 2.9(b).</p>
+            <p>(b) Positions 4, 8: <span class="m">E = x′yz + xyz = yz</span>.</p>
+            <p>(c) Positions 3, 4: <span class="m">E = x′yz′ + x′yz = x′y</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-211">
+          <div class="p-head"><span class="pnum">2.11</span><h4>All minimal sums from Figure 25</h4></div>
+          <div class="p-body"><p>Find all possible minimal sums for each map.</p>
+            <div class="km-trio">
+              <figure><div class="kmap" data-n="4" data-m="2,4,5,6,7,9,10,11,13,14"></div><figcaption>Figure 25(a)</figcaption></figure>
+              <figure><div class="kmap" data-n="4" data-m="2,4,6,7,8,9,10,12,14,15"></div><figcaption>Figure 25(b)</figcaption></figure>
+            </div></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="zt'+x'y+yz't+xy't" data-label="(a) one ="></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="zt'+x'y+xz't+xy't" data-label="(a) another ="></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="zt'+x'y+xz't+xy'z" data-label="(a) third ="></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="zt'+yt'+yz+xy'z'" data-label="(b) E ="></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>(a) has a full column and a full row, which are essential. Three squares remain, and there are three different ways to cover them with two prime implicants. (b) has a unique minimal sum; look for 2×2 blocks that wrap from the top row to the bottom row.</p></div></details>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(a) Three minimal sums, each with 4 products and 10 literals:</p>
+            <p><span class="m">zt′ + x′y + yz′t + xy′t</span><br><span class="m">zt′ + x′y + xz′t + xy′t</span><br><span class="m">zt′ + x′y + xz′t + xy′z</span></p>
+            <p>The <span class="m">zt′</span> column and the <span class="m">x′y</span> row are essential. The squares <span class="m">xyz′t</span>, <span class="m">xy′zt</span> and <span class="m">xy′z′t</span> remain: <span class="m">xyz′t</span> pairs with its neighbour below (<span class="m">xz′t</span>) or with the bottom row across the edge (<span class="m">yz′t</span>), and <span class="m">xy′zt</span> pairs to its right (<span class="m">xy′z</span>) or across the side edge (<span class="m">xy′t</span>).</p>
+            <div class="kmap" data-n="4" data-m="2,4,5,6,7,9,10,11,13,14" data-solve></div>
+            <p style="margin-top:1rem">(b) One minimal sum: <span class="m">zt′ + yt′ + yz + xy′z′</span> (4 products, 9 literals). The prime implicant <span class="m">xt′</span> is not needed.</p>
+            <div class="kmap" data-n="4" data-m="2,4,6,7,8,9,10,12,14,15" data-solve></div>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-212">
+          <div class="p-head"><span class="pnum">2.12</span><h4>Minimal sums with a K-map</h4></div>
+          <div class="p-body"><p>(a) <span class="m">E = y′z + y′z′t′ + z′t</span> (b) <span class="m">E = y′zt + xzt′ + xy′z′</span></p></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="y'+z't" data-label="(a) E ="></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="xy'+y'zt+xzt'" data-label="(b) E ="></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>(a) does not contain <span class="m">x</span>, so its squares come in vertical pairs; it collapses to two products. In (b), notice that <span class="m">xy′z′</span> lies inside a larger rectangle.</p></div></details>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(a) <span class="m">E = y′ + z′t</span>. The two middle rows (<span class="m">y′</span>) are full, an 8-square rectangle, and <span class="m">z′t</span> covers the rest of the last column.</p>
+            <div class="kmap" data-n="4" data-expr="y'z+y'z't'+z't" data-solve></div>
+            <p style="margin-top:1rem">(b) <span class="m">E = xy′ + y′zt + xzt′</span>. The row <span class="m">xy′</span> is full; <span class="m">x′y′zt</span> needs <span class="m">y′zt</span>; <span class="m">xyzt′</span> needs <span class="m">xzt′</span>.</p>
+            <div class="kmap" data-n="4" data-expr="y'zt+xzt'+xy'z'" data-solve></div>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-213">
+          <div class="p-head"><span class="pnum">2.13</span><h4>Redesign Figure 26</h4></div>
+          <div class="p-body"><p>Use Karnaugh maps to redesign each circuit in Figure 26 (HW PDF) as a minimal AND–OR circuit. First read the circuit, then minimise.</p></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-vars="ABC" data-answer="AB'C+ABC'+AB'C'" data-label="(a) circuit Y ="></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="ABC" data-answer="AB'+AC'" data-label="(a) minimal Y ="></div>
+          <div class="check" data-kind="bool" data-mode="eq" data-vars="ABC" data-answer="ABC+A'BC'+ABC'" data-label="(b) circuit Y ="></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="ABC" data-answer="AB+BC'" data-label="(b) minimal Y ="></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Figure 26(a) is the same circuit as Figure 8 in the notes (Example 2).</p></div></details>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(a) The circuit computes <span class="m">Y = AB′C + ABC′ + AB′C′</span>. On the map, <span class="m">AB′C + AB′C′ = AB′</span> and <span class="m">ABC′ + AB′C′ = AC′</span>, so <span class="m">Y = AB′ + AC′</span>:</p>
+            <div class="fig-row"><div class="kmap" data-n="3" data-vars="ABC" data-expr="AB'C+ABC'+AB'C'" data-solve="sums"></div><div class="circuit" data-expr="AB'+AC'" data-inputs="ABC"></div></div>
+            <p>(b) The circuit computes <span class="m">Y = ABC + A′BC′ + ABC′</span>. Then <span class="m">ABC + ABC′ = AB</span> and <span class="m">A′BC′ + ABC′ = BC′</span>, so <span class="m">Y = AB + BC′</span>:</p>
+            <div class="fig-row"><div class="kmap" data-n="3" data-vars="ABC" data-expr="ABC+A'BC'+ABC'" data-solve="sums"></div><div class="circuit" data-expr="AB+BC'" data-inputs="ABC"></div></div>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw-214">
+          <div class="p-head"><span class="pnum">2.14</span><h4>Three switches, one hall light</h4></div>
+          <div class="p-body"><p>The light is on (1) when an odd number of the switches <span class="m">A, B, C</span> are up. (a) Show that <span class="m">T(A, B, C)</span> = <span class="bits">01101001</span> satisfies the conditions. (b) Design a minimal AND–OR circuit with this truth table.</p></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="ABC" data-answer="A'B'C+A'BC'+AB'C'+ABC" data-label="(b) L ="></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>For (a), count the 1s in each input column 000, 001, …, 111. For (b), draw the map and look for adjacent checked squares.</p></div></details>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(a) The inputs in order are 000, 001, 010, 011, 100, 101, 110, 111, with 0, 1, 1, 2, 1, 2, 2, 3 ones. The odd counts are in positions 2, 3, 5, 8, which is exactly where <span class="bits">01101001</span> has its 1s. Changing any one switch changes the count by one and so flips the parity, which toggles the light; so each switch controls the light from any state.</p>
+            <p>(b) <span class="m">L = A′B′C + A′BC′ + AB′C′ + ABC</span>. On the map the four squares form a checkerboard: no two are adjacent, so every square is its own prime implicant and this CSoP is already minimal (this is <span class="m">A ⊕ B ⊕ C</span>).</p>
+            <div class="fig-row"><div class="kmap" data-n="3" data-vars="ABC" data-m="1,2,4,7" data-solve="sums"></div><div class="circuit" data-expr="A'B'C+A'BC'+AB'C'+ABC" data-inputs="ABC" data-out="L"></div></div>
+          </div></details>
+        </article>
+      </div>
+    </section>

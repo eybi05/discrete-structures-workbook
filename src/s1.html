@@ -1,0 +1,444 @@
+    <section class="chapter" id="sets">
+      <p class="eyebrow">Lecture 1</p>
+      <h2>Sets and functions</h2>
+      <p class="intro">Every other structure in the course is built on sets. This chapter covers how to describe sets, how functions connect them, the set operations and their laws, and (Part 4) how to compare the sizes of infinite sets.</p>
+
+      <h3 id="s-basics"><span class="num">1.1</span>Sets and how to describe them</h3>
+      <div class="blk def"><div class="lbl">Definition</div><div class="body">
+        <p>A <strong>set</strong> is an unordered collection of objects, its <strong>elements</strong>. Write <span class="m">a ∈ A</span> when <span class="m">a</span> is an element of <span class="m">A</span>, and <span class="m">a ∉ A</span> when it is not.</p>
+      </div></div>
+      <div class="blk"><div class="lbl">Two ways</div><div class="body">
+        <dl class="pairs">
+          <dt>Listing</dt><dd><span class="m">A = {2, 3, −1, 0, 15}</span></dd>
+          <dt>Set-builder</dt><dd><span class="m">B = {x | x</span> is an odd integer, <span class="m">x &gt; 0} = {1, 3, 5, …}</span>. Read the bar as “such that” and the comma as “and”.</dd>
+        </dl>
+      </div></div>
+      <div class="blk key"><div class="lbl">Key fact</div><div class="body">
+        <p>Order and repetition never matter: <span class="m">{x | x² − 3x + 2 = 0} = {2, 1} = {1, 2, 2, 1}</span> (Example 1).</p>
+      </div></div>
+      <div class="blk"><div class="lbl">Number sets</div><div class="body">
+        <p><span class="m">ℕ = ℤ⁺ = {1, 2, 3, …}</span> (in this course ℕ starts at 1), <span class="m">ℤ</span> the integers, <span class="m">ℚ</span> the rationals, <span class="m">ℝ</span> the reals, <span class="m">ℂ</span> the complex numbers, and <span class="m">ℤ⁺ ⊂ ℤ ⊂ ℚ ⊂ ℝ ⊂ ℂ</span>.</p>
+        <ul>
+          <li><span class="m">ℚ</span> is the set of fractions <span class="m">p/q</span> with <span class="m">p ∈ ℤ, q ∈ ℕ</span>; as decimals, exactly the finite or repeating ones.</li>
+          <li>The irrational numbers <span class="m">ℝ ∖ ℚ</span> (for example √2, √3) are the non-repeating decimals.</li>
+          <li><span class="m">ℂ</span> is the set of pairs <span class="m">(a, b)</span> with <span class="m">(a, b) + (c, d) = (a + c, b + d)</span> and <span class="m">(a, b)(c, d) = (ac − bd, ad + bc)</span>. A real number <span class="m">a</span> is the pair <span class="m">(a, 0)</span>.</li>
+        </ul>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example</div><div class="body">
+        <p>Write <span class="m">0.6(7) = 0.6777…</span> as a fraction.</p>
+        <p><span class="m">0.6777… = 6/10 + (7/100 + 7/1000 + …)</span>. The bracket is a geometric series with first term <span class="m">a₁ = 7/100</span> and ratio <span class="m">r = 1/10</span>, so it sums to <span class="m">a₁/(1 − r) = (7/100)/(9/10) = 7/90</span>. Total: <span class="m">54/90 + 7/90 = 61/90</span>.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Definition</div><div class="body">
+        <p><strong>Subset:</strong> <span class="m">A ⊆ B</span> when every element of <span class="m">A</span> is in <span class="m">B</span>. If some element of <span class="m">A</span> is not in <span class="m">B</span>, write <span class="m">A ⊈ B</span>.</p>
+        <p><strong>Equality:</strong> <span class="m">A = B</span> exactly when <span class="m">A ⊆ B</span> and <span class="m">B ⊆ A</span>. This is the standard way to prove two sets are equal.</p>
+        <p><strong>Proper subset:</strong> <span class="m">A ⊂ B</span> means <span class="m">A ⊆ B</span> and <span class="m">A ≠ B</span>.</p>
+      </div></div>
+      <div class="blk thm"><div class="lbl">Theorems 1–2</div><div class="body">
+        <p><span class="m">A ⊆ A</span>; if <span class="m">A ⊆ B</span> and <span class="m">B ⊆ A</span> then <span class="m">A = B</span>; if <span class="m">A ⊆ B</span> and <span class="m">B ⊆ C</span> then <span class="m">A ⊆ C</span>. For every set, <span class="m">∅ ⊆ A ⊆ U</span>, where <span class="m">U</span> is the <strong>universal set</strong> and <span class="m">∅</span> the (only) <strong>empty set</strong>.</p>
+      </div></div>
+      <div class="blk trap"><div class="lbl">Watch out</div><div class="body">
+        <p><span class="m">∅</span> and <span class="m">{∅}</span> are different. <span class="m">∅</span> has no elements; <span class="m">{∅}</span> is a singleton whose one element is <span class="m">∅</span>. Think of an empty folder versus a folder that holds one empty folder. So <span class="m">∅ ∈ {∅}</span> and <span class="m">∅ ⊆ {∅}</span> are both true, while <span class="m">{∅} ⊆ ∅</span> is false.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">More terms</div><div class="body">
+        <dl class="pairs">
+          <dt>Disjoint</dt><dd>no common elements; <span class="m">{1, 2}</span> and <span class="m">{4, 5, 6}</span> are disjoint.</dd>
+          <dt>Class of sets</dt><dd>a set whose elements are sets (also called a collection or family); a subclass is a subset of it.</dd>
+          <dt>Finite / infinite</dt><dd>finite sets have a definite number of elements; removing 1, 2, 3, … elements from an infinite set always leaves elements.</dd>
+          <dt>Power set</dt><dd><span class="m">P(S)</span>, the class of all subsets of <span class="m">S</span>, including <span class="m">∅</span> and <span class="m">S</span>.</dd>
+        </dl>
+      </div></div>
+      <div class="blk thm"><div class="lbl">Statement 1</div><div class="body">
+        <p>If <span class="m">S</span> has <span class="m">n</span> elements, then <span class="m">P(S)</span> has <span class="m">2ⁿ</span> elements: each element of <span class="m">S</span> is either in a subset or out of it. That is why <span class="m">P(S)</span> is also written <span class="m">2<sup>S</sup></span>.</p>
+        <div class="scroll"><table class="data">
+          <thead><tr><th>S</th><th>P(S)</th><th>n</th><th>2ⁿ</th></tr></thead>
+          <tbody>
+            <tr><td class="m">∅</td><td class="m">{∅}</td><td>0</td><td>1</td></tr>
+            <tr><td class="m">{a}</td><td class="m">{∅, {a}}</td><td>1</td><td>2</td></tr>
+            <tr><td class="m">{a, b}</td><td class="m">{∅, {a}, {b}, {a, b}}</td><td>2</td><td>4</td></tr>
+            <tr><td class="m">{a, b, c}</td><td class="m wrap">{∅, {a}, {b}, {c}, {a, b}, {a, c}, {b, c}, {a, b, c}}</td><td>3</td><td>8</td></tr>
+          </tbody>
+        </table></div>
+      </div></div>
+
+      <h3 id="s-functions"><span class="num">1.2</span>Functions</h3>
+      <div class="blk def"><div class="lbl">Definition 2</div><div class="body">
+        <p>A <strong>function</strong> <span class="m">f: X → Y</span> assigns to every <span class="m">x ∈ X</span> exactly one <span class="m">f(x) ∈ Y</span>. <span class="m">X</span> is the domain and <span class="m">Y</span> the codomain. The <strong>image</strong> (range) is <span class="m">f(X) = {f(x) | x ∈ X}</span>. For <span class="m">y ∈ Y</span> the <strong>preimage</strong> is <span class="m">f⁻¹(y) = {x ∈ X | f(x) = y}</span>; it is empty exactly when <span class="m">y ∉ f(X)</span>.</p>
+      </div></div>
+      <div class="scroll" style="margin-bottom:1.3rem"><table class="data">
+        <thead><tr><th>Type</th><th>Definition</th><th>Each preimage <span class="m">f⁻¹(y)</span> has</th></tr></thead>
+        <tbody>
+          <tr><th>Injective (one-to-one)</th><td><span class="m">x₁ ≠ x₂ ⇒ f(x₁) ≠ f(x₂)</span>, equivalently <span class="m">f(x₁) = f(x₂) ⇒ x₁ = x₂</span></td><td>at most one element</td></tr>
+          <tr><th>Surjective (onto)</th><td><span class="m">f(X) = Y</span></td><td>at least one element</td></tr>
+          <tr><th>Bijective</th><td>injective and surjective (a one-to-one correspondence)</td><td>exactly one element</td></tr>
+        </tbody>
+      </table></div>
+      <div class="blk key"><div class="lbl">How to prove</div><div class="body">
+        <ul>
+          <li><strong>Injective:</strong> assume <span class="m">f(x₁) = f(x₂)</span> and derive <span class="m">x₁ = x₂</span>. To disprove, find <span class="m">x₁ ≠ x₂</span> with the same image.</li>
+          <li><strong>Surjective:</strong> take any <span class="m">y ∈ Y</span> and find an <span class="m">x</span> with <span class="m">f(x) = y</span>. To disprove, find a <span class="m">y</span> that nothing maps to.</li>
+        </ul>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Examples 4–6</div><div class="body">
+        <ul>
+          <li><span class="m">tan: (−π/2, π/2) → ℝ</span> is a bijection: every horizontal line meets the graph exactly once.</li>
+          <li><span class="m">sin: ℝ → ℝ</span> is neither: <span class="m">sin 0 = sin π</span>, and nothing maps to 2.</li>
+          <li><span class="m">sin: ℝ → [−1, 1]</span> is onto. Whether a function is onto depends on the codomain.</li>
+        </ul>
+      </div></div>
+      <div class="blk def"><div class="lbl">Composition</div><div class="body">
+        <p>For <span class="m">f: X → Y</span> and <span class="m">g: Y → Z</span>, <span class="m">(g∘f)(x) = g(f(x))</span>. The identity is <span class="m">id<sub>X</sub>(x) = x</span>. A function is a bijection exactly when it has an <strong>inverse</strong> <span class="m">g: Y → X</span> with <span class="m">g∘f = id<sub>X</sub></span> and <span class="m">f∘g = id<sub>Y</sub></span>. An injective <span class="m">f</span> has an inverse <span class="m">f⁻¹: f(X) → X</span> defined on its image.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Products</div><div class="body">
+        <p>The <strong>Cartesian product</strong> is <span class="m">X₁ × … × Xₙ = {(x₁, …, xₙ) | xᵢ ∈ Xᵢ}</span>. Example: <span class="m">{1, 2, 3} × {a, b} = {(1, a), (1, b), (2, a), (2, b), (3, a), (3, b)}</span>, and <span class="m">[0, 1] × [0, 1]</span> is the unit square.</p>
+        <p>A <strong>relation</strong> from <span class="m">X</span> to <span class="m">Y</span> is any subset of <span class="m">X × Y</span>. A function is a relation in which every <span class="m">x</span> appears in exactly one pair <span class="m">(x, y)</span>; that set of pairs is its graph. A function <span class="m">X × … × X → X</span> with <span class="m">n</span> factors is an <strong>n-ary operation</strong> on <span class="m">X</span> (unary, binary, ternary for <span class="m">n = 1, 2, 3</span>).</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 8</div><div class="body">
+        <p><strong>Division with remainder.</strong> For <span class="m">a ∈ ℤ</span> and <span class="m">m ∈ ℕ</span> there are unique <span class="m">q, r</span> with <span class="m">a = qm + r</span> and <span class="m">0 ≤ r &lt; m</span>. So <span class="m">13 = 4·3 + 1</span> and <span class="m">−13 = (−5)·3 + 2</span>: the remainder is never negative.</p>
+        <p><span class="m">s ≡ t (<span class="up">mod</span> m)</span> means <span class="m">m</span> divides <span class="m">s − t</span>. All integers are congruent mod 1; mod 2 the two classes are the even and the odd numbers.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 12</div><div class="body">
+        <p><strong>Floor and ceiling.</strong> <span class="m">⌊x⌋</span> is the greatest integer <span class="m">≤ x</span>, <span class="m">⌈x⌉</span> the least integer <span class="m">≥ x</span>, and <span class="m">x − ⌊x⌋</span> the fractional part. <span class="m">⌊3.14⌋ = 3</span>, <span class="m">⌊−3.14⌋ = −4</span>, <span class="m">⌈−3.14⌉ = −3</span>, <span class="m">⌊√5⌋ = 2</span>; the fractional part of <span class="m">−3.14</span> is <span class="m">−3.14 − (−4) = 0.86</span>. If <span class="m">x</span> is not an integer, <span class="m">⌈x⌉ = ⌊x⌋ + 1</span>.</p>
+      </div></div>
+
+      <h3 id="s-ops"><span class="num">1.3</span>Set operations and Venn diagrams</h3>
+      <div class="venn-grid">
+        <figure><canvas class="venn" data-expr="A+B" data-sets="2" aria-label="Venn diagram with A union B shaded" role="img"></canvas><figcaption><strong class="m">A ∪ B</strong>in <span class="m">A</span> or <span class="m">B</span> (inclusive)</figcaption></figure>
+        <figure><canvas class="venn" data-expr="AB" data-sets="2" aria-label="Venn diagram with A intersect B shaded" role="img"></canvas><figcaption><strong class="m">A ∩ B</strong>in <span class="m">A</span> and in <span class="m">B</span></figcaption></figure>
+        <figure><canvas class="venn" data-expr="A'" data-sets="2" aria-label="Venn diagram with the complement of A shaded" role="img"></canvas><figcaption><strong class="m">A′ = U ∖ A</strong>everything outside <span class="m">A</span></figcaption></figure>
+        <figure><canvas class="venn" data-expr="AB'" data-sets="2" aria-label="Venn diagram with A minus B shaded" role="img"></canvas><figcaption><strong class="m">A ∖ B = A ∩ B′</strong>in <span class="m">A</span>, not in <span class="m">B</span></figcaption></figure>
+        <figure><canvas class="venn" data-expr="A^B" data-sets="2" aria-label="Venn diagram with the symmetric difference of A and B shaded" role="img"></canvas><figcaption><strong class="m">A ⊕ B</strong>in exactly one of them</figcaption></figure>
+      </div>
+      <div class="blk def"><div class="lbl">Definitions</div><div class="body">
+        <p><span class="m">A ∪ B = {x | x ∈ A</span> or <span class="m">x ∈ B}</span>, <span class="m">A ∩ B = {x | x ∈ A</span> and <span class="m">x ∈ B}</span>, <span class="m">A′ = {x ∈ U | x ∉ A}</span>, <span class="m">B ∖ A = {x | x ∈ B, x ∉ A}</span>, and the symmetric difference <span class="m">A ⊕ B = (A ∖ B) ∪ (B ∖ A) = (A ∪ B) ∖ (A ∩ B)</span> (“union mod 2”). <span class="m">A</span> and <span class="m">B</span> are disjoint when <span class="m">A ∩ B = ∅</span>; then <span class="m">A ∪ B</span> is a disjoint union.</p>
+      </div></div>
+      <div class="blk thm"><div class="lbl">Theorems 3–4</div><div class="body">
+        <p><span class="m">A ∩ B ⊆ A ⊆ A ∪ B</span>. The following are equivalent: <span class="m">A ⊆ B</span>; <span class="m">A ∩ B = A</span>; <span class="m">A ∪ B = B</span>.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Generalized</div><div class="body">
+        <p><span class="m">⋃ᵢ Aᵢ = {x | x ∈ Aᵢ</span> for some <span class="m">i}</span> and <span class="m">⋂ᵢ Aᵢ = {x | x ∈ Aᵢ</span> for every <span class="m">i}</span>.</p>
+        <p>Example (Exercise 1.6): let <span class="m">Aₙ = {n, 2n, 3n, …}</span>. Then <span class="m">A₃ ∩ A₅ = A₁₅</span> and <span class="m">A₄ ∩ A₆ = A₁₂</span> (multiples of the least common multiple), and <span class="m">⋃<sub>p prime</sub> A<sub>p</sub> = ℕ ∖ {1}</span>, because every integer from 2 on has a prime factor. If one set in an intersection is empty, the whole intersection is empty.</p>
+      </div></div>
+      <div class="blk thm"><div class="lbl">Theorem 5</div><div class="body">
+        <p><strong>Fundamental products.</strong> For sets <span class="m">A₁, …, Aₙ</span>, a fundamental product is <span class="m">A₁* ∩ … ∩ Aₙ*</span> where each <span class="m">Aᵢ*</span> is <span class="m">Aᵢ</span> or <span class="m">Aᵢ′</span>. There are <span class="m">2ⁿ</span> of them, any two are disjoint, and their union is <span class="m">U</span>. For three sets these are the 8 regions of a three-circle Venn diagram; in Lecture 4–5 they return as minterms.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Partitions</div><div class="body">
+        <p>A partition of <span class="m">S</span> splits it into <strong>nonempty</strong>, <strong>pairwise disjoint</strong> cells whose union is <span class="m">S</span>. With <span class="m">S = {a, b, c, d, e, f, g}</span> (Exercise 1.8): <span class="m">[{a, c, e}, {b}, {d, g}]</span> is not a partition (<span class="m">f</span> is missing), <span class="m">[{a, e, g}, {c, d}, {b, e, f}]</span> is not one (<span class="m">e</span> is in two cells), and <span class="m">[{a, b, e, g}, {c}, {d, f}]</span> is. Any function <span class="m">f: A → B</span> partitions <span class="m">A</span> into the preimages of its values (Example 10).</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 9</div><div class="body">
+        <p><strong>Arguments with Venn diagrams.</strong> All my friends are musicians. Akif is my friend. None of my neighbours are musicians. Therefore Akif is not my neighbour. Draw the friends inside the musicians and the neighbours outside the musicians; Akif lies in the friends region, which cannot meet the neighbours. The argument is valid.</p>
+      </div></div>
+
+      <h3 id="s-algebra"><span class="num">1.4</span>Algebra of sets, duality, images</h3>
+      <div class="blk def"><div class="lbl">Definition 5</div><div class="body">
+        <p>The algebra of sets is a family of subsets of <span class="m">U</span> containing <span class="m">∅</span> and <span class="m">U</span>, with the binary operations <span class="m">∪, ∩</span> and the unary complement <span class="m">′</span>. Its laws are the “Sets” column of <a href="#laws-table">the laws table</a> (Table 1 in the notes).</p>
+      </div></div>
+      <div class="blk key"><div class="lbl">Two proof methods</div><div class="body">
+        <p><strong>1. Element chasing.</strong> Show that <span class="m">x ∈</span> LHS implies <span class="m">x ∈</span> RHS, and the converse. De Morgan (10a):</p>
+        <p class="m wrap">x ∈ (A ∪ B)′ ⟺ x ∉ A ∪ B ⟺ x ∉ A and x ∉ B ⟺ x ∈ A′ and x ∈ B′ ⟺ x ∈ A′ ∩ B′.</p>
+        <p><strong>2. Algebra.</strong> Rewrite with the laws, using <span class="m">X ∖ Y = X ∩ Y′</span> (Exercise 1.4). Exercise 1.5:</p>
+        <ol class="chain">
+          <li><span class="m">(A ∪ B) ∖ (A ∩ B) = (A ∪ B) ∩ (A ∩ B)′</span><span class="why-law">difference</span></li>
+          <li><span class="m">= (A ∪ B) ∩ (A′ ∪ B′)</span><span class="why-law">De Morgan</span></li>
+          <li><span class="m">= (A ∩ A′) ∪ (A ∩ B′) ∪ (B ∩ A′) ∪ (B ∩ B′)</span><span class="why-law">distributive</span></li>
+          <li><span class="m">= ∅ ∪ (A ∩ B′) ∪ (B ∩ A′) ∪ ∅ = (A ∖ B) ∪ (B ∖ A)</span><span class="why-law">complement, identity</span></li>
+        </ol>
+      </div></div>
+      <div class="blk def"><div class="lbl">Duality</div><div class="body">
+        <p>The dual of a set equation swaps <span class="m">∪ ↔ ∩</span> and <span class="m">U ↔ ∅</span>. The dual of <span class="m">(U ∩ A) ∪ (B ∩ A) = A</span> is <span class="m">(∅ ∪ A) ∩ (B ∪ A) = A</span>. If an equation is an identity, so is its dual.</p>
+      </div></div>
+      <div class="blk thm"><div class="lbl">Theorems 7–9</div><div class="body">
+        <p>For <span class="m">f: X → Y</span>: <span class="m">f⁻¹(A ∪ B) = f⁻¹(A) ∪ f⁻¹(B)</span>, <span class="m">f⁻¹(A ∩ B) = f⁻¹(A) ∩ f⁻¹(B)</span>, <span class="m">f(A ∪ B) = f(A) ∪ f(B)</span>. Prove each by showing LHS ⊆ RHS and RHS ⊆ LHS. Preimages also respect complements: <span class="m">f⁻¹(Y ∖ B) = X ∖ f⁻¹(B)</span> (Exercise 2.8).</p>
+      </div></div>
+      <div class="blk trap"><div class="lbl">Watch out</div><div class="body">
+        <p>Images do <strong>not</strong> respect intersections; only <span class="m">f(A ∩ B) ⊆ f(A) ∩ f(B)</span> holds. The projection <span class="m">(x, y) ↦ (x, 0)</span> sends the disjoint segments <span class="m">{0 ≤ x ≤ 1, y = 0}</span> and <span class="m">{0 ≤ x ≤ 1, y = 1}</span> onto the same segment (Remark 1).</p>
+      </div></div>
+
+      <h3 id="s-card"><span class="num">1.5</span>Comparing infinite sets</h3>
+      <p class="muted small">Part 4 of Lecture 1: optional reading, mandatory for math students. HW1 Task 2 uses it.</p>
+      <div class="blk def"><div class="lbl">Definition 3</div><div class="body">
+        <p><span class="m">X</span> and <span class="m">Y</span> are <strong>equivalent</strong>, <span class="m">X ~ Y</span>, when there is a bijection <span class="m">X → Y</span>. This relation is reflexive (use <span class="m">id</span>), symmetric (use the inverse) and transitive (compose). Finite sets are equivalent exactly when they have the same number of elements; for infinite sets, counting fails but bijections still work.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Definition 6</div><div class="body">
+        <p>A set is <strong>countable</strong> if it is equivalent to <span class="m">ℤ⁺</span>, that is, its elements can be listed <span class="m">a₁, a₂, a₃, …</span> An infinite set that is not countable is <strong>uncountable</strong>. All countable sets are equivalent to each other.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Examples 14–17</div><div class="body">
+        <ul>
+          <li><span class="m">ℤ</span> is countable: list <span class="m">0, −1, 1, −2, 2, …</span>, that is <span class="m">n ↦ 2n + 1</span> for <span class="m">n ≥ 0</span> and <span class="m">n ↦ 2|n|</span> for <span class="m">n &lt; 0</span>.</li>
+          <li>The positive even numbers (<span class="m">n ↦ 2n</span>) and the powers of 2 (<span class="m">n ↦ 2ⁿ</span>) are countable.</li>
+          <li><span class="m">ℚ</span> is countable: write <span class="m">r = p/q</span> in lowest terms with <span class="m">q &gt; 0</span> and call <span class="m">|p| + q</span> its height. Each height has finitely many rationals (height 3: <span class="m">−2/1, −1/2, 1/2, 2/1</span>), so list height 1, then height 2, and so on.</li>
+        </ul>
+        <p>These show something impossible for finite sets: an infinite set can be equivalent to a proper subset of itself.</p>
+      </div></div>
+      <div class="blk thm"><div class="lbl">Theorems 10–13</div><div class="body">
+        <ol>
+          <li value="10">Every subset of a countable set is finite or countable.</li>
+          <li>A finite or countable union of countable sets is countable: write the sets as rows and count along the diagonals.</li>
+          <li>Every infinite set <span class="m">M</span> has a countable subset: pick <span class="m">a₁ ∈ M</span>, then <span class="m">a₂ ≠ a₁</span>, then <span class="m">a₃ ∉ {a₁, a₂}</span>, and so on.</li>
+          <li>Every infinite set is equivalent to one of its proper subsets: take a countable <span class="m">{a₁, a₂, …} ⊆ M</span>, send <span class="m">aₙ ↦ a₂ₙ₋₁</span>, and fix every other element. Then <span class="m">M ~ M ∖ {a₂, a₄, …}</span>.</li>
+        </ol>
+        <div class="scroll"><table class="data" style="width:auto">
+          <caption class="small muted" style="caption-side:bottom;text-align:left;padding-top:0.4rem">Theorem 11: the order in which the diagonal count visits the elements.</caption>
+          <tbody>
+            <tr><td class="m">a₁₁ <sup>(1)</sup></td><td class="m">a₁₂ <sup>(2)</sup></td><td class="m">a₁₃ <sup>(4)</sup></td><td class="m">a₁₄ <sup>(7)</sup></td><td>…</td></tr>
+            <tr><td class="m">a₂₁ <sup>(3)</sup></td><td class="m">a₂₂ <sup>(5)</sup></td><td class="m">a₂₃ <sup>(8)</sup></td><td>…</td><td></td></tr>
+            <tr><td class="m">a₃₁ <sup>(6)</sup></td><td class="m">a₃₂ <sup>(9)</sup></td><td>…</td><td></td><td></td></tr>
+            <tr><td class="m">a₄₁ <sup>(10)</sup></td><td>…</td><td></td><td></td><td></td></tr>
+          </tbody>
+        </table></div>
+      </div></div>
+      <div class="blk thm"><div class="lbl">Theorem 14</div><div class="body">
+        <p><strong>Cantor: [0, 1] is uncountable.</strong> Take any list <span class="m">r₁, r₂, r₃, …</span> of numbers in [0, 1] and build <span class="m">β = 0.b₁b₂b₃…</span> with <span class="m">bₙ = 2</span> if the <span class="m">n</span>-th digit of <span class="m">rₙ</span> is 1, and <span class="m">bₙ = 1</span> otherwise. Then <span class="m">β</span> differs from every <span class="m">rₙ</span> in the <span class="m">n</span>-th digit, so the list misses it. Using only the digits 1 and 2 avoids the problem <span class="m">0.4999… = 0.5000…</span>.</p>
+        <div class="scroll"><table class="tt" style="margin-bottom:0.4rem">
+          <tbody>
+            <tr><th class="m">r₁</th><td>0.</td><td class="fin">1</td><td>4</td><td>1</td><td>5</td><td>…</td></tr>
+            <tr><th class="m">r₂</th><td>0.</td><td>5</td><td class="fin">0</td><td>0</td><td>0</td><td>…</td></tr>
+            <tr><th class="m">r₃</th><td>0.</td><td>3</td><td>3</td><td class="fin">3</td><td>3</td><td>…</td></tr>
+            <tr><th class="m">r₄</th><td>0.</td><td>7</td><td>1</td><td>8</td><td class="fin">1</td><td>…</td></tr>
+            <tr><th class="m">β</th><td>0.</td><td>2</td><td>1</td><td>1</td><td>2</td><td>…</td></tr>
+          </tbody>
+        </table></div>
+      </div></div>
+      <div class="blk def"><div class="lbl">Cardinality</div><div class="body">
+        <p><span class="m">|M| = |N|</span> means <span class="m">M ~ N</span>. Countable sets have cardinality <span class="m">ℵ₀</span> (aleph-null); [0, 1], every interval, <span class="m">ℝ</span> and the plane have the cardinality of the continuum, <span class="m">c</span>. <span class="m">|A| ≤ |B|</span> means there is an injection <span class="m">A → B</span>, and <span class="m">|A| &lt; |B|</span> means there is an injection but no bijection. So <span class="m">ℵ₀ &lt; c</span>.</p>
+        <ul>
+          <li><strong>Cantor–Bernstein (Theorem 16):</strong> if <span class="m">|A| ≤ |B|</span> and <span class="m">|B| ≤ |A|</span>, then <span class="m">|A| = |B|</span>.</li>
+          <li><strong>Cantor (Theorem 15):</strong> <span class="m">|P(M)| &gt; |M|</span> for every set <span class="m">M</span>, so there is no largest cardinality. For any <span class="m">f: M → P(M)</span>, the set <span class="m">X = {a ∈ M | a ∉ f(a)}</span> is not <span class="m">f(x)</span> for any <span class="m">x</span>.</li>
+          <li><strong>Continuum hypothesis:</strong> no cardinality lies strictly between <span class="m">ℵ₀</span> and <span class="m">c</span>. Paul Cohen showed in 1963 that the usual axioms cannot decide it.</li>
+        </ul>
+      </div></div>
+      <div class="blk hw"><div class="lbl">For HW1</div><div class="body">
+        <p>The trick in Theorem 13, shifting a countable subset along to make room, is exactly what Task 2 needs. Practice it first in <a href="#p1-14">P1.14</a>.</p>
+      </div></div>
+
+      <h3 id="s-quick">Quick check</h3>
+      <ol class="tf num">
+        <li data-a="T"><span class="q"><span class="m">{1, 2, 3} = {3, 2, 1, 1}</span></span><span class="why">Order and repetition do not matter.</span></li>
+        <li data-a="F"><span class="q"><span class="m">∅ ∈ ∅</span></span><span class="why"><span class="m">∅</span> has no elements at all.</span></li>
+        <li data-a="T"><span class="q"><span class="m">∅ ⊆ ∅</span></span><span class="why">The empty set is a subset of every set, itself included.</span></li>
+        <li data-a="F"><span class="q">If <span class="m">A ⊆ B</span>, then <span class="m">A ∪ B = A</span>.</span><span class="why">Theorem 4 gives <span class="m">A ∪ B = B</span> and <span class="m">A ∩ B = A</span>.</span></li>
+        <li data-a="T"><span class="q"><span class="m">A ⊕ B = (A ∪ B) ∩ (A ∩ B)′</span></span><span class="why">That is <span class="m">(A ∪ B) ∖ (A ∩ B)</span>, one of the two definitions of <span class="m">⊕</span>.</span></li>
+        <li data-a="F"><span class="q"><span class="m">f: ℤ → ℤ, f(n) = 2n</span> is a bijection.</span><span class="why">It is injective but not onto: no integer maps to an odd number.</span></li>
+        <li data-a="F"><span class="q"><span class="m">|P({1, 2, 3, 4})| = 8</span></span><span class="why">A 4-element set has <span class="m">2⁴ = 16</span> subsets.</span></li>
+        <li data-a="T"><span class="q"><span class="m">ℝ ~ (0, 1)</span></span><span class="why">For example <span class="m">x ↦ tan(π(x − 1/2))</span> is a bijection <span class="m">(0, 1) → ℝ</span>.</span></li>
+        <li data-a="F"><span class="q"><span class="m">f(A ∩ B) = f(A) ∩ f(B)</span> for every function <span class="m">f</span>.</span><span class="why">Only <span class="m">⊆</span> holds in general (Remark 1).</span></li>
+        <li data-a="T"><span class="q">Every subset of <span class="m">ℚ</span> is finite or countable.</span><span class="why"><span class="m">ℚ</span> is countable, so Theorem 10 applies.</span></li>
+      </ol>
+
+      <section class="pset" id="ps1">
+        <div class="pset-head"><h3>Practice 1 · Sets and functions</h3><p>15 problems. Type into the boxes to check, or open the answers.</p></div>
+        <div class="probs">
+
+          <article class="prob" id="p1-1">
+            <div class="p-head"><span class="pnum">P1.1</span><h4>List the elements</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li><span class="m">{x ∈ ℤ | x² &lt; 10}</span></li>
+              <li><span class="m">{x ∈ ℕ | x</span> divides <span class="m">12}</span></li>
+              <li><span class="m">{x ∈ ℝ | x² + 1 = 0}</span></li>
+              <li><span class="m">{x ∈ ℕ | 3 &lt; x ≤ 7}</span></li>
+            </ol></div>
+            <div class="check" data-kind="set" data-answer="-3,-2,-1,0,1,2,3" data-label="(a)"></div>
+            <div class="check" data-kind="set" data-answer="1,2,3,4,6,12" data-label="(b)"></div>
+            <div class="check" data-kind="set" data-answer="" data-label="(c)"></div>
+            <div class="check" data-kind="set" data-answer="4,5,6,7" data-label="(d)"></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>In (a), <span class="m">x² &lt; 10</span> means <span class="m">−√10 &lt; x &lt; √10 ≈ 3.16</span>. In (c), <span class="m">x² + 1 ≥ 1</span> for every real <span class="m">x</span>.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">{−3, −2, −1, 0, 1, 2, 3}</span> (b) <span class="m">{1, 2, 3, 4, 6, 12}</span> (c) <span class="m">∅</span> (d) <span class="m">{4, 5, 6, 7}</span></p></div></details>
+          </article>
+
+          <article class="prob" id="p1-2">
+            <div class="p-head"><span class="pnum">P1.2</span><h4>Element or subset?</h4></div>
+            <div class="p-body"><p>True or false?</p></div>
+            <ol class="tf">
+              <li data-a="T"><span class="q"><span class="m">∅ ∈ {∅}</span></span><span class="why"><span class="m">{∅}</span> has exactly one element, and it is <span class="m">∅</span>.</span></li>
+              <li data-a="T"><span class="q"><span class="m">∅ ⊆ {∅}</span></span><span class="why"><span class="m">∅</span> is a subset of every set.</span></li>
+              <li data-a="F"><span class="q"><span class="m">{∅} ⊆ ∅</span></span><span class="why"><span class="m">{∅}</span> has an element, <span class="m">∅</span> has none.</span></li>
+              <li data-a="T"><span class="q"><span class="m">{1} ∈ {1, {1}}</span></span><span class="why">The second element of <span class="m">{1, {1}}</span> is the set <span class="m">{1}</span>.</span></li>
+              <li data-a="T"><span class="q"><span class="m">{1} ⊆ {1, {1}}</span></span><span class="why">Its only element, 1, belongs to <span class="m">{1, {1}}</span>.</span></li>
+              <li data-a="T"><span class="q"><span class="m">{{1}} ⊆ {1, {1}}</span></span><span class="why">Its only element, <span class="m">{1}</span>, belongs to <span class="m">{1, {1}}</span>.</span></li>
+              <li data-a="F"><span class="q"><span class="m">{1, 2} ∈ {1, 2, {1, 2, 3}}</span></span><span class="why">The elements are 1, 2 and <span class="m">{1, 2, 3}</span>; none of them is <span class="m">{1, 2}</span>. (It is a subset, though.)</span></li>
+            </ol>
+          </article>
+
+          <article class="prob" id="p1-3">
+            <div class="p-head"><span class="pnum">P1.3</span><h4>Power sets</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>List <span class="m">P({a, b, c})</span>.</li>
+              <li>How many elements does <span class="m">P(P(∅))</span> have? List them.</li>
+              <li>If <span class="m">|S| = 6</span>, how many subsets does <span class="m">S</span> have, and how many of them are nonempty?</li>
+            </ol></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m wrap">∅, {a}, {b}, {c}, {a, b}, {a, c}, {b, c}, {a, b, c}</span>: 8 subsets.</p>
+              <p>(b) <span class="m">P(∅) = {∅}</span> has one element, so <span class="m">P(P(∅)) = {∅, {∅}}</span> has two.</p>
+              <p>(c) <span class="m">2⁶ = 64</span> subsets; 63 of them are nonempty.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p1-4">
+            <div class="p-head"><span class="pnum">P1.4</span><h4>Operations on a small universe</h4></div>
+            <div class="p-body">
+              <p>Let <span class="m">U = {1, 2, …, 10}</span>, <span class="m">A = {1, 2, 3, 4, 5, 6}</span>, <span class="m">B = {4, 5, 6, 7, 8}</span>, <span class="m">C = {2, 4, 6, 8, 10}</span>. Find:</p>
+              <ol class="parts">
+                <li><span class="m">A ∩ B</span> and <span class="m">A ∪ B</span></li>
+                <li><span class="m">A′</span> and <span class="m">B′ ∩ C</span></li>
+                <li><span class="m">A ∖ B</span>, <span class="m">B ∖ A</span> and <span class="m">A ⊕ B</span></li>
+                <li><span class="m">(A ∪ C)′</span></li>
+                <li><span class="m">A ∩ (B ⊕ C)</span></li>
+              </ol>
+            </div>
+            <div class="check" data-kind="set" data-answer="2,10" data-label="B′ ∩ C ="></div>
+            <div class="check" data-kind="set" data-answer="1,2,3,7,8" data-label="A ⊕ B ="></div>
+            <div class="check" data-kind="set" data-answer="7,9" data-label="(A ∪ C)′ ="></div>
+            <div class="check" data-kind="set" data-answer="2,5" data-label="A ∩ (B ⊕ C) ="></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Complements are taken inside <span class="m">U</span>. For (e), first compute <span class="m">B ⊕ C = (B ∖ C) ∪ (C ∖ B)</span>.</p></div></details>
+            <details><summary>Solution</summary><div class="d-body">
+              <p>(a) <span class="m">A ∩ B = {4, 5, 6}</span>, <span class="m">A ∪ B = {1, 2, …, 8}</span>.</p>
+              <p>(b) <span class="m">A′ = {7, 8, 9, 10}</span>; <span class="m">B′ = {1, 2, 3, 9, 10}</span>, so <span class="m">B′ ∩ C = {2, 10}</span>.</p>
+              <p>(c) <span class="m">A ∖ B = {1, 2, 3}</span>, <span class="m">B ∖ A = {7, 8}</span>, <span class="m">A ⊕ B = {1, 2, 3, 7, 8}</span>.</p>
+              <p>(d) <span class="m">A ∪ C = {1, 2, 3, 4, 5, 6, 8, 10}</span>, so <span class="m">(A ∪ C)′ = {7, 9}</span>.</p>
+              <p>(e) <span class="m">B ⊕ C = {5, 7} ∪ {2, 10} = {2, 5, 7, 10}</span>, so <span class="m">A ∩ (B ⊕ C) = {2, 5}</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p1-5">
+            <div class="p-head"><span class="pnum">P1.5</span><h4>Prove with the laws</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li><span class="m">(A ∩ B) ∪ (A ∩ B′) = A</span></li>
+              <li><span class="m">A ∪ (A′ ∩ B) = A ∪ B</span></li>
+              <li>Write the dual of each identity.</li>
+            </ol></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Both start with a distributive law, read in the right direction.</p></div></details>
+            <details><summary>Solution</summary><div class="d-body">
+              <ol class="chain">
+                <li><span class="m">(A ∩ B) ∪ (A ∩ B′) = A ∩ (B ∪ B′)</span><span class="why-law">distributive (4b)</span></li>
+                <li><span class="m">= A ∩ U = A</span><span class="why-law">complement (8a), identity (5b)</span></li>
+              </ol>
+              <ol class="chain">
+                <li><span class="m">A ∪ (A′ ∩ B) = (A ∪ A′) ∩ (A ∪ B)</span><span class="why-law">distributive (4a)</span></li>
+                <li><span class="m">= U ∩ (A ∪ B) = A ∪ B</span><span class="why-law">complement (8a), identity (5b)</span></li>
+              </ol>
+              <p>(c) Duals: <span class="m">(A ∪ B) ∩ (A ∪ B′) = A</span> and <span class="m">A ∩ (A′ ∪ B) = A ∩ B</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p1-6">
+            <div class="p-head"><span class="pnum">P1.6</span><h4>An element-chasing proof</h4></div>
+            <div class="p-body"><p>Prove that <span class="m">A</span> is the disjoint union of <span class="m">A ∖ B</span> and <span class="m">A ∩ B</span> (Exercise 2.3(a) of Lecture 1).</p></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>There are three things to show: the two parts are disjoint, their union is inside <span class="m">A</span>, and <span class="m">A</span> is inside their union.</p></div></details>
+            <details><summary>Solution</summary><div class="d-body">
+              <ol class="steps">
+                <li><strong>Disjoint:</strong> if <span class="m">x ∈ A ∖ B</span> then <span class="m">x ∉ B</span>, so <span class="m">x ∉ A ∩ B</span>.</li>
+                <li><strong>Union ⊆ A:</strong> both <span class="m">A ∖ B</span> and <span class="m">A ∩ B</span> are subsets of <span class="m">A</span>.</li>
+                <li><strong>A ⊆ union:</strong> take <span class="m">x ∈ A</span>. If <span class="m">x ∈ B</span>, then <span class="m">x ∈ A ∩ B</span>; if <span class="m">x ∉ B</span>, then <span class="m">x ∈ A ∖ B</span>.</li>
+              </ol>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p1-7">
+            <div class="p-head"><span class="pnum">P1.7</span><h4>Unions and intersections of families</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li><span class="m">Bₙ = [0, 1/n]</span> for <span class="m">n ∈ ℕ</span>: find <span class="m">⋃ Bₙ</span> and <span class="m">⋂ Bₙ</span>.</li>
+              <li><span class="m">Cₙ = (0, 1/n)</span>: find <span class="m">⋂ Cₙ</span>.</li>
+              <li><span class="m">Dₙ = {k ∈ ℤ | −n ≤ k ≤ n}</span> for <span class="m">n ≥ 1</span>: find <span class="m">⋃ Dₙ</span> and <span class="m">⋂ Dₙ</span>.</li>
+              <li>With <span class="m">Aₙ</span> = the multiples of <span class="m">n</span>: find <span class="m">A₆ ∩ A₉</span> and <span class="m">A₂ ∪ A₄</span>.</li>
+            </ol></div>
+            <div class="check" data-kind="set" data-answer="-1,0,1" data-label="⋂ Dₙ ="></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>For a decreasing family (each set inside the previous one), the union is the first set. For the intersection, ask which points survive every <span class="m">n</span>.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m">⋃ Bₙ = B₁ = [0, 1]</span>; <span class="m">⋂ Bₙ = {0}</span>, since 0 is in every <span class="m">Bₙ</span> and any <span class="m">x &gt; 0</span> drops out once <span class="m">1/n &lt; x</span>.</p>
+              <p>(b) <span class="m">⋂ Cₙ = ∅</span>: 0 is never included, and every <span class="m">x &gt; 0</span> drops out eventually.</p>
+              <p>(c) <span class="m">⋃ Dₙ = ℤ</span> and <span class="m">⋂ Dₙ = D₁ = {−1, 0, 1}</span>.</p>
+              <p>(d) <span class="m">A₆ ∩ A₉ = A₁₈</span> (least common multiple), and <span class="m">A₂ ∪ A₄ = A₂</span> because <span class="m">A₄ ⊆ A₂</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p1-8">
+            <div class="p-head"><span class="pnum">P1.8</span><h4>Partitions</h4></div>
+            <div class="p-body"><p>Is each collection a partition of <span class="m">S = {1, 2, …, 8}</span>?</p></div>
+            <ol class="tf" data-tf-labels="Yes,No">
+              <li data-a="T"><span class="q"><span class="m">{{1, 3, 5}, {2, 4}, {6, 7, 8}}</span></span><span class="why">Nonempty, disjoint, and together they give all of <span class="m">S</span>.</span></li>
+              <li data-a="F"><span class="q"><span class="m">{{1, 2}, {3, 4}, {5, 6}, {7}}</span></span><span class="why">8 is in no cell.</span></li>
+              <li data-a="F"><span class="q"><span class="m">{{1, 2, 3}, {3, 4, 5, 6}, {7, 8}}</span></span><span class="why">3 is in two cells.</span></li>
+              <li data-a="T"><span class="q"><span class="m">{{1, 2, 3, 4, 5, 6, 7, 8}}</span></span><span class="why">A partition into one cell, <span class="m">S</span> itself.</span></li>
+              <li data-a="F"><span class="q"><span class="m">{∅, {1, 2, 3, 4}, {5, 6, 7, 8}}</span></span><span class="why">Cells must be nonempty.</span></li>
+            </ol>
+          </article>
+
+          <article class="prob" id="p1-9">
+            <div class="p-head"><span class="pnum">P1.9</span><h4>Injective, surjective, bijective?</h4></div>
+            <div class="p-body"><p>Choose the best description of each function.</p></div>
+            <div class="mcq" data-a="0"><p class="q"><span class="m">f: ℤ → ℤ, f(n) = n + 3</span></p><ul><li>bijective</li><li>injective only</li><li>surjective only</li><li>neither</li></ul><p class="why">Its inverse is <span class="m">n ↦ n − 3</span>.</p></div>
+            <div class="mcq" data-a="1"><p class="q"><span class="m">f: ℤ → ℤ, f(n) = 2n</span></p><ul><li>bijective</li><li>injective only</li><li>surjective only</li><li>neither</li></ul><p class="why"><span class="m">2n₁ = 2n₂</span> forces <span class="m">n₁ = n₂</span>, but odd numbers are never hit.</p></div>
+            <div class="mcq" data-a="3"><p class="q"><span class="m">f: ℝ → ℝ, f(x) = x²</span></p><ul><li>bijective</li><li>injective only</li><li>surjective only</li><li>neither</li></ul><p class="why"><span class="m">f(−1) = f(1)</span>, and negative numbers have no preimage.</p></div>
+            <div class="mcq" data-a="2"><p class="q"><span class="m">f: ℝ → [0, ∞), f(x) = x²</span></p><ul><li>bijective</li><li>injective only</li><li>surjective only</li><li>neither</li></ul><p class="why">Every <span class="m">y ≥ 0</span> equals <span class="m">(√y)²</span>, but <span class="m">f(−1) = f(1)</span>.</p></div>
+            <div class="mcq" data-a="0"><p class="q"><span class="m">f: [0, ∞) → [0, ∞), f(x) = x²</span></p><ul><li>bijective</li><li>injective only</li><li>surjective only</li><li>neither</li></ul><p class="why">The inverse is <span class="m">y ↦ √y</span>. Restricting the domain removed the collision.</p></div>
+            <div class="mcq" data-a="2"><p class="q"><span class="m">f: ℤ → ℤ, f(n) = ⌊n/2⌋</span></p><ul><li>bijective</li><li>injective only</li><li>surjective only</li><li>neither</li></ul><p class="why"><span class="m">f(2k) = k</span> reaches every integer, but <span class="m">f(0) = f(1) = 0</span>.</p></div>
+          </article>
+
+          <article class="prob" id="p1-10">
+            <div class="p-head"><span class="pnum">P1.10</span><h4>Remainders, floors and ceilings</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>Find <span class="m">q</span> and <span class="m">r</span> with <span class="m">−20 = q·6 + r, 0 ≤ r &lt; 6</span>.</li>
+              <li>Find the remainder of 47 on division by 5.</li>
+              <li>Is <span class="m">38 ≡ 3 (<span class="up">mod</span> 7)</span>?</li>
+              <li><span class="m">⌊−2.5⌋</span>, <span class="m">⌈−2.5⌉</span>, and the fractional part of <span class="m">−2.5</span>.</li>
+              <li><span class="m">⌊7⌋</span> and <span class="m">⌈7⌉</span>.</li>
+            </ol></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>The remainder must lie in <span class="m">0 ≤ r &lt; m</span>, so for negative <span class="m">a</span> the quotient rounds down: <span class="m">q = ⌊a/m⌋</span>.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m">−20 = (−4)·6 + 4</span>: <span class="m">q = −4, r = 4</span>. (b) <span class="m">47 = 9·5 + 2</span>: remainder 2. (c) Yes: <span class="m">38 − 3 = 35 = 5·7</span>. (d) <span class="m">−3, −2</span>, and <span class="m">−2.5 − (−3) = 0.5</span>. (e) 7 and 7.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p1-11">
+            <div class="p-head"><span class="pnum">P1.11</span><h4>Repeating decimals</h4></div>
+            <div class="p-body"><p>Write as fractions in lowest terms: (a) <span class="m">0.4(5) = 0.4555…</span> (b) <span class="m">0.(36) = 0.3636…</span></p></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Split off the part before the repetition, then sum the geometric series <span class="m">a₁/(1 − r)</span>.</p></div></details>
+            <details><summary>Solution</summary><div class="d-body">
+              <p>(a) <span class="m">4/10 + (5/100)/(1 − 1/10) = 4/10 + 5/90 = 36/90 + 5/90 = 41/90</span>.</p>
+              <p>(b) <span class="m">(36/100)/(1 − 1/100) = 36/99 = 4/11</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p1-12">
+            <div class="p-head"><span class="pnum">P1.12</span><h4>Images and preimages</h4></div>
+            <div class="p-body"><p>Let <span class="m">f: ℝ → ℝ, f(x) = x²</span>, <span class="m">A = [−1, 0]</span>, <span class="m">B = [0, 2]</span>. Find <span class="m">f(A)</span>, <span class="m">f(B)</span>, <span class="m">f(A ∩ B)</span>, <span class="m">f(A) ∩ f(B)</span> and <span class="m">f⁻¹([1, 4])</span>. Which remark of the notes does this illustrate?</p></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p><span class="m">f(A) = [0, 1]</span>, <span class="m">f(B) = [0, 4]</span>, <span class="m">A ∩ B = {0}</span> so <span class="m">f(A ∩ B) = {0}</span>, but <span class="m">f(A) ∩ f(B) = [0, 1]</span>. And <span class="m">f⁻¹([1, 4]) = [−2, −1] ∪ [1, 2]</span>.</p>
+              <p>It illustrates Remark 1: the image of an intersection can be smaller than the intersection of the images.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p1-13">
+            <div class="p-head"><span class="pnum">P1.13</span><h4>Building bijections</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>Give a bijection from <span class="m">ℤ⁺</span> onto the set of all odd integers (positive and negative).</li>
+              <li>Show that <span class="m">ℕ ~ ℕ ∖ {1, 2, 3}</span>.</li>
+              <li>Show that <span class="m">(0, 1) ~ (0, 5)</span> and <span class="m">(0, 1) ~ ℝ</span>.</li>
+            </ol></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) List <span class="m">1, −1, 3, −3, 5, −5, …</span>: <span class="m">f(2k − 1) = 2k − 1</span> and <span class="m">f(2k) = −(2k − 1)</span>.</p>
+              <p>(b) <span class="m">n ↦ n + 3</span>.</p>
+              <p>(c) <span class="m">x ↦ 5x</span>; and <span class="m">x ↦ tan(π(x − 1/2))</span>, which maps <span class="m">(0, 1)</span> onto <span class="m">(−π/2, π/2)</span> and then onto <span class="m">ℝ</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p1-14">
+            <div class="p-head"><span class="pnum">P1.14</span><h4>Making room: [0, 1] ~ [0, 1)</h4></div>
+            <div class="p-body"><p>Show that <span class="m">[0, 1] ~ [0, 1)</span>. This is the warm-up for HW1 Task 2.</p></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p><span class="m">[0, 1]</span> has one extra point, 1. Find a sequence inside <span class="m">[0, 1]</span> that starts at 1, and shift it one place along.</p></div></details>
+            <details><summary>Solution</summary><div class="d-body">
+              <p>Use the countable subset <span class="m">{1, 1/2, 1/3, …}</span>. Define <span class="m">f(1/n) = 1/(n + 1)</span> for <span class="m">n ≥ 1</span> and <span class="m">f(x) = x</span> for every other <span class="m">x</span>.</p>
+              <p>So <span class="m">1 ↦ 1/2, 1/2 ↦ 1/3, …</span> The map is injective (the shift is injective and does not meet the fixed points), and its image is <span class="m">[0, 1)</span>: 1 is no longer hit, every <span class="m">1/(n + 1)</span> is, and every other point is fixed. So <span class="m">f: [0, 1] → [0, 1)</span> is a bijection. This shift along a countable sequence is the idea of Theorem 13.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p1-15">
+            <div class="p-head"><span class="pnum">P1.15</span><h4>Valid or not? (Venn diagrams)</h4></div>
+            <div class="p-body"><p>Decide with a Venn diagram whether the conclusion follows.</p></div>
+            <ol class="tf" data-tf-labels="Valid,Not valid">
+              <li data-a="T"><span class="q">All squares are rectangles. No rectangle is a circle. So no square is a circle.</span><span class="why">Squares lie inside rectangles, which do not meet circles.</span></li>
+              <li data-a="F"><span class="q">All cats are mammals. Some mammals are pets. So some cats are pets.</span><span class="why">Draw the pets meeting the mammals only outside the cats. The premises hold and the conclusion fails.</span></li>
+            </ol>
+          </article>
+        </div>
+      </section>
+    </section>

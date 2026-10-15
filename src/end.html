@@ -1,0 +1,74 @@
+    <section class="chapter" id="errata">
+      <p class="eyebrow">Read with care</p>
+      <h2>Errata in the notes</h2>
+      <p class="intro">Typos found while checking every example in the notes (version 4). None of them changes a method, but some can cost you time when you compare answers.</p>
+      <ul class="errata">
+        <li><span class="where">Lecture 1 · p. 13 · Theorem 4, last line of the proof</span>It reads “A ⊆ B, A ∪ B = A and A ∪ B = B are equivalent”; the middle condition should be <span class="m">A ∩ B = A</span>.</li>
+        <li><span class="where">Lecture 1 · p. 18 · Example 14</span>The rule “<span class="m">n ↦ 2n + 1</span> if <span class="m">n &gt; 0</span>” should read <span class="m">n ≥ 0</span>; otherwise 0 is never matched (it goes to 1).</li>
+        <li><span class="where">Lectures 2–3 · p. 15 · Example 23</span>“CS3 is on the list of computers under attack” should say it is <em>not</em> on the list, which is why <span class="m">P(CS3)</span> is false.</li>
+        <li><span class="where">Lectures 2–3 · p. 19 · Example 32(b)</span>“∀xP(x) is the same as the disjunction” should say conjunction; the formula shown, with <span class="m">∧</span>, is right.</li>
+        <li><span class="where">Lectures 2–3 · p. 24 · Example 36(b), Case 2b</span><span class="m">∀x(S(x) → (C(x) ∨ M(x)))</span> should be <span class="m">∀x(S(x) → (Sh(x) ∨ K(x)))</span>.</li>
+        <li><span class="where">Lectures 2–3 · p. 24 · Example 37(d)</span>By De Morgan, <span class="m">∀x ¬(P(x) ∨ Q(x)) ≡ ∀x(¬P(x) ∧ ¬Q(x))</span>, not <span class="m">∀x(¬P(x) ∨ ¬Q(x))</span>.</li>
+        <li><span class="where">Lectures 2–3 · p. 25 · Example 39</span>With <span class="m">Q(x)</span> = “<span class="m">x</span> drinks coffee” and <span class="m">R(x)</span> = “<span class="m">x</span> is fierce” as defined there, the translations are <span class="m">∀x(P(x) → R(x))</span>, <span class="m">∃x(P(x) ∧ ¬Q(x))</span> and <span class="m">∃x(R(x) ∧ ¬Q(x))</span>. The printed formulas use the textbook's labels, where <span class="m">Q</span> and <span class="m">R</span> are swapped.</li>
+        <li><span class="where">Lectures 2–3 · p. 27 · Example 43(b)</span>The statement repeats <span class="m">∃x∀y P(x, y)</span>, but the solution negates <span class="m">∀x∀y P(x, y)</span>.</li>
+        <li><span class="where">Lectures 4–5 · p. 18 · Example 15(a)</span><span class="m">C</span> and <span class="m">D</span> are printed with 20 bits; with 4 inputs they have 16: <span class="m">C</span> = <span class="bits">0011001100110011</span>, <span class="m">D</span> = <span class="bits">0101010101010101</span>.</li>
+        <li><span class="where">Lectures 4–5 · p. 19 · Example 16</span>It refers to “Example 13, Figure 13”; the circuit <span class="m">Y = ABC + AB′C + A′B</span> is Example 1, Figure 5.</li>
+        <li><span class="where">Lectures 4–5 · p. 25 · Exercise 1.13(b)</span>The answer is printed as <span class="bits">0101000</span> (7 bits). The correct output is <span class="bits">00101000</span>: positions 3 and 5 are the only ones where all inputs are 1.</li>
+      </ul>
+    </section>
+
+    <section class="chapter" id="sheet">
+      <p class="eyebrow">Before the exam</p>
+      <h2>Last-minute sheet</h2>
+      <div class="sheet">
+        <div><h4>Sets</h4><ul>
+          <li><span class="m">A = B ⟺ A ⊆ B</span> and <span class="m">B ⊆ A</span></li>
+          <li><span class="m">A ⊆ B ⟺ A ∩ B = A ⟺ A ∪ B = B</span></li>
+          <li><span class="m">A ∖ B = A ∩ B′</span>, <span class="m">A ⊕ B = (A ∖ B) ∪ (B ∖ A)</span></li>
+          <li><span class="m">|P(S)| = 2ⁿ</span>; <span class="m">n</span> sets give <span class="m">2ⁿ</span> fundamental products</li>
+          <li><span class="m">f(A ∩ B) ⊆ f(A) ∩ f(B)</span> only</li>
+        </ul></div>
+        <div><h4>Functions and size</h4><ul>
+          <li>Each preimage has at most 1 (injective), at least 1 (onto), exactly 1 (bijective) element</li>
+          <li>Countable = can be listed; <span class="m">ℤ, ℚ</span> are countable</li>
+          <li><span class="m">[0, 1], ℝ</span> are uncountable (diagonal argument)</li>
+          <li><span class="m">ℵ₀ &lt; c</span>, <span class="m">|M| &lt; |P(M)|</span></li>
+          <li>Infinite ⟺ equivalent to a proper subset</li>
+        </ul></div>
+        <div><h4>Connectives</h4><ul>
+          <li><span class="m">p → q</span> is false only for T → F</li>
+          <li><span class="m">p → q ≡ ¬p ∨ q ≡ ¬q → ¬p</span></li>
+          <li><span class="m">¬(p → q) ≡ p ∧ ¬q</span></li>
+          <li><span class="m">p ↔ q ≡ (p ∧ q) ∨ (¬p ∧ ¬q)</span>, <span class="m">p ⊕ q ≡ ¬(p ↔ q)</span></li>
+          <li>“<span class="m">p</span> only if <span class="m">q</span>” is <span class="m">p → q</span></li>
+        </ul></div>
+        <div><h4>Quantifiers</h4><ul>
+          <li><span class="m">¬∀x P ≡ ∃x ¬P</span>, <span class="m">¬∃x P ≡ ∀x ¬P</span></li>
+          <li><span class="m">∀</span> goes with <span class="m">→</span>, <span class="m">∃</span> goes with <span class="m">∧</span></li>
+          <li>Finite domain: <span class="m">∀</span> is a big <span class="m">∧</span>, <span class="m">∃</span> a big <span class="m">∨</span></li>
+          <li><span class="m">∀x∃y</span> and <span class="m">∃y∀x</span> are different</li>
+          <li>Negate nested: flip every quantifier, negate the predicate</li>
+        </ul></div>
+        <div><h4>Boolean algebra</h4><ul>
+          <li>Axioms: commutative, distributive (both), identity, complement</li>
+          <li>Dual: swap <span class="m">+ ↔ ·</span> and <span class="m">0 ↔ 1</span></li>
+          <li><span class="m">a + ab = a</span>, <span class="m">a + a′b = a + b</span>, <span class="m">xx′ = 0</span>, <span class="m">xx = x</span></li>
+          <li>SoP: no product contained in another; CSoP: all minterms</li>
+          <li>Minimal sum = sum of prime implicants</li>
+        </ul></div>
+        <div><h4>K-maps and truth tables</h4><ul>
+          <li>1, 2, 4, 8 squares give 4, 3, 2, 1 literals (4 variables)</li>
+          <li>Edges wrap; the four corners form <span class="m">yt</span></li>
+          <li>Take essential primes first, then the fewest, largest rectangles</li>
+          <li><span class="m">x</span> = <span class="bits">00001111</span>, <span class="m">y</span> = <span class="bits">00110011</span>, <span class="m">z</span> = <span class="bits">01010101</span></li>
+          <li>A 1 in position <span class="m">k</span> is the minterm of <span class="m">k − 1</span> in binary</li>
+        </ul></div>
+      </div>
+    </section>
+  </main>
+</div>
+<footer class="site-foot">
+  <div class="page">
+    <p>Built from Fuad Hajiyev's Lecture Notes on Discrete Structures (v.4, Fall 2026): Lecture 1, Lectures 2–3 and Lectures 4–5, and the MATH 1101 HW1 sheet. Every answer on this page was checked by computer, with truth tables and an exhaustive search for minimal sums. Your “Mark done” progress is saved in this browser only.</p>
+  </div>
+</footer>

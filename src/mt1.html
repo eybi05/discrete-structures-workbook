@@ -1,0 +1,206 @@
+    <section class="chapter" id="mt1">
+      <p class="eyebrow">Past exam · Midterm 1, 25 October 2025 · 27 points</p>
+      <h2>Midterm 1 practice (Fall 2025)</h2>
+      <p class="intro">Last year's Midterm 1 came in two variants with the same seven tasks: K-map circuit design, a truth table from an expression, an MSoP from a truth table, two 4-variable K-maps, a De Morgan proof, quantifiers, and a countability proof. Work through one variant under exam conditions (about 75 minutes), check it here, then do the other.</p>
+      <div class="hw-note">
+        <h4>How the exam is marked</h4>
+        <ul>
+          <li>Truth tables use the special sequences <span class="m">x</span> = <span class="bits">00001111</span>, <span class="m">y</span> = <span class="bits">00110011</span>, <span class="m">z</span> = <span class="bits">01010101</span>. Position 1 is <span class="m">x′y′z′</span> and position 8 is <span class="m">xyz</span>.</li>
+          <li>Tasks 1–3 give marks for each step: CSoP (or SoP), then the K-map, then the MSoP, then the circuit. Show every step.</li>
+          <li>When a function has several minimal sums, one of them is enough.</li>
+          <li>Task 7 must be a proof, not an explanation (“A student may submit another proof. But it must be ‘proof’ that is not an explanation.”).</li>
+        </ul>
+      </div>
+
+      <p class="hw-group">Variant 1</p>
+      <div class="probs">
+        <article class="prob" id="mt-a1">
+          <div class="p-head"><span class="pnum">V1 · 1</span><h4>Minimal AND–OR circuit · 4 pt</h4></div>
+          <div class="p-body"><p>Design a three-input minimal AND–OR circuit <span class="m">L</span> with truth table <span class="m">T[x, y, z; L]</span> = [<span class="bits">00001111</span>, <span class="bits">00110011</span>, <span class="bits">01010101</span>; <span class="bits">10011011</span>].</p></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="x'y'z'+x'yz+xy'z'+xyz'+xyz" data-label="Step 1 CSoP:"></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyz" data-answer="y'z'+yz+xy" data-label="Step 3 MSoP:"></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>The 1s are in positions 1, 4, 5, 7, 8. Read each position as a minterm from Table 1, then look for pairs on the map, remembering that the left and right columns are adjacent.</p></div></details>
+          <details><summary>Solution</summary><div class="d-body">
+            <p>Step 1: <span class="m">L = x′y′z′ + x′yz + xy′z′ + xyz′ + xyz</span>.</p>
+            <p>Steps 2–3: <span class="m">x′y′z′ + xy′z′ = y′z′</span> and <span class="m">x′yz + xyz = yz</span> are essential. The square <span class="m">xyz′</span> is left; it pairs with <span class="m">xyz</span> (<span class="m">xy</span>) or with <span class="m">xy′z′</span> (<span class="m">xz′</span>). Two minimal sums, 3 products and 6 literals each:</p>
+            <p class="m" style="text-align:center">L = y′z′ + yz + xy  or  L = y′z′ + yz + xz′</p>
+            <div class="fig-row"><div class="kmap" data-n="3" data-m="0,3,4,6,7" data-solve="sums"></div><div class="circuit" data-expr="y'z'+yz+xy" data-inputs="xyz" data-out="L"></div></div>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mt-a2">
+          <div class="p-head"><span class="pnum">V1 · 2</span><h4>Truth table of an expression · 5 pt</h4></div>
+          <div class="p-body"><p>Find <span class="m">T(E)</span> for <span class="m wrap">E = (xy′ + z′)′(x + yz′) + (x′z + y)(y′z)′ + x′z + xy′z′</span>. Step 1: an SoP form (3 pt). Step 2: the CSoP form (1 pt). Step 3: <span class="m">T(E)</span> (1 pt).</p></div>
+          <div class="check" data-kind="bool" data-mode="sop" data-vars="xyz" data-answer="y+x'z+xy'z'" data-label="Step 1 SoP:"></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="xyz+xyz'+x'yz+x'yz'+x'y'z+xy'z'" data-label="Step 2 CSoP:"></div>
+          <div class="check" data-kind="bits" data-answer="01111011" data-label="Step 3 T(E) ="></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>De Morgan on the two complemented factors first: <span class="m">(xy′ + z′)′ = (x′ + y)z</span> and <span class="m">(y′z)′ = y + z′</span>. Then multiply out and use <span class="m">y + yz′ = y</span> and <span class="m">y + xyz = y</span>.</p></div></details>
+          <details><summary>Solution</summary><div class="d-body">
+            <p><span class="m wrap">(xy′ + z′)′(x + yz′) = (x′ + y)z(x + yz′) = x′zx + x′zyz′ + yzx + yzyz′ = xyz</span></p>
+            <p><span class="m wrap">(x′z + y)(y′z)′ = (x′z + y)(y + z′) = x′yz + x′zz′ + y + yz′ = x′yz + y</span></p>
+            <p>So <span class="m wrap">E = xyz + x′yz + y + x′z + xy′z′ = y + x′z + xy′z′</span> (absorption).</p>
+            <p>CSoP: <span class="m wrap">y(x + x′)(z + z′) + x′(y + y′)z + xy′z′ = xyz + xyz′ + x′yz + x′yz′ + x′y′z + xy′z′</span>.</p>
+            <p><span class="m">T(E)</span>: the minterms sit in positions 8, 7, 4, 3, 2, 5, so <span class="m">T(E)</span> = <span class="bits">01111011</span>.</p>
+            <p class="small muted">Not asked, but the map shrinks it further to <span class="m">y + x′z + xz′</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mt-a3">
+          <div class="p-head"><span class="pnum">V1 · 3</span><h4>MSoP from a truth table · 4 pt</h4></div>
+          <div class="p-body"><p>Find <span class="m">E(x, y, z)</span> in MSoP form with <span class="m">T(E)</span> = <span class="bits">11011001</span>.</p></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="x'y'z'+x'y'z+x'yz+xy'z'+xyz" data-label="Step 1 CSoP:"></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyz" data-answer="yz+y'z'+x'y'" data-label="Step 2 MSoP:"></div>
+          <details><summary>Solution</summary><div class="d-body">
+            <p>Positions 1, 2, 4, 5, 8: <span class="m">CSoP(E) = x′y′z′ + x′y′z + x′yz + xy′z′ + xyz</span>.</p>
+            <p><span class="m">yz</span> and <span class="m">y′z′</span> are essential; <span class="m">x′y′z</span> is left and goes with <span class="m">x′y′</span> or <span class="m">x′z</span>:</p>
+            <p class="m" style="text-align:center">E = yz + y′z′ + x′y′  or  E = yz + y′z′ + x′z</p>
+            <div class="kmap" data-n="3" data-m="0,1,3,4,7" data-solve="sums"></div>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mt-a4">
+          <div class="p-head"><span class="pnum">V1 · 4</span><h4>Two 4-variable maps · 8 pt</h4></div>
+          <div class="p-body"><p>Find an MSoP for each map. The checked squares, as they appear on the sheet:</p>
+            <p>(A) <span class="m wrap">xyz′t′, xyz′t, xy′zt, xy′zt′, xy′z′t′, x′y′zt′, x′yzt, x′yz′t′, x′yz′t</span></p>
+            <p>(B) <span class="m wrap">xyzt, xyz′t′, xyz′t, the whole row xy′, x′y′z′t′, x′yzt, x′yz′t′, x′yz′t</span></p>
+            <div class="km-trio">
+              <figure><div class="kmap" data-n="4" data-m="2,4,5,7,8,10,11,12,13"></div><figcaption>Map (A)</figcaption></figure>
+              <figure><div class="kmap" data-n="4" data-m="0,4,5,7,8,9,10,11,12,13,15"></div><figcaption>Map (B)</figcaption></figure>
+            </div></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="yz'+x'yt+xy'z+y'zt'+xz't'" data-label="(A) E ="></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="z't'+yt+xy'" data-label="(B) E ="></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>(A) needs five products; start with the 2×2 block <span class="m">yz′</span>. (B) needs only three: look for a block that wraps from the left column to the right one and one that wraps from the top row to the bottom.</p></div></details>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(A) Two minimal sums, 5 products and 14 literals each:</p>
+            <p><span class="m">yz′ + x′yt + xy′z + y′zt′ + xz′t′</span><br><span class="m">yz′ + x′yt + xy′z + y′zt′ + xy′t′</span></p>
+            <div class="kmap" data-n="4" data-m="2,4,5,7,8,10,11,12,13" data-solve></div>
+            <p style="margin-top:1rem">(B) One minimal sum: <span class="m">E = z′t′ + yt + xy′</span>.</p>
+            <div class="kmap" data-n="4" data-m="0,4,5,7,8,9,10,11,12,13,15" data-solve></div>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mt-a5">
+          <div class="p-head"><span class="pnum">V1 · 5</span><h4>De Morgan for union · 2 pt</h4></div>
+          <div class="p-body"><p>Let <span class="m">A, B ⊆ S</span>. Prove <span class="m">(A ∪ B)′ = A′ ∩ B′</span>.</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>For every <span class="m">x ∈ S</span>:</p>
+            <p class="m wrap">x ∈ (A ∪ B)′ ⟺ x ∉ A ∪ B ⟺ ¬(x ∈ A ∨ x ∈ B) ⟺ x ∉ A ∧ x ∉ B ⟺ x ∈ A′ ∧ x ∈ B′ ⟺ x ∈ A′ ∩ B′.</p>
+            <p>The third step is De Morgan's law for propositions. Both sets have the same elements, so they are equal. ∎</p>
+            <p class="small muted">The sheet writes <span class="m">U − (A ∪ B)</span> in the second step; here the universal set is called <span class="m">S</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mt-a6">
+          <div class="p-head"><span class="pnum">V1 · 6</span><h4>Quantifiers · 2 pt</h4></div>
+          <div class="mcq" data-a="2"><p class="q">6.1 The negation of <span class="m">∃x ∃y ∀z P(x, y, z)</span> is</p><ul><li><span class="m">∃x ∃y ∀z ¬P(x, y, z)</span></li><li><span class="m">∀x ∀y ∀z ¬P(x, y, z)</span></li><li><span class="m">∀x ∀y ∃z ¬P(x, y, z)</span></li><li><span class="m">∀x ∃y ∃z ¬P(x, y, z)</span></li></ul><p class="why">Push <span class="m">¬</span> inwards one quantifier at a time, flipping each: <span class="m">∀x ¬∃y ∀z P = ∀x ∀y ¬∀z P = ∀x ∀y ∃z ¬P</span>.</p></div>
+          <div class="p-body"><p>6.2 Over the integers, what are the truth values?</p></div>
+          <ol class="tf">
+            <li data-a="F"><span class="q"><span class="m">∀x(x &gt; 51)</span></span><span class="why"><span class="m">x = 0</span> is a counterexample.</span></li>
+            <li data-a="T"><span class="q"><span class="m">∃!x(x⁵ = −1)</span></span><span class="why">Only <span class="m">x = −1</span>.</span></li>
+            <li data-a="F"><span class="q"><span class="m">∃!x(2x² + 3 = 1)</span></span><span class="why"><span class="m">x² = −1</span> has no solution at all.</span></li>
+            <li data-a="T"><span class="q"><span class="m">∃x(2x = 4x + 2)</span></span><span class="why"><span class="m">x = −1</span>.</span></li>
+          </ol>
+        </article>
+
+        <article class="prob" id="mt-a7">
+          <div class="p-head"><span class="pnum">V1 · 7</span><h4>Polynomials with rational coefficients · 2 pt</h4></div>
+          <div class="p-body"><p>Using “a finite or countable union of countable sets is countable”, prove that the set <span class="m">P</span> of all polynomials with rational coefficients is countable.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Split <span class="m">P</span> by degree, and show each piece is countable by induction on the degree.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">Aₙ</span> be the set of polynomials of degree exactly <span class="m">n</span> (put the constants, including 0, in <span class="m">A₀</span>). Then <span class="m">P = A₀ ∪ A₁ ∪ A₂ ∪ ⋯</span>, a countable union, so it is enough to show each <span class="m">Aₙ</span> is countable.</p>
+            <p>Let <span class="m">Bₙ = A₀ ∪ ⋯ ∪ Aₙ</span> be the polynomials of degree at most <span class="m">n</span>. <span class="m">B₀ = A₀ = ℚ</span> is countable. Suppose <span class="m">Bₙ₋₁</span> is countable. For each <span class="m">a ∈ ℚ</span>, the set <span class="m">{a xⁿ + q : q ∈ Bₙ₋₁}</span> is in bijection with <span class="m">Bₙ₋₁</span>, hence countable. Then <span class="m">Bₙ = ⋃<sub>a∈ℚ</sub> {a xⁿ + q : q ∈ Bₙ₋₁}</span> is a countable union of countable sets, so it is countable. By induction every <span class="m">Bₙ</span> is countable, and <span class="m">Aₙ ⊆ Bₙ</span> is infinite (it contains <span class="m">xⁿ + q</span> for every <span class="m">q ∈ ℚ</span>), so it is countable too. ∎</p>
+            <p class="small muted">The sheet's proof fixes <span class="m">aₙ, …, a₁</span>, lets <span class="m">a₀</span> run through <span class="m">ℚ</span>, then frees <span class="m">a₁</span>, and so on: the same induction, written out step by step. It writes <span class="m">P = ∑ Aₙ</span> for the disjoint union <span class="m">⋃ Aₙ</span>. Another route: <span class="m">aₙxⁿ + ⋯ + a₀ ↦ (aₙ, …, a₀)</span> is a bijection from <span class="m">Aₙ</span> onto a subset of <span class="m">ℚⁿ⁺¹</span>, which is countable.</p>
+          </div></details>
+        </article>
+      </div>
+
+      <p class="hw-group">Variant 2</p>
+      <div class="probs">
+        <article class="prob" id="mt-b1">
+          <div class="p-head"><span class="pnum">V2 · 1</span><h4>Minimal AND–OR circuit · 4 pt</h4></div>
+          <div class="p-body"><p>Design a three-input minimal AND–OR circuit <span class="m">L</span> with truth table <span class="m">T[x, y, z; L]</span> = [<span class="bits">00001111</span>, <span class="bits">00110011</span>, <span class="bits">01010101</span>; <span class="bits">01010111</span>].</p></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="x'y'z+x'yz+xy'z+xyz'+xyz" data-label="Step 1 CSoP:"></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyz" data-answer="z+xy" data-label="Step 3 MSoP:"></div>
+          <details><summary>Solution</summary><div class="d-body">
+            <p>Step 1: positions 2, 4, 6, 7, 8 give <span class="m">L = x′y′z + x′yz + xy′z + xyz′ + xyz</span>.</p>
+            <p>Steps 2–3: the four squares with <span class="m">z</span> form a block, and <span class="m">xyz′</span> pairs with <span class="m">xyz</span>: <span class="m">L = z + xy</span>.</p>
+            <div class="fig-row"><div class="kmap" data-n="3" data-m="1,3,5,6,7" data-solve="sums"></div><div class="circuit" data-expr="z+xy" data-inputs="xyz" data-out="L"></div></div>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mt-b2">
+          <div class="p-head"><span class="pnum">V2 · 2</span><h4>Truth table of an expression · 5 pt</h4></div>
+          <div class="p-body"><p>Find <span class="m">T(E)</span> for <span class="m wrap">E = (xy + z′)(x + y′z′)′ + (xy′ + z)′(yz′)′ + x′y + x′yz′</span>.</p></div>
+          <div class="check" data-kind="bool" data-mode="sop" data-vars="xyz" data-answer="x'y'z'+x'y" data-label="Step 1 SoP:"></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="x'y'z'+x'yz+x'yz'" data-label="Step 2 CSoP:"></div>
+          <div class="check" data-kind="bits" data-answer="10110000" data-label="Step 3 T(E) ="></div>
+          <details><summary>Solution</summary><div class="d-body">
+            <p><span class="m wrap">(x + y′z′)′ = x′(y + z)</span>, so <span class="m wrap">(xy + z′)x′(y + z) = xyx′y + xyx′z + x′yz′ + x′zz′ = x′yz′</span>.</p>
+            <p><span class="m wrap">(xy′ + z)′ = (x′ + y)z′</span> and <span class="m">(yz′)′ = y′ + z</span>, so <span class="m wrap">(x′ + y)z′(y′ + z) = x′y′z′ + x′z′z + yy′z′ + yz′z = x′y′z′</span>.</p>
+            <p>So <span class="m wrap">E = x′yz′ + x′y′z′ + x′y + x′yz′ = x′y′z′ + x′y</span>. CSoP: <span class="m">x′y′z′ + x′yz + x′yz′</span>, positions 1, 4, 3, so <span class="m">T(E)</span> = <span class="bits">10110000</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mt-b3">
+          <div class="p-head"><span class="pnum">V2 · 3</span><h4>MSoP from a truth table · 4 pt</h4></div>
+          <div class="p-body"><p>Find <span class="m">E(x, y, z)</span> in MSoP form with <span class="m">T(E)</span> = <span class="bits">10110011</span>.</p></div>
+          <div class="check" data-kind="bool" data-mode="csop" data-vars="xyz" data-answer="x'y'z'+x'yz'+x'yz+xyz'+xyz" data-label="Step 1 CSoP:"></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyz" data-answer="y+x'z'" data-label="Step 2 MSoP:"></div>
+          <details><summary>Solution</summary><div class="d-body">
+            <p>Positions 1, 3, 4, 7, 8: <span class="m">CSoP(E) = x′y′z′ + x′yz′ + x′yz + xyz′ + xyz</span>. The four <span class="m">y</span> squares form a block, and <span class="m">x′y′z′</span> pairs with <span class="m">x′yz′</span>: <span class="m">E = y + x′z′</span>.</p>
+            <div class="kmap" data-n="3" data-m="0,2,3,6,7" data-solve="sums"></div>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mt-b4">
+          <div class="p-head"><span class="pnum">V2 · 4</span><h4>Two 4-variable maps · 8 pt</h4></div>
+          <div class="p-body"><p>Find an MSoP for each map. The checked squares, as they appear on the sheet:</p>
+            <p>(A) <span class="m wrap">rows xy and xy′ at zt′, z′t′, z′t; x′y′zt′; x′yzt, x′yz′t′, x′yz′t</span></p>
+            <p>(B) <span class="m wrap">xyz′t′, the whole row xy′, x′y′zt, x′y′z′t′, x′yzt, x′yz′t′, x′yz′t</span></p>
+            <div class="km-trio">
+              <figure><div class="kmap" data-n="4" data-m="2,4,5,7,8,9,10,12,13,14"></div><figcaption>Map (A)</figcaption></figure>
+              <figure><div class="kmap" data-n="4" data-m="0,3,4,5,7,8,9,10,11,12"></div><figcaption>Map (B)</figcaption></figure>
+            </div></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="xt'+xz'+yz'+x'yt+y'zt'" data-label="(A) E ="></div>
+          <div class="check" data-kind="bool" data-mode="min" data-vars="xyzt" data-answer="z't'+xy'+x'yz'+x'zt" data-label="(B) E ="></div>
+          <details><summary>Answer</summary><div class="d-body">
+            <p>(A) One minimal sum: <span class="m">E = xt′ + xz′ + yz′ + x′yt + y′zt′</span> (5 products, 12 literals).</p>
+            <div class="kmap" data-n="4" data-m="2,4,5,7,8,9,10,12,13,14" data-solve></div>
+            <p style="margin-top:1rem">(B) Three minimal sums, 4 products and 10 literals each, all containing <span class="m">z′t′ + xy′</span>:</p>
+            <p><span class="m">z′t′ + xy′ + x′yz′ + x′zt</span><br><span class="m">z′t′ + xy′ + x′yt + x′zt</span><br><span class="m">z′t′ + xy′ + x′yt + y′zt</span></p>
+            <div class="kmap" data-n="4" data-m="0,3,4,5,7,8,9,10,11,12" data-solve></div>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mt-b5">
+          <div class="p-head"><span class="pnum">V2 · 5</span><h4>De Morgan for intersection · 2 pt</h4></div>
+          <div class="p-body"><p>Let <span class="m">A, B ⊆ S</span>. Prove <span class="m">(A ∩ B)′ = A′ ∪ B′</span>.</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>For every <span class="m">x ∈ S</span>:</p>
+            <p class="m wrap">x ∈ (A ∩ B)′ ⟺ x ∉ A ∩ B ⟺ ¬(x ∈ A ∧ x ∈ B) ⟺ x ∉ A ∨ x ∉ B ⟺ x ∈ A′ ∨ x ∈ B′ ⟺ x ∈ A′ ∪ B′.</p>
+            <p>So the two sets have the same elements. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="mt-b6">
+          <div class="p-head"><span class="pnum">V2 · 6</span><h4>Quantifiers · 2 pt</h4></div>
+          <div class="mcq" data-a="1"><p class="q">6.1 The negation of <span class="m">∃x ∀y ∀z P(x, y, z)</span> is</p><ul><li><span class="m">∀x ∀y ∀z ¬P(x, y, z)</span></li><li><span class="m">∀x ∃y ∃z ¬P(x, y, z)</span></li><li><span class="m">∃x ∃y ∃z ¬P(x, y, z)</span></li><li><span class="m">∀x ∃y ∀z ¬P(x, y, z)</span></li></ul><p class="why"><span class="m">¬∃x ∀y ∀z P = ∀x ¬∀y ∀z P = ∀x ∃y ¬∀z P = ∀x ∃y ∃z ¬P</span>.</p></div>
+          <div class="p-body"><p>6.2 Over the integers, what are the truth values?</p></div>
+          <ol class="tf">
+            <li data-a="F"><span class="q"><span class="m">∀x(x &lt; −55)</span></span><span class="why"><span class="m">x = 0</span> is a counterexample.</span></li>
+            <li data-a="T"><span class="q"><span class="m">∃!x(x³ = 1)</span></span><span class="why">Only <span class="m">x = 1</span>.</span></li>
+            <li data-a="F"><span class="q"><span class="m">∃!x(4x² + 5 = 1)</span></span><span class="why"><span class="m">x² = −1</span> has no solution.</span></li>
+            <li data-a="F"><span class="q"><span class="m">∃x(7x = 4x + 1)</span></span><span class="why"><span class="m">x = 1/3</span> is not an integer.</span></li>
+          </ol>
+        </article>
+
+        <article class="prob" id="mt-b7">
+          <div class="p-head"><span class="pnum">V2 · 7</span><h4>Rational points of the plane · 2 pt</h4></div>
+          <div class="p-body"><p>Prove that the set of all points of the plane with rational coordinates is countable.</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>The set is <span class="m">A = ℚ × ℚ</span>. For each <span class="m">a ∈ ℚ</span> let <span class="m">Bₐ = {(a, y) : y ∈ ℚ}</span>. The map <span class="m">y ↦ (a, y)</span> is a bijection <span class="m">ℚ → Bₐ</span>, so each <span class="m">Bₐ</span> is countable. Every point <span class="m">(x, y)</span> lies in exactly one of them, <span class="m">Bₓ</span>, so <span class="m">A = ⋃<sub>a∈ℚ</sub> Bₐ</span>, a union of countably many countable sets. Hence <span class="m">A</span> is countable; it is infinite, since it contains <span class="m">B₀</span>. ∎</p>
+          </div></details>
+        </article>
+      </div>
+    </section>
+

@@ -1,0 +1,44 @@
+    <section class="chapter" id="tools">
+      <p class="eyebrow">Check anything</p>
+      <h2>Checkers and tools</h2>
+      <p class="intro">Use these to check your own work on any exercise, including ones from the notes. They understand the notation of both parts of the course: <span class="m">x′</span> or <span class="m">x'</span> for complement, <span class="m">+</span> and juxtaposition, or <span class="m">¬ ∧ ∨ → ↔ ⊕</span>.</p>
+
+      <div class="tool" id="tt-tool">
+        <h3>Truth tables and equivalence</h3>
+        <p class="tool-desc">Type a proposition or a Boolean expression. You get its truth table with a column for each step, whether it is a tautology, and for up to 4 variables its CSoP, minimal sums and AND–OR circuit. Fill in the second box to test whether two expressions are equivalent.</p>
+        <div class="row"><label for="tt-in">Expression</label><span class="field"><input id="tt-in" type="text" value="(p ∨ ¬q) → (p ∧ q)" autocomplete="off" spellcheck="false" autocapitalize="off"></span></div>
+        <div class="row"><label for="tt-in2">Compare with</label><span class="field"><input id="tt-in2" type="text" value="" placeholder="optional: a second expression" autocomplete="off" spellcheck="false" autocapitalize="off"></span></div>
+        <div class="sym-pad" aria-label="Insert a symbol">
+          <button type="button">¬</button><button type="button">∧</button><button type="button">∨</button><button type="button">→</button><button type="button">↔</button><button type="button">⊕</button><button type="button">′</button><button type="button">(</button><button type="button">)</button>
+        </div>
+        <div class="laws-tools"><span class="seg" role="group" aria-label="Table style">
+          <button type="button" data-style="auto" aria-pressed="true">Auto</button><button type="button" data-style="logic" aria-pressed="false" title="Rows TT, TF, FT, FF as in Lectures 2–3">T / F rows</button><button type="button" data-style="bool" aria-pressed="false" title="Rows 000 to 111 as in Lectures 4–5">0 / 1 rows</button>
+        </span></div>
+        <div id="tt-out" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="tool" id="kmap-tool">
+        <h3>Karnaugh map solver</h3>
+        <p class="tool-desc">Click squares to check them, or fill the map from an expression in <span class="m">x, y, z, t</span>. The solver lists every prime implicant (filled chips are essential) and every minimal sum. Press “Random map” to practise; the answer stays hidden until you ask for it.</p>
+        <div class="row">
+          <span class="seg" role="group" aria-label="Number of variables"><button type="button" data-kn="3" aria-pressed="false">3 variables</button><button type="button" data-kn="4" aria-pressed="true">4 variables</button></span>
+          <button type="button" class="btn ghost" id="kt-clear">Clear</button>
+          <button type="button" class="btn ghost" id="kt-rand">Random map</button>
+          <button type="button" class="btn ghost" id="kt-practice" aria-pressed="false">Hide the answer</button>
+        </div>
+        <div class="row"><label for="kt-expr">Fill from</label><span class="field"><input id="kt-expr" type="text" placeholder="e.g. y′z + y′z′t′ + z′t" autocomplete="off" spellcheck="false" autocapitalize="off"></span><button type="button" class="btn" id="kt-fill">Fill map</button></div>
+        <p class="kt-msg" id="kt-msg" role="status" aria-live="polite">Loaded with Example 14 from the notes.</p>
+        <div class="kt-grid" id="kt-stage"></div>
+      </div>
+
+      <div class="tool" id="venn-tool">
+        <h3>Venn diagram shader</h3>
+        <p class="tool-desc">Type a set expression in <span class="m">A, B, C</span> (and <span class="m">U</span>). The page shades its regions, names the fundamental products it contains, and gives the same set as a minimal Boolean expression.</p>
+        <div class="row"><label for="vt-in">Set</label><span class="field"><input id="vt-in" type="text" value="(A ∪ B)′ ∪ (A ∩ C)" autocomplete="off" spellcheck="false" autocapitalize="off"></span></div>
+        <div class="sym-pad" aria-label="Insert a symbol"><button type="button">∪</button><button type="button">∩</button><button type="button">′</button><button type="button">∖</button><button type="button">⊕</button><button type="button">(</button><button type="button">)</button></div>
+        <div class="vt-grid">
+          <canvas class="venn" data-expr="(A+B)'+AC" data-sets="3" role="img" aria-label="Venn diagram of the expression typed above"></canvas>
+          <div id="vt-out" role="status" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>

@@ -1,0 +1,133 @@
+<div class="hero">
+  <div class="page hero-inner">
+    <div>
+      <p class="kicker">MATH 1101 Discrete Structures · Fall 2026 · Lectures 1–5</p>
+      <h1>Discrete Structures Workbook</h1>
+      <p class="lead">Sets, logic and Boolean algebra from Fuad Hajiyev's lecture notes, arranged for study: short notes, worked examples, practice problems that check your answer as you type it, and an answer check for Homework&nbsp;1.</p>
+      <ol class="how">
+        <li><strong>Read</strong>one section of the notes</li>
+        <li><strong>Solve</strong>its practice problems on paper</li>
+        <li><strong>Check</strong>by typing your answer, or open Hint and Answer</li>
+        <li><strong>Finish</strong>with the HW1 answer check</li>
+      </ol>
+      <p class="due"><span class="tag">HW1</span><span>Due Monday 19 October 2026, 23:59. Handwritten, scanned to one PDF, uploaded to Blackboard. Each late day costs 0.2 of the 1 point.</span></p>
+    </div>
+    <figure class="hero-fig">
+      <div class="timing" data-traces="x:00001111,y:00110011,z:01010101,xz + x′y:00110101"></div>
+      <figcaption>The special sequences for <span class="m">x, y, z</span> pass through <span class="m">E = xz + x′y</span>. The orange trace is its truth table, <span class="m">T(E)</span> = <span class="bits">00110101</span> (Lecture 4–5, Exercise 1.17).</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="page layout">
+  <nav class="toc" aria-label="Contents">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#big-picture">The big picture</a></li>
+      <li><a href="#typing">Typing symbols</a></li>
+      <li><a href="#sets">1 · Sets and functions</a></li>
+      <li class="sub"><a href="#s-basics">1.1 Sets</a></li>
+      <li class="sub"><a href="#s-functions">1.2 Functions</a></li>
+      <li class="sub"><a href="#s-ops">1.3 Set operations</a></li>
+      <li class="sub"><a href="#s-algebra">1.4 Algebra of sets</a></li>
+      <li class="sub"><a href="#s-card">1.5 Infinite sets</a></li>
+      <li class="sub"><a href="#ps1">Practice 1 <span class="count" data-count="ps1"></span></a></li>
+      <li><a href="#logic">2 · Propositions and quantifiers</a></li>
+      <li class="sub"><a href="#l-props">2.1 Connectives</a></li>
+      <li class="sub"><a href="#l-equiv">2.2 Equivalence</a></li>
+      <li class="sub"><a href="#l-bits">2.3 Bit strings</a></li>
+      <li class="sub"><a href="#l-quant">2.4 Quantifiers</a></li>
+      <li class="sub"><a href="#l-nested">2.5 Nested quantifiers</a></li>
+      <li class="sub"><a href="#ps2">Practice 2 <span class="count" data-count="ps2"></span></a></li>
+      <li class="sub"><a href="#ps3">Practice 3 <span class="count" data-count="ps3"></span></a></li>
+      <li><a href="#boolean">3 · Circuits and Boolean algebra</a></li>
+      <li class="sub"><a href="#b-gates">3.1 Logic gates</a></li>
+      <li class="sub"><a href="#b-circuits">3.2 Logic circuits</a></li>
+      <li class="sub"><a href="#b-algebra">3.3 Boolean algebras</a></li>
+      <li class="sub"><a href="#b-sop">3.4 SoP forms</a></li>
+      <li class="sub"><a href="#b-kmaps">3.5 Karnaugh maps</a></li>
+      <li class="sub"><a href="#b-tables">3.6 Truth tables</a></li>
+      <li class="sub"><a href="#ps4">Practice 4 <span class="count" data-count="ps4"></span></a></li>
+      <li class="sub"><a href="#ps5">Practice 5 <span class="count" data-count="ps5"></span></a></li>
+      <li class="sub"><a href="#ps6">Practice 6 <span class="count" data-count="ps6"></span></a></li>
+      <li class="sub"><a href="#ps7">Practice 7 <span class="count" data-count="ps7"></span></a></li>
+      <li><a href="#tools">Checkers and tools</a></li>
+      <li><a href="#hw1">HW1 answer check <span class="count" data-count="hw1"></span></a></li>
+      <li><a href="#mt1">Midterm 1 practice <span class="count" data-count="mt1"></span></a></li>
+      <li><a href="#errata">Errata in the notes</a></li>
+      <li><a href="#sheet">Last-minute sheet</a></li>
+    </ol>
+    <p class="total">Marked done: <span data-count-all>0</span></p>
+  </nav>
+
+  <main>
+    <section class="chapter" id="big-picture">
+      <p class="eyebrow">Start here</p>
+      <h2>One algebra, three costumes</h2>
+      <p class="intro">Lectures 1–5 study three systems: sets, propositions and logic circuits. Lecture 4–5 shows that they are one structure, a Boolean algebra. A law you learn in one column holds in the others, so this page keeps pointing back to the table below.</p>
+      <div class="scroll">
+        <table class="data costume">
+          <thead><tr><th>Boolean algebra</th><th>Sets (L1)</th><th>Propositions (L2–3)</th><th>Circuits (L4–5)</th></tr></thead>
+          <tbody>
+            <tr><td class="m">a + b</td><td class="m">A ∪ B</td><td class="m">p ∨ q</td><td>OR gate</td></tr>
+            <tr><td class="m">ab</td><td class="m">A ∩ B</td><td class="m">p ∧ q</td><td>AND gate</td></tr>
+            <tr><td class="m">a′</td><td class="m">A′</td><td class="m">¬p</td><td>NOT gate</td></tr>
+            <tr><td class="m">0</td><td class="m">∅</td><td class="m"><span class="up">F</span></td><td>0 (low)</td></tr>
+            <tr><td class="m">1</td><td class="m">U</td><td class="m"><span class="up">T</span></td><td>1 (high)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="laws-table">The laws, side by side</h3>
+      <div class="laws-tools">
+        <span class="seg law-switch" data-for="laws" role="group" aria-label="Notation to show">
+          <button type="button" data-show="bool" aria-pressed="true">Boolean</button><button type="button" data-show="sets" aria-pressed="false">Sets</button><button type="button" data-show="logic" aria-pressed="false">Logic</button>
+        </span>
+      </div>
+      <div class="scroll">
+        <table class="data laws" id="laws" data-show="bool">
+          <thead><tr><th>Law</th><th class="c-bool">Boolean algebra</th><th class="c-sets">Sets (Table 1)</th><th class="c-logic">Propositions (Table 14)</th></tr></thead>
+          <tbody>
+            <tr><th>Idempotent</th><td class="c-bool m">a + a = a<br>aa = a</td><td class="c-sets m">A ∪ A = A<br>A ∩ A = A</td><td class="c-logic m">p ∨ p ≡ p<br>p ∧ p ≡ p</td></tr>
+            <tr><th>Associative</th><td class="c-bool m">(a + b) + c = a + (b + c)<br>(ab)c = a(bc)</td><td class="c-sets m">(A ∪ B) ∪ C = A ∪ (B ∪ C)<br>(A ∩ B) ∩ C = A ∩ (B ∩ C)</td><td class="c-logic m">(p ∨ q) ∨ r ≡ p ∨ (q ∨ r)<br>(p ∧ q) ∧ r ≡ p ∧ (q ∧ r)</td></tr>
+            <tr><th>Commutative</th><td class="c-bool m">a + b = b + a<br>ab = ba</td><td class="c-sets m">A ∪ B = B ∪ A<br>A ∩ B = B ∩ A</td><td class="c-logic m">p ∨ q ≡ q ∨ p<br>p ∧ q ≡ q ∧ p</td></tr>
+            <tr><th>Distributive</th><td class="c-bool m">a + bc = (a + b)(a + c)<br>a(b + c) = ab + ac</td><td class="c-sets m">A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)<br>A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)</td><td class="c-logic m">p ∨ (q ∧ r) ≡ (p ∨ q) ∧ (p ∨ r)<br>p ∧ (q ∨ r) ≡ (p ∧ q) ∨ (p ∧ r)</td></tr>
+            <tr><th>Identity</th><td class="c-bool m">a + 0 = a<br>a · 1 = a</td><td class="c-sets m">A ∪ ∅ = A<br>A ∩ U = A</td><td class="c-logic m">p ∨ <span class="up">F</span> ≡ p<br>p ∧ <span class="up">T</span> ≡ p</td></tr>
+            <tr><th>Boundedness (domination)</th><td class="c-bool m">a + 1 = 1<br>a · 0 = 0</td><td class="c-sets m">A ∪ U = U<br>A ∩ ∅ = ∅</td><td class="c-logic m">p ∨ <span class="up">T</span> ≡ <span class="up">T</span><br>p ∧ <span class="up">F</span> ≡ <span class="up">F</span></td></tr>
+            <tr><th>Involution</th><td class="c-bool m">(a′)′ = a</td><td class="c-sets m">(A′)′ = A</td><td class="c-logic m">¬¬p ≡ p</td></tr>
+            <tr><th>Complement</th><td class="c-bool m">a + a′ = 1<br>aa′ = 0</td><td class="c-sets m">A ∪ A′ = U<br>A ∩ A′ = ∅</td><td class="c-logic m">p ∨ ¬p ≡ <span class="up">T</span><br>p ∧ ¬p ≡ <span class="up">F</span></td></tr>
+            <tr><th>Complements of 0 and 1</th><td class="c-bool m">0′ = 1<br>1′ = 0</td><td class="c-sets m">∅′ = U<br>U′ = ∅</td><td class="c-logic m">¬<span class="up">F</span> ≡ <span class="up">T</span><br>¬<span class="up">T</span> ≡ <span class="up">F</span></td></tr>
+            <tr><th>De Morgan</th><td class="c-bool m">(a + b)′ = a′b′<br>(ab)′ = a′ + b′</td><td class="c-sets m">(A ∪ B)′ = A′ ∩ B′<br>(A ∩ B)′ = A′ ∪ B′</td><td class="c-logic m">¬(p ∨ q) ≡ ¬p ∧ ¬q<br>¬(p ∧ q) ≡ ¬p ∨ ¬q</td></tr>
+            <tr><th>Absorption</th><td class="c-bool m">a + ab = a<br>a(a + b) = a</td><td class="c-sets m">A ∪ (A ∩ B) = A<br>A ∩ (A ∪ B) = A</td><td class="c-logic m">p ∨ (p ∧ q) ≡ p<br>p ∧ (p ∨ q) ≡ p</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="blk key" style="margin-top:1.2rem"><div class="lbl">Duality</div><div class="body">
+        <p>Each row is a law together with its <strong>dual</strong>: swap <span class="m">+</span> with <span class="m">·</span> and <span class="m">0</span> with <span class="m">1</span> (for sets, <span class="m">∪</span> with <span class="m">∩</span> and <span class="m">U</span> with <span class="m">∅</span>; for logic, <span class="m">∨</span> with <span class="m">∧</span> and <span class="up">T</span> with <span class="up">F</span>). The principle of duality says the dual of a law is again a law. On a phone, the buttons above the table switch the notation.</p>
+      </div></div>
+    </section>
+
+    <section class="chapter" id="typing">
+      <p class="eyebrow">Using the answer boxes</p>
+      <h2>Typing symbols</h2>
+      <p class="intro">You never need a special keyboard. Each answer box has buttons for the symbols it uses, and every box also accepts the plain-keyboard version in this table.</p>
+      <div class="scroll">
+        <table class="data">
+          <thead><tr><th>Symbol</th><th>Type this</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><span class="m">′</span> complement</td><td><code>'</code> (apostrophe)</td><td><code>x'y + (xz)'</code></td></tr>
+            <tr><td><span class="m">¬</span> not</td><td><code>~</code> or <code>!</code></td><td><code>~p | q</code></td></tr>
+            <tr><td><span class="m">∧ ∩ ·</span> and</td><td><code>&amp;</code> or <code>*</code>, or write the letters side by side</td><td><code>p &amp; q</code>, <code>xy</code></td></tr>
+            <tr><td><span class="m">∨ ∪ +</span> or</td><td><code>|</code> or <code>+</code></td><td><code>p | q</code>, <code>A + B</code></td></tr>
+            <tr><td><span class="m">⊕</span> exclusive or</td><td><code>^</code></td><td><code>p ^ q</code></td></tr>
+            <tr><td><span class="m">→</span> implies</td><td><code>-&gt;</code></td><td><code>p -&gt; q</code></td></tr>
+            <tr><td><span class="m">↔</span> if and only if</td><td><code>&lt;-&gt;</code></td><td><code>p &lt;-&gt; q</code></td></tr>
+            <tr><td><span class="m">∖</span> set difference</td><td><code>\</code> or <code>-</code></td><td><code>A \ B</code></td></tr>
+            <tr><td><span class="m">∅</span> empty set</td><td><code>{}</code> or the word <code>empty</code> in a set box; <code>0</code> inside an expression</td><td><code>{}</code></td></tr>
+            <tr><td><span class="m">U</span> universal set</td><td><code>U</code> (in the Venn tool)</td><td><code>U \ A</code></td></tr>
+            <tr><td><span class="up">T</span>, <span class="up">F</span> true, false</td><td><code>T</code> and <code>F</code>, or <code>1</code> and <code>0</code></td><td><code>p | T</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted" style="margin-top:0.7rem">Spaces do not matter, and a leading <code>E =</code> or <code>Y =</code> is ignored. For sets of numbers, type the elements with commas: <code>{1, 2, 3}</code>. On paper (HW1 is handwritten) just draw the symbols as in the notes.</p>
+    </section>
