@@ -210,6 +210,17 @@ svg.circ .part path, svg.circ .part circle { stroke: var(--ink); stroke-width: 1
 svg.circ .dot circle { fill: var(--ink); }
 svg.circ text.lab { font: italic 14px var(--f-body); fill: var(--ink); }
 svg.circ text.gl { font: 600 8px var(--f-mono); fill: var(--ink-3); letter-spacing: 0.04em; }
+.order { margin: 0.6rem 0 0.9rem; }
+.order-cap { font: 600 var(--fs-xs) var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); margin: 0.7rem 0 0.35rem; }
+.order-pool { display: grid; gap: 0.35rem; }
+.order-built { display: grid; gap: 0.35rem; margin: 0; padding-left: 1.7rem; min-height: 2.4rem; border: 1px dashed var(--rule); border-radius: 8px; padding-top: 0.45rem; padding-bottom: 0.45rem; padding-right: 0.45rem; }
+.order-built li::marker { font: 500 0.8rem var(--f-mono); color: var(--ink-3); }
+.order-step { display: block; width: 100%; text-align: left; font: inherit; font-size: var(--fs-s); line-height: 1.45; color: var(--ink); background: var(--panel); border: 1px solid var(--rule); border-radius: 7px; padding: 0.4rem 0.65rem; cursor: pointer; }
+.order-step:hover { border-color: var(--ink-3); background: var(--code-bg); }
+.order-built .order-step { background: var(--mid-soft); border-color: transparent; }
+.proof-box { border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; margin: 0.8rem 0 1.2rem; }
+.proof-box h4 { margin: 0 0 0.35rem; }
+.proof-box ul { margin: 0.2rem 0 0; }
 .prim { margin: 0.6rem 0 0.8rem; }
 .prim-wrap { overflow-x: auto; max-width: 100%; }
 svg.prim-svg { display: block; max-width: none; }
@@ -458,6 +469,7 @@ dl.tt-extra dd .m { white-space: normal; }
       <li><a href="#mt24">Midterm 1 · Fall 2024 <span class="count" data-count="mt24"></span></a></li>
       <li><a href="#mt23">Midterm 1 · Fall 2023 <span class="count" data-count="mt23"></span></a></li>
       <li><a href="#mt23s">Sample tasks · Fall 2023 <span class="count" data-count="mt23s"></span></a></li>
+      <li><a href="#proofs">Proofs, easy to hard <span class="count" data-count="proofs"></span></a></li>
       <li><a href="#errata">Errata in the notes</a></li>
       <li><a href="#sheet">Last-minute sheet</a></li>
     </ol>
@@ -2990,6 +3002,508 @@ dl.tt-extra dd .m { white-space: normal; }
         </article>
       </div>
     </section>
+
+    <section class="chapter" id="proofs">
+      <p class="eyebrow">Proof practice · Lectures 1–5 · easy to hard</p>
+      <h2>Proofs, step by step</h2>
+      <p class="intro">Every midterm so far ends with proofs: De Morgan's laws, countability, infinite sets. This section collects the proofs of the course in seven levels, from one-line arguments to Cantor's theorem. Most come from the theorems and exercises in the lecture notes; a few come from other discrete-structures courses (credited where they appear). Try each one on paper first, then open the model proof. Some problems are puzzles: put the steps of the proof in the right order. Others show a wrong “proof” and ask you to find the broken step.</p>
+
+      <div class="proof-box">
+        <h4>Proof toolbox</h4>
+        <ul>
+          <li><b>Two sets are equal</b> (<span class="m">X = Y</span>): take any <span class="m">x</span> and show <span class="m">x ∈ X ⟹ x ∈ Y</span> and <span class="m">x ∈ Y ⟹ x ∈ X</span>, or write one chain of <span class="m">⟺</span>. Or rewrite one side into the other with the laws of the algebra of sets.</li>
+          <li><b>A subset</b> (<span class="m">X ⊆ Y</span>): “Let <span class="m">x ∈ X</span>. … Hence <span class="m">x ∈ Y</span>.”</li>
+          <li><b>Not true in general</b>: one counterexample with concrete sets (or numbers) is a complete proof.</li>
+          <li><b>Logical equivalence</b>: a chain of laws from Table 14, or a truth table. <b>Quantifiers</b>: show that each side being true forces the other to be true, for every domain and every predicate.</li>
+          <li><b>Boolean algebra</b>: use only the axioms [B1]–[B4] and laws already proved, and name one in every step. Prove one law; its dual follows by duality.</li>
+          <li><b>Countable</b>: an explicit bijection with <span class="m">ℤ⁺</span>, or Theorem 10 (an infinite subset of a countable set is countable), or Theorem 11 (a finite or countable union of countable sets is countable). <b>Uncountable</b>: assume a list exists and build an element that is not on it (diagonal argument), or find an uncountable subset.</li>
+          <li><b>Marking</b>: the exam wants a <i>proof</i>, “not an explanation”. Start from what is given, justify each step, and end with what was to be proved (∎).</li>
+        </ul>
+      </div>
+
+      <p class="hw-group">Level 1 · Warm-up: one-line proofs</p>
+      <div class="probs">
+        <article class="prob" id="pf-1">
+          <div class="p-head"><span class="pnum">P1</span><h4>Intersection and union</h4></div>
+          <div class="p-body"><p>Prove that for any sets <span class="m">A, B</span>: <span class="m">A ∩ B ⊆ A ⊆ A ∪ B</span>. (Theorem 3, Lecture 1.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">x ∈ A ∩ B</span>. Then <span class="m">x ∈ A</span> and <span class="m">x ∈ B</span>; in particular <span class="m">x ∈ A</span>. So <span class="m">A ∩ B ⊆ A</span>.</p>
+            <p>Let <span class="m">x ∈ A</span>. Then the statement “<span class="m">x ∈ A</span> or <span class="m">x ∈ B</span>” is true, so <span class="m">x ∈ A ∪ B</span>. So <span class="m">A ⊆ A ∪ B</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-2">
+          <div class="p-head"><span class="pnum">P2</span><h4>Difference as an intersection</h4></div>
+          <div class="p-body"><p>Prove that <span class="m">B ∖ A = B ∩ A′</span>. (Solved problem 1.4, Lecture 1.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p class="m wrap">x ∈ B ∖ A ⟺ x ∈ B ∧ x ∉ A ⟺ x ∈ B ∧ x ∈ A′ ⟺ x ∈ B ∩ A′.</p>
+            <p>The steps use the definitions of difference, complement and intersection. Both sets have the same elements. ∎</p>
+            <p class="small muted">This identity is the most useful tool for differences: it turns every <span class="m">∖</span> into <span class="m">∩</span> and <span class="m">′</span>, so the laws of Table 1 apply.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-3">
+          <div class="p-head"><span class="pnum">P3</span><h4>Absorption laws</h4></div>
+          <div class="p-body"><p>Prove that <span class="m">A ∪ (A ∩ B) = A</span> and <span class="m">A ∩ (A ∪ B) = A</span>. (Exercise 2.4, Lecture 1.)</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Two inclusions. One of them is P1.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p><span class="m">⊆</span>: let <span class="m">x ∈ A ∪ (A ∩ B)</span>. Then <span class="m">x ∈ A</span> or <span class="m">x ∈ A ∩ B</span>. In the second case also <span class="m">x ∈ A</span>. So <span class="m">x ∈ A</span> either way.</p>
+            <p><span class="m">⊇</span>: <span class="m">A ⊆ A ∪ (A ∩ B)</span> by P1. So <span class="m">A ∪ (A ∩ B) = A</span>.</p>
+            <p>Second law: <span class="m">A ∩ (A ∪ B) ⊆ A</span> by P1. If <span class="m">x ∈ A</span>, then <span class="m">x ∈ A ∪ B</span> (P1), so <span class="m">x ∈ A ∩ (A ∪ B)</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-4">
+          <div class="p-head"><span class="pnum">P4</span><h4>Equivalences by the laws of logic</h4></div>
+          <div class="p-body"><p>Using the laws of Table 14 (no truth tables), prove (a) <span class="m">¬(p → q) ≡ p ∧ ¬q</span>; (b) <span class="m">(p ∧ q) → (p ∨ q)</span> is a tautology. (Examples 19 and 21, Lectures 2–3.)</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Start with <span class="m">p → q ≡ ¬p ∨ q</span>. In (b), regroup so that <span class="m">p</span> meets <span class="m">¬p</span>.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>(a) <span class="m wrap">¬(p → q) ≡ ¬(¬p ∨ q) ≡ ¬¬p ∧ ¬q ≡ p ∧ ¬q</span> (conditional law, De Morgan, double negation).</p>
+            <p>(b) <span class="m wrap">(p ∧ q) → (p ∨ q) ≡ ¬(p ∧ q) ∨ (p ∨ q) ≡ (¬p ∨ ¬q) ∨ (p ∨ q) ≡ (¬p ∨ p) ∨ (¬q ∨ q) ≡ T ∨ T ≡ T</span> (conditional law, De Morgan, associative and commutative laws, negation law, domination). ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-5">
+          <div class="p-head"><span class="pnum">P5</span><h4>Puzzle: De Morgan for sets</h4></div>
+          <div class="p-body"><p>Put the steps of the proof of <span class="m">(A ∪ B)′ = A′ ∩ B′</span> in order. (This is a midterm task every year.)</p></div>
+          <div class="order"><ol class="order-key">
+            <li>Let <span class="m">x ∈ S</span> be any element.</li>
+            <li><span class="m">x ∈ (A ∪ B)′ ⟺ x ∉ A ∪ B</span> (definition of complement)</li>
+            <li><span class="m">⟺ ¬(x ∈ A ∨ x ∈ B)</span> (definition of union)</li>
+            <li><span class="m">⟺ x ∉ A ∧ x ∉ B</span> (De Morgan's law for propositions)</li>
+            <li><span class="m">⟺ x ∈ A′ ∧ x ∈ B′</span> (definition of complement)</li>
+            <li><span class="m">⟺ x ∈ A′ ∩ B′</span> (definition of intersection)</li>
+            <li>So the two sets have the same elements: <span class="m">(A ∪ B)′ = A′ ∩ B′</span>. ∎</li>
+          </ol></div>
+        </article>
+      </div>
+
+      <p class="hw-group">Level 2 · Set identities and subsets</p>
+      <div class="probs">
+        <article class="prob" id="pf-6">
+          <div class="p-head"><span class="pnum">P6</span><h4>Three ways to say A ⊆ B</h4></div>
+          <div class="p-body"><p>Prove that the following are equivalent: (1) <span class="m">A ⊆ B</span>; (2) <span class="m">A ∩ B = A</span>; (3) <span class="m">A ∪ B = B</span>. (Theorem 4, Lecture 1.)</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Prove a cycle (1) ⟹ (2) ⟹ (3) ⟹ (1). Three implications are enough for three equivalences.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>(1) ⟹ (2). <span class="m">A ∩ B ⊆ A</span> always (P1). If <span class="m">x ∈ A</span>, then <span class="m">x ∈ B</span> by (1), so <span class="m">x ∈ A ∩ B</span>. Hence <span class="m">A ∩ B = A</span>.</p>
+            <p>(2) ⟹ (3). <span class="m">B ⊆ A ∪ B</span> always. If <span class="m">x ∈ A ∪ B</span>, then either <span class="m">x ∈ B</span>, or <span class="m">x ∈ A = A ∩ B</span>, and then <span class="m">x ∈ B</span> too. Hence <span class="m">A ∪ B = B</span>.</p>
+            <p>(3) ⟹ (1). If <span class="m">x ∈ A</span>, then <span class="m">x ∈ A ∪ B = B</span>. Hence <span class="m">A ⊆ B</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-7">
+          <div class="p-head"><span class="pnum">P7</span><h4>When union and intersection agree</h4></div>
+          <div class="p-body"><p>Prove: if <span class="m">A ∪ B = A</span> and <span class="m">A ∩ B = A</span>, then <span class="m">A = B</span>. (Exercise 2.2, Lecture 1.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p><span class="m">B ⊆ A ∪ B = A</span>, and <span class="m">A = A ∩ B ⊆ B</span> (both by P1). So <span class="m">A ⊆ B</span> and <span class="m">B ⊆ A</span>, that is, <span class="m">A = B</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-8">
+          <div class="p-head"><span class="pnum">P8</span><h4>Two forms of the symmetric difference</h4></div>
+          <div class="p-body"><p>Prove <span class="m">(A ∪ B) ∖ (A ∩ B) = (A ∖ B) ∪ (B ∖ A)</span> using the laws of the algebra of sets. (Solved problem 1.5, Lecture 1.)</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Replace both differences using P2, apply De Morgan, then distribute.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p class="m wrap">(A ∪ B) ∖ (A ∩ B) = (A ∪ B) ∩ (A ∩ B)′ = (A ∪ B) ∩ (A′ ∪ B′)</p>
+            <p class="m wrap">= (A ∩ A′) ∪ (A ∩ B′) ∪ (B ∩ A′) ∪ (B ∩ B′) = ∅ ∪ (A ∩ B′) ∪ (B ∩ A′) ∪ ∅</p>
+            <p class="m wrap">= (A ∩ B′) ∪ (B ∩ A′) = (A ∖ B) ∪ (B ∖ A).</p>
+            <p>Laws used: P2, De Morgan, distributive (twice), complement, identity, P2 again. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-9">
+          <div class="p-head"><span class="pnum">P9</span><h4>A difference of differences</h4></div>
+          <div class="p-body"><p>Prove <span class="m">(A − B) − C = (A − C) − (B − C)</span>. <span class="small muted">(From UC Davis ECS 20 homework.)</span></p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Start from the right side, write membership as a proposition, apply De Morgan, distribute, and one term becomes <span class="m">x ∈ C ∧ x ∉ C</span>, which is false.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p class="m wrap">x ∈ (A − C) − (B − C) ⟺ (x ∈ A ∧ x ∉ C) ∧ ¬(x ∈ B ∧ x ∉ C)</p>
+            <p class="m wrap">⟺ (x ∈ A ∧ x ∉ C) ∧ (x ∉ B ∨ x ∈ C)</p>
+            <p class="m wrap">⟺ (x ∈ A ∧ x ∉ C ∧ x ∉ B) ∨ (x ∈ A ∧ x ∉ C ∧ x ∈ C)</p>
+            <p class="m wrap">⟺ (x ∈ A ∧ x ∉ B ∧ x ∉ C) ∨ F ⟺ x ∈ (A − B) − C.</p>
+            <p>Definitions, De Morgan, distributive law, negation and identity laws. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-10">
+          <div class="p-head"><span class="pnum">P10</span><h4>Taking away and putting back</h4></div>
+          <div class="p-body"><p>(a) Show that in general <span class="m">(A − B) ∪ B ≠ A</span>. (b) Prove <span class="m">(A − B) ∪ B = A ∪ B</span>. (c) Deduce that <span class="m">(A − B) ∪ B = A</span> exactly when <span class="m">B ⊆ A</span>. (Exercise 2.5, Lecture 1.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>(a) Counterexample: <span class="m">A = {1}, B = {2}</span>. Then <span class="m">(A − B) ∪ B = {1} ∪ {2} = {1, 2} ≠ A</span>.</p>
+            <p>(b) <span class="m wrap">(A − B) ∪ B = (A ∩ B′) ∪ B = (A ∪ B) ∩ (B′ ∪ B) = (A ∪ B) ∩ U = A ∪ B</span> (P2, distributive, complement, identity).</p>
+            <p>(c) By (b), <span class="m">(A − B) ∪ B = A ⟺ A ∪ B = A ⟺ B ⊆ A</span>, by P6 with the roles of <span class="m">A</span> and <span class="m">B</span> swapped. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-11">
+          <div class="p-head"><span class="pnum">P11</span><h4>Distributive law, by elements</h4></div>
+          <div class="p-body"><p>Prove <span class="m">A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)</span> by an element argument. (One of the two laws proved in Theorem 6, Lecture 1.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p class="m wrap">x ∈ A ∩ (B ∪ C) ⟺ x ∈ A ∧ (x ∈ B ∨ x ∈ C) ⟺ (x ∈ A ∧ x ∈ B) ∨ (x ∈ A ∧ x ∈ C) ⟺ x ∈ (A ∩ B) ∨ x ∈ (A ∩ C) ⟺ x ∈ (A ∩ B) ∪ (A ∩ C).</p>
+            <p>The second step is the distributive law of propositions; the others are definitions. ∎</p>
+            <p class="small muted">Notice the pattern: every law of sets is the matching law of logic applied to the statements “<span class="m">x ∈ A</span>”, “<span class="m">x ∈ B</span>”, “<span class="m">x ∈ C</span>”.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-12">
+          <div class="p-head"><span class="pnum">P12</span><h4>Find the flaw: a union minus a set</h4></div>
+          <div class="p-body"><p>A student claims <span class="m">(A ∪ B) − B = A</span> for all sets and writes:</p>
+            <p class="m wrap">(1) x ∈ (A ∪ B) − B ⟺ x ∈ A ∪ B ∧ x ∉ B  (2) ⟺ (x ∈ A ∨ x ∈ B) ∧ x ∉ B  (3) ⟺ x ∈ A.</p></div>
+          <div class="mcq" data-a="2"><p class="q">Which step is wrong?</p><ul><li>Step (1)</li><li>Step (2)</li><li>Step (3)</li><li>None: the claim is true</li></ul><p class="why">Step (3) drops the condition <span class="m">x ∉ B</span>. Correctly, <span class="m">(x ∈ A ∨ x ∈ B) ∧ x ∉ B ⟺ x ∈ A ∧ x ∉ B</span>, so <span class="m">(A ∪ B) − B = A − B</span>. Counterexample to the claim: <span class="m">A = B = {1}</span> gives <span class="m">(A ∪ B) − B = ∅ ≠ A</span>. The claim holds only when <span class="m">A ∩ B = ∅</span>.</p></div>
+        </article>
+
+        <article class="prob" id="pf-13">
+          <div class="p-head"><span class="pnum">P13</span><h4>Always true or not?</h4></div>
+          <div class="p-body"><p>For each statement, decide whether it holds for all sets. If it does, prove it; if not, find a counterexample.</p></div>
+          <ol class="tf" data-tf-labels="Always,Not always">
+            <li data-a="T"><span class="q"><span class="m">A − (B ∪ C) = (A − B) ∩ (A − C)</span></span><span class="why"><span class="m">A ∩ (B ∪ C)′ = A ∩ B′ ∩ C′ = (A ∩ B′) ∩ (A ∩ C′)</span> (De Morgan, idempotent law).</span></li>
+            <li data-a="F"><span class="q"><span class="m">A − (B − C) = (A − B) − C</span></span><span class="why"><span class="m">A = C = {1}, B = ∅</span>: left side <span class="m">{1}</span>, right side <span class="m">∅</span>.</span></li>
+            <li data-a="T"><span class="q"><span class="m">P(A ∩ B) = P(A) ∩ P(B)</span></span><span class="why"><span class="m">X ⊆ A ∩ B ⟺ X ⊆ A ∧ X ⊆ B</span>.</span></li>
+            <li data-a="F"><span class="q"><span class="m">P(A ∪ B) = P(A) ∪ P(B)</span></span><span class="why"><span class="m">A = {1}, B = {2}</span>: <span class="m">{1, 2}</span> is in the left side only.</span></li>
+            <li data-a="T"><span class="q"><span class="m">A ⊆ B ⟹ B′ ⊆ A′</span></span><span class="why">If <span class="m">x ∉ B</span>, then <span class="m">x ∉ A</span>; otherwise <span class="m">x ∈ A ⊆ B</span>.</span></li>
+          </ol>
+        </article>
+      </div>
+
+      <p class="hw-group">Level 3 · Logic and quantifiers</p>
+      <div class="probs">
+        <article class="prob" id="pf-14">
+          <div class="p-head"><span class="pnum">P14</span><h4>De Morgan for quantifiers</h4></div>
+          <div class="p-body"><p>Prove <span class="m">¬∀x P(x) ≡ ∃x ¬P(x)</span>, then deduce <span class="m">¬∃x P(x) ≡ ∀x ¬P(x)</span>. (Theorems 7 and 8, Lectures 2–3.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Fix any domain and any predicate <span class="m">P</span>. <span class="m">¬∀x P(x)</span> is true ⟺ <span class="m">∀x P(x)</span> is false ⟺ there is an <span class="m">a</span> in the domain with <span class="m">P(a)</span> false ⟺ there is an <span class="m">a</span> with <span class="m">¬P(a)</span> true ⟺ <span class="m">∃x ¬P(x)</span> is true. Both sides always have the same truth value.</p>
+            <p>For the second law, apply the first to the predicate <span class="m">¬P</span>: <span class="m">¬∀x ¬P(x) ≡ ∃x ¬¬P(x) ≡ ∃x P(x)</span>. Negating both sides gives <span class="m">∀x ¬P(x) ≡ ¬∃x P(x)</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-15">
+          <div class="p-head"><span class="pnum">P15</span><h4>∀ distributes over ∧</h4></div>
+          <div class="p-body"><p>Prove <span class="m">∀x(P(x) ∧ Q(x)) ≡ ∀x P(x) ∧ ∀x Q(x)</span>. (Theorem 6(a), Lectures 2–3.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>(⟹) Suppose <span class="m">∀x(P(x) ∧ Q(x))</span> is true. Let <span class="m">a</span> be any element of the domain. Then <span class="m">P(a) ∧ Q(a)</span> is true, so <span class="m">P(a)</span> is true and <span class="m">Q(a)</span> is true. As <span class="m">a</span> was arbitrary, <span class="m">∀x P(x)</span> and <span class="m">∀x Q(x)</span> are both true.</p>
+            <p>(⟸) Suppose <span class="m">∀x P(x)</span> and <span class="m">∀x Q(x)</span> are true. For any <span class="m">a</span>, <span class="m">P(a)</span> and <span class="m">Q(a)</span> are true, so <span class="m">P(a) ∧ Q(a)</span> is true. Hence <span class="m">∀x(P(x) ∧ Q(x))</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-16">
+          <div class="p-head"><span class="pnum">P16</span><h4>Where the quantifier laws stop</h4></div>
+          <div class="p-body"><p>Show that (a) <span class="m">∀x P(x) ∨ ∀x Q(x)</span> and <span class="m">∀x(P(x) ∨ Q(x))</span> are not equivalent; (b) <span class="m">∃x P(x) ∧ ∃x Q(x)</span> and <span class="m">∃x(P(x) ∧ Q(x))</span> are not equivalent. (Exercises 2.16 and 2.17, Lectures 2–3.)</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>One domain and one pair of predicates works for both: integers, “<span class="m">x</span> is even”, “<span class="m">x</span> is odd”.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Domain <span class="m">ℤ</span>, <span class="m">P(x)</span>: “<span class="m">x</span> is even”, <span class="m">Q(x)</span>: “<span class="m">x</span> is odd”.</p>
+            <p>(a) <span class="m">∀x(P(x) ∨ Q(x))</span> is true: every integer is even or odd. But <span class="m">∀x P(x)</span> is false (<span class="m">x = 1</span>) and <span class="m">∀x Q(x)</span> is false (<span class="m">x = 2</span>), so <span class="m">∀x P(x) ∨ ∀x Q(x)</span> is false.</p>
+            <p>(b) <span class="m">∃x P(x)</span> (take 2) and <span class="m">∃x Q(x)</span> (take 1) are true, so the left side is true. No integer is both even and odd, so <span class="m">∃x(P(x) ∧ Q(x))</span> is false. ∎</p>
+            <p class="small muted">One direction does hold in each case: <span class="m">∀x P ∨ ∀x Q ⟹ ∀x(P ∨ Q)</span> and <span class="m">∃x(P ∧ Q) ⟹ ∃x P ∧ ∃x Q</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-17">
+          <div class="p-head"><span class="pnum">P17</span><h4>Negating “all P are Q”</h4></div>
+          <div class="p-body"><p>Prove <span class="m">¬∀x(P(x) → Q(x)) ≡ ∃x(P(x) ∧ ¬Q(x))</span>. (Example 34, Lectures 2–3.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p class="m wrap">¬∀x(P(x) → Q(x)) ≡ ∃x ¬(P(x) → Q(x)) ≡ ∃x(P(x) ∧ ¬Q(x)).</p>
+            <p>The first step is P14; the second is P4(a) applied inside the quantifier. ∎</p>
+            <p class="small muted">In words: “not every P is a Q” means “some P is not a Q”.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-18">
+          <div class="p-head"><span class="pnum">P18</span><h4>Proof by contradiction: chaining implications</h4></div>
+          <div class="p-body"><p>Prove that <span class="m">[(p → q) ∧ (q → r)] → (p → r)</span> is a tautology without a truth table.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>An implication is false only when its premise is true and its conclusion is false. Assume that happens.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Suppose that for some truth values the proposition is false. Then its premise <span class="m">(p → q) ∧ (q → r)</span> is true and its conclusion <span class="m">p → r</span> is false. From the conclusion, <span class="m">p</span> is true and <span class="m">r</span> is false. Since <span class="m">p</span> is true and <span class="m">p → q</span> is true, <span class="m">q</span> is true. Since <span class="m">q</span> is true and <span class="m">q → r</span> is true, <span class="m">r</span> is true. That contradicts “<span class="m">r</span> is false”. So the proposition is never false: it is a tautology. ∎</p>
+          </div></details>
+        </article>
+      </div>
+
+      <p class="hw-group">Level 4 · Functions, images and preimages</p>
+      <div class="probs">
+        <article class="prob" id="pf-19">
+          <div class="p-head"><span class="pnum">P19</span><h4>Compositions</h4></div>
+          <div class="p-body"><p>Let <span class="m">f : X → Y</span> and <span class="m">g : Y → Z</span>. Prove: (a) if <span class="m">f, g</span> are injective, so is <span class="m">g ∘ f</span>; (b) if <span class="m">f, g</span> are surjective, so is <span class="m">g ∘ f</span>. Deduce that equivalence of sets is transitive: <span class="m">X ∼ Y</span> and <span class="m">Y ∼ Z</span> give <span class="m">X ∼ Z</span>.</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>(a) Let <span class="m">(g ∘ f)(x₁) = (g ∘ f)(x₂)</span>, i.e. <span class="m">g(f(x₁)) = g(f(x₂))</span>. Since <span class="m">g</span> is injective, <span class="m">f(x₁) = f(x₂)</span>; since <span class="m">f</span> is injective, <span class="m">x₁ = x₂</span>.</p>
+            <p>(b) Let <span class="m">z ∈ Z</span>. Since <span class="m">g</span> is onto, <span class="m">z = g(y)</span> for some <span class="m">y ∈ Y</span>; since <span class="m">f</span> is onto, <span class="m">y = f(x)</span> for some <span class="m">x ∈ X</span>. Then <span class="m">(g ∘ f)(x) = z</span>.</p>
+            <p>If <span class="m">f : X → Y</span> and <span class="m">g : Y → Z</span> are bijections, then by (a) and (b) <span class="m">g ∘ f : X → Z</span> is a bijection, so <span class="m">X ∼ Z</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-20">
+          <div class="p-head"><span class="pnum">P20</span><h4>Puzzle: preimage of a union</h4></div>
+          <div class="p-body"><p>Put the steps of the proof of <span class="m">f⁻¹(A ∪ B) = f⁻¹(A) ∪ f⁻¹(B)</span> in order. (Theorem 7, Lecture 1. The same chain with <span class="m">∧</span> proves Theorem 8, <span class="m">f⁻¹(A ∩ B) = f⁻¹(A) ∩ f⁻¹(B)</span>.)</p></div>
+          <div class="order"><ol class="order-key">
+            <li>Let <span class="m">f : X → Y</span>, <span class="m">A, B ⊆ Y</span>, and let <span class="m">x ∈ X</span>.</li>
+            <li><span class="m">x ∈ f⁻¹(A ∪ B) ⟺ f(x) ∈ A ∪ B</span> (definition of preimage)</li>
+            <li><span class="m">⟺ f(x) ∈ A ∨ f(x) ∈ B</span> (definition of union)</li>
+            <li><span class="m">⟺ x ∈ f⁻¹(A) ∨ x ∈ f⁻¹(B)</span> (definition of preimage)</li>
+            <li><span class="m">⟺ x ∈ f⁻¹(A) ∪ f⁻¹(B)</span> (definition of union)</li>
+            <li>So both sets have the same elements. ∎</li>
+          </ol></div>
+        </article>
+
+        <article class="prob" id="pf-21">
+          <div class="p-head"><span class="pnum">P21</span><h4>Complements: preimage yes, image no</h4></div>
+          <div class="p-body"><p>Let <span class="m">f : X → Y</span>, <span class="m">B ⊆ Y</span>. (a) Prove <span class="m">f⁻¹(Y − B) = X − f⁻¹(B)</span>. (b) Is <span class="m">f(X − A) = Y − f(A)</span> for every <span class="m">A ⊆ X</span>? Prove it or give a counterexample. (Exercise 2.8, Lecture 1.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>(a) For <span class="m">x ∈ X</span>: <span class="m wrap">x ∈ f⁻¹(Y − B) ⟺ f(x) ∈ Y − B ⟺ f(x) ∉ B ⟺ x ∉ f⁻¹(B) ⟺ x ∈ X − f⁻¹(B)</span>. ∎</p>
+            <p>(b) No. Let <span class="m">X = {1, 2}</span>, <span class="m">Y = {a, b}</span>, <span class="m">f(1) = f(2) = a</span>, <span class="m">A = {1}</span>. Then <span class="m">f(X − A) = f({2}) = {a}</span>, but <span class="m">Y − f(A) = {a, b} − {a} = {b}</span>.</p>
+            <p class="small muted">The equality does hold when <span class="m">f</span> is a bijection: injectivity gives <span class="m">f(X − A) ⊆ Y − f(A)</span> and surjectivity gives <span class="m">⊇</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-22">
+          <div class="p-head"><span class="pnum">P22</span><h4>Images of unions and intersections</h4></div>
+          <div class="p-body"><p>Prove <span class="m">f(A ∪ B) = f(A) ∪ f(B)</span> (Theorem 9, Lecture 1) and <span class="m">f(A ∩ B) ⊆ f(A) ∩ f(B)</span>. Show that the second inclusion can be strict.</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p><span class="m wrap">y ∈ f(A ∪ B) ⟺ ∃x ∈ A ∪ B with f(x) = y ⟺ (∃x ∈ A with f(x) = y) ∨ (∃x ∈ B with f(x) = y) ⟺ y ∈ f(A) ∪ f(B)</span>. The middle step is “<span class="m">∃</span> distributes over <span class="m">∨</span>”.</p>
+            <p>If <span class="m">y ∈ f(A ∩ B)</span>, then <span class="m">y = f(x)</span> with <span class="m">x ∈ A</span> and <span class="m">x ∈ B</span>, so <span class="m">y ∈ f(A)</span> and <span class="m">y ∈ f(B)</span>.</p>
+            <p>Strict: <span class="m">f(x) = x²</span> on <span class="m">ℝ</span>, <span class="m">A = {−1}</span>, <span class="m">B = {1}</span>. Then <span class="m">f(A ∩ B) = f(∅) = ∅</span> but <span class="m">f(A) ∩ f(B) = {1}</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-23">
+          <div class="p-head"><span class="pnum">P23</span><h4>Find the flaw: image of an intersection</h4></div>
+          <div class="p-body"><p>A “proof” that <span class="m">f(A) ∩ f(B) ⊆ f(A ∩ B)</span>:</p>
+            <p>(1) Let <span class="m">y ∈ f(A) ∩ f(B)</span>. (2) Then <span class="m">y ∈ f(A)</span> and <span class="m">y ∈ f(B)</span>. (3) So <span class="m">y = f(x)</span> for some <span class="m">x ∈ A</span>, and <span class="m">y = f(x)</span> for some <span class="m">x ∈ B</span>. (4) Hence <span class="m">y = f(x)</span> with <span class="m">x ∈ A ∩ B</span>, so <span class="m">y ∈ f(A ∩ B)</span>.</p></div>
+          <div class="mcq" data-a="3"><p class="q">Where does it go wrong?</p><ul><li>Step (2): the definition of intersection is misused</li><li>Step (3): <span class="m">y ∈ f(A)</span> does not mean <span class="m">y = f(x)</span> for some <span class="m">x ∈ A</span></li><li>Nowhere: the inclusion is true</li><li>Step (4): the two elements called <span class="m">x</span> may be different</li></ul><p class="why">Step (3) should say <span class="m">y = f(x₁)</span> with <span class="m">x₁ ∈ A</span> and <span class="m">y = f(x₂)</span> with <span class="m">x₂ ∈ B</span>. Nothing forces <span class="m">x₁ = x₂</span> unless <span class="m">f</span> is injective. P22 gives a counterexample. Using one letter for two different objects is a classic error.</p></div>
+        </article>
+      </div>
+
+      <p class="hw-group">Level 5 · Boolean algebra from the axioms</p>
+      <div class="hw-note">
+        <h4>The axioms (Lectures 4–5)</h4>
+        <ul>
+          <li>[B1] commutative: <span class="m">a + b = b + a</span>, <span class="m">ab = ba</span></li>
+          <li>[B2] distributive: <span class="m">a + bc = (a + b)(a + c)</span>, <span class="m">a(b + c) = ab + ac</span></li>
+          <li>[B3] identity: <span class="m">a + 0 = a</span>, <span class="m">a · 1 = a</span></li>
+          <li>[B4] complement: <span class="m">a + a′ = 1</span>, <span class="m">aa′ = 0</span></li>
+        </ul>
+        <p>Nothing else may be used unless it has already been proved from these. In particular, a truth table is not a proof here: an arbitrary Boolean algebra need not be <span class="m">{0, 1}</span>.</p>
+      </div>
+      <div class="probs">
+        <article class="prob" id="pf-24">
+          <div class="p-head"><span class="pnum">P24</span><h4>Puzzle: idempotent law</h4></div>
+          <div class="p-body"><p>Put the steps of the proof of <span class="m">aa = a</span> (B5b) in order. Then <span class="m">a + a = a</span> follows by duality.</p></div>
+          <div class="order"><ol class="order-key">
+            <li><span class="m">a = a · 1</span>  [B3b]</li>
+            <li><span class="m">= a(a + a′)</span>  [B4a]</li>
+            <li><span class="m">= aa + aa′</span>  [B2b]</li>
+            <li><span class="m">= aa + 0</span>  [B4b]</li>
+            <li><span class="m">= aa</span>  [B3a] ∎</li>
+          </ol></div>
+        </article>
+
+        <article class="prob" id="pf-25">
+          <div class="p-head"><span class="pnum">P25</span><h4>Boundedness and absorption</h4></div>
+          <div class="p-body"><p>From the axioms, prove (a) <span class="m">a · 0 = 0</span> (B6b); (b) <span class="m">a(a + b) = a</span> (B7b). State the duals.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>(a) Write <span class="m">a0</span> as <span class="m">a0 + aa′</span>. (b) Write the first <span class="m">a</span> as <span class="m">a + 0</span>, then use [B2a] backwards.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>(a) <span class="m wrap">a0 = a0 + 0 = a0 + aa′ = a(0 + a′) = a(a′ + 0) = aa′ = 0</span>  [B3a, B4b, B2b, B1, B3a, B4b].</p>
+            <p>(b) <span class="m wrap">a(a + b) = (a + 0)(a + b) = a + 0b = a + b0 = a + 0 = a</span>  [B3a, B2a, B1, (a), B3a].</p>
+            <p>Duals: <span class="m">a + 1 = 1</span> (B6a) and <span class="m">a + ab = a</span> (B7a). ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-26">
+          <div class="p-head"><span class="pnum">P26</span><h4>A useful shortcut</h4></div>
+          <div class="p-body"><p>Prove <span class="m">a + a′b = a + b</span> and state its dual.</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p class="m wrap">a + a′b = (a + a′)(a + b) = 1 · (a + b) = (a + b) · 1 = a + b  [B2a, B4a, B1, B3b].</p>
+            <p>Dual: <span class="m">a(a′ + b) = ab</span>. ∎</p>
+            <p class="small muted">This is the step behind many K-map simplifications, e.g. <span class="m">x + x′y = x + y</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-27">
+          <div class="p-head"><span class="pnum">P27</span><h4>Uniqueness of the complement</h4></div>
+          <div class="p-body"><p>Prove (B9): if <span class="m">a + x = 1</span> and <span class="m">ax = 0</span>, then <span class="m">x = a′</span>.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Show that both <span class="m">x</span> and <span class="m">a′</span> equal <span class="m">x + a′</span>. Start each from “<span class="m">… + 0</span>” and replace the 0 by the right product.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p class="m wrap">x = x + 0 = x + aa′ = (x + a)(x + a′) = (a + x)(x + a′) = 1 · (x + a′) = x + a′  [B3a, B4b, B2a, B1, hypothesis, B1 + B3b]</p>
+            <p class="m wrap">a′ = a′ + 0 = a′ + ax = (a′ + a)(a′ + x) = 1 · (a′ + x) = a′ + x = x + a′  [B3a, hypothesis, B2a, B1 + B4a, B1 + B3b, B1]</p>
+            <p>Both equal <span class="m">x + a′</span>, so <span class="m">x = a′</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-28">
+          <div class="p-head"><span class="pnum">P28</span><h4>Involution and the complements of 0 and 1</h4></div>
+          <div class="p-body"><p>Using P27, prove <span class="m">(a′)′ = a</span> (B10) and <span class="m">0′ = 1</span>, <span class="m">1′ = 0</span> (B11).</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>By [B4] and [B1], <span class="m">a′ + a = 1</span> and <span class="m">a′a = 0</span>. So <span class="m">a</span> satisfies the two conditions of a complement of <span class="m">a′</span>, and by P27, <span class="m">a = (a′)′</span>.</p>
+            <p><span class="m">0 + 1 = 1 + 0 = 1</span> [B1, B3a] and <span class="m">0 · 1 = 0</span> [B3b]. So <span class="m">1</span> is a complement of <span class="m">0</span>: <span class="m">0′ = 1</span> by P27. By duality, <span class="m">1′ = 0</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-29">
+          <div class="p-head"><span class="pnum">P29</span><h4>De Morgan in a Boolean algebra</h4></div>
+          <div class="p-body"><p>Prove <span class="m">(a + b)′ = a′b′</span> (Theorem 7, Lectures 4–5; left as an exercise there). You may use the laws B5–B9.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Use uniqueness (P27): it is enough to show <span class="m">(a + b) + a′b′ = 1</span> and <span class="m">(a + b) · a′b′ = 0</span>.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Sum: <span class="m wrap">(a + b) + a′b′ = ((a + b) + a′)((a + b) + b′)</span> [B2a]. Here <span class="m">(a + b) + a′ = (a + a′) + b = 1 + b = 1</span> [B1, B8a, B4a, B6a], and <span class="m">(a + b) + b′ = a + (b + b′) = a + 1 = 1</span> [B8a, B4a, B6a]. So the sum is <span class="m">1 · 1 = 1</span>.</p>
+            <p>Product: <span class="m wrap">(a + b)(a′b′) = a(a′b′) + b(a′b′) = (aa′)b′ + a′(bb′) = 0 · b′ + a′ · 0 = 0 + 0 = 0</span> [B2b, B1 + B8b, B4b, B1 + B6b, B3a].</p>
+            <p>By P27, <span class="m">a′b′</span> is the complement of <span class="m">a + b</span>. By duality, <span class="m">(ab)′ = a′ + b′</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-30">
+          <div class="p-head"><span class="pnum">P30</span><h4>Four ways to say a ≤ b</h4></div>
+          <div class="p-body"><p>Prove that these are equivalent (Theorem 8, Lectures 4–5): (1) <span class="m">a + b = b</span>; (2) <span class="m">ab = a</span>; (3) <span class="m">a′ + b = 1</span>; (4) <span class="m">ab′ = 0</span>.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>A cycle (1) ⟹ (2) ⟹ (4) ⟹ (3) ⟹ (1) works well. For the last step, multiply <span class="m">a + b</span> by <span class="m">1 = a′ + b</span>.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>(1) ⟹ (2): <span class="m">ab = a(a + b) = a</span> (substitute (1), then absorption B7b).</p>
+            <p>(2) ⟹ (4): <span class="m">ab′ = (ab)b′ = a(bb′) = a0 = 0</span> (substitute (2), B8b, B4b, B6b).</p>
+            <p>(4) ⟹ (3): <span class="m">a′ + b = a′ + b″ = (ab′)′ = 0′ = 1</span> (B10, De Morgan P29, substitute (4), B11).</p>
+            <p>(3) ⟹ (1): <span class="m wrap">a + b = (a + b) · 1 = (b + a)(b + a′) = b + aa′ = b + 0 = b</span> (B3b, substitute (3) and B1, B2a, B4b, B3a). ∎</p>
+            <p class="small muted">In the algebra of sets these say: <span class="m">A ∪ B = B</span>, <span class="m">A ∩ B = A</span>, <span class="m">A′ ∪ B = U</span>, <span class="m">A − B = ∅</span>, i.e. <span class="m">A ⊆ B</span> (compare P6).</p>
+          </div></details>
+        </article>
+      </div>
+
+      <p class="hw-group">Level 6 · Countable sets</p>
+      <p class="small muted" style="margin-top:-0.4rem">Proofs of this kind already in the midterm sections: <a href="#mt-a7">polynomials with rational coefficients</a>, <a href="#mt-b7">rational points of the plane</a>, <a href="#mt24-b6">rational intervals</a>, <a href="#mt24-a6">every infinite set is equivalent to a proper subset</a>.</p>
+      <div class="probs">
+        <article class="prob" id="pf-31">
+          <div class="p-head"><span class="pnum">P31</span><h4>The integers are countable</h4></div>
+          <div class="p-body"><p>Prove that <span class="m">f : ℤ → ℤ⁺</span>, <span class="m">f(n) = 2n + 1</span> for <span class="m">n ≥ 0</span> and <span class="m">f(n) = 2|n|</span> for <span class="m">n &lt; 0</span>, is a bijection. (Example 14, Lecture 1.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p><b>Well defined:</b> for <span class="m">n ≥ 0</span>, <span class="m">2n + 1 ≥ 1</span> is odd; for <span class="m">n &lt; 0</span>, <span class="m">2|n| ≥ 2</span> is even. So <span class="m">f(n) ∈ ℤ⁺</span>.</p>
+            <p><b>Injective:</b> an odd value never equals an even value, so if <span class="m">f(n) = f(m)</span> then <span class="m">n, m</span> have the same sign. If both are <span class="m">≥ 0</span>, <span class="m">2n + 1 = 2m + 1</span> gives <span class="m">n = m</span>; if both are negative, <span class="m">2|n| = 2|m|</span> gives <span class="m">n = m</span>.</p>
+            <p><b>Surjective:</b> an odd <span class="m">k</span> is <span class="m">f((k − 1)/2)</span> with <span class="m">(k − 1)/2 ≥ 0</span>; an even <span class="m">k</span> is <span class="m">f(−k/2)</span> with <span class="m">−k/2 &lt; 0</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-32">
+          <div class="p-head"><span class="pnum">P32</span><h4>Subsets of countable sets</h4></div>
+          <div class="p-body"><p>Using Theorem 10 (“every subset of a countable set is finite or countable”), prove that the set of prime numbers and the set of perfect squares are countable.</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Both are subsets of the countable set <span class="m">ℤ⁺</span>, so each is finite or countable. Neither is finite. For the squares, <span class="m">n ↦ n²</span> is injective on <span class="m">ℤ⁺</span>. For the primes, suppose there were only finitely many, <span class="m">p₁, …, pₖ</span>. Then <span class="m">N = p₁p₂⋯pₖ + 1</span> leaves remainder 1 when divided by every <span class="m">pᵢ</span>, so any prime factor of <span class="m">N</span> is a new prime, a contradiction (Euclid). Hence both sets are countable. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-33">
+          <div class="p-head"><span class="pnum">P33</span><h4>Pairs of positive integers</h4></div>
+          <div class="p-body"><p>Prove that <span class="m">g : ℤ⁺ × ℤ⁺ → ℤ⁺</span>, <span class="m">g(m, n) = 2ᵐ⁻¹(2n − 1)</span>, is a bijection. Hence <span class="m">ℤ⁺ × ℤ⁺</span> is countable.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Every positive integer can be written in exactly one way as a power of 2 times an odd number.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p><b>Surjective:</b> let <span class="m">k ∈ ℤ⁺</span>. Divide <span class="m">k</span> by 2 as often as possible: <span class="m">k = 2ᵃ · q</span> with <span class="m">a ≥ 0</span> and <span class="m">q</span> odd. Put <span class="m">m = a + 1</span> and <span class="m">n = (q + 1)/2</span>; then <span class="m">g(m, n) = k</span>.</p>
+            <p><b>Injective:</b> if <span class="m">2ᵐ⁻¹(2n − 1) = 2ᵐ′⁻¹(2n′ − 1)</span> and, say, <span class="m">m &gt; m′</span>, divide by <span class="m">2ᵐ′⁻¹</span>: the left side is even and the right side is odd, which is impossible. So <span class="m">m = m′</span>, and then <span class="m">2n − 1 = 2n′ − 1</span> gives <span class="m">n = n′</span>. ∎</p>
+            <p class="small muted">This replaces the diagonal picture (4.2) in the proof of Theorem 11 with a formula.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-34">
+          <div class="p-head"><span class="pnum">P34</span><h4>The rationals, via Theorem 11</h4></div>
+          <div class="p-body"><p>Give a proof that <span class="m">ℚ</span> is countable using Theorem 11 instead of “heights” (Example 17).</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>For each <span class="m">q ∈ ℤ⁺</span> let <span class="m">Q_q = {p/q : p ∈ ℤ}</span>. The map <span class="m">p ↦ p/q</span> is a bijection <span class="m">ℤ → Q_q</span>, so each <span class="m">Q_q</span> is countable (P31 and transitivity, P19). Every rational can be written with a positive denominator, so <span class="m">ℚ = ⋃<sub>q∈ℤ⁺</sub> Q_q</span>: a countable union of countable sets. By Theorem 11, <span class="m">ℚ</span> is countable. ∎</p>
+            <p class="small muted">The sets <span class="m">Q_q</span> overlap (<span class="m">1/1 = 2/2</span>); Theorem 11 allows that, as its proof first makes the sets disjoint.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-35">
+          <div class="p-head"><span class="pnum">P35</span><h4>Algebraic numbers</h4></div>
+          <div class="p-body"><p>A number is algebraic if it is a root of a nonzero polynomial with rational coefficients. Prove that the set of algebraic numbers is countable. (Exercise 2.12, Lecture 1.)</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Polynomials with rational coefficients form a countable set (<a href="#mt-a7">midterm proof</a>), and a nonzero polynomial of degree <span class="m">n</span> has at most <span class="m">n</span> roots.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">𝒫</span> be the set of nonzero polynomials with rational coefficients; it is countable (a subset of a countable set, infinite). For <span class="m">P ∈ 𝒫</span> let <span class="m">R(P)</span> be its set of roots; it is finite (at most <span class="m">deg P</span> elements). The set of algebraic numbers is <span class="m">𝔸 = ⋃<sub>P∈𝒫</sub> R(P)</span>, a countable union of finite sets, so it is finite or countable: list the polynomials as <span class="m">P₁, P₂, …</span>, then list the roots of <span class="m">P₁</span>, then those of <span class="m">P₂</span>, and so on, skipping repeats. It is infinite, because every rational <span class="m">r</span> is the root of <span class="m">t − r</span>. Hence <span class="m">𝔸</span> is countable. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-36">
+          <div class="p-head"><span class="pnum">P36</span><h4>Adding a countable set changes nothing</h4></div>
+          <div class="p-body"><p>Let <span class="m">M</span> be infinite and <span class="m">A</span> countable. Prove <span class="m">M ∪ A ∼ M</span>. (Exercise 2.15*, Lecture 1.)</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Copy the idea of Theorem 13: find a countable <span class="m">C ⊆ M</span> (Theorem 12), map <span class="m">C ∪ A</span> onto <span class="m">C</span>, and leave the rest of <span class="m">M</span> fixed.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">A₀ = A − M</span>; then <span class="m">M ∪ A = M ∪ A₀</span> with <span class="m">M ∩ A₀ = ∅</span>, and <span class="m">A₀</span> is finite or countable (Theorem 10). If <span class="m">A₀ = ∅</span> there is nothing to prove.</p>
+            <p>By Theorem 12, <span class="m">M</span> has a countable subset <span class="m">C</span>. Then <span class="m">C ∪ A₀</span> is countable (Theorem 11; a finite set can be listed first). So there is a bijection <span class="m">g : C ∪ A₀ → C</span>, since both are countable.</p>
+            <p>Define <span class="m">h : M ∪ A₀ → M</span> by <span class="m">h(x) = g(x)</span> for <span class="m">x ∈ C ∪ A₀</span> and <span class="m">h(x) = x</span> for <span class="m">x ∈ M − C</span>. The two parts <span class="m">C ∪ A₀</span> and <span class="m">M − C</span> partition <span class="m">M ∪ A₀</span>, their images <span class="m">C</span> and <span class="m">M − C</span> partition <span class="m">M</span>, and <span class="m">h</span> is a bijection on each part. So <span class="m">h</span> is a bijection and <span class="m">M ∪ A ∼ M</span>. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-37">
+          <div class="p-head"><span class="pnum">P37</span><h4>Find the flaw: listing infinite sequences</h4></div>
+          <div class="p-body"><p>“The set <span class="m">S</span> of all infinite sequences of 0s and 1s is countable: list first the sequences that start with 0, then those that start with 1. Within each group, order by the second digit, and so on. Every sequence gets a place in the list.”</p></div>
+          <div class="mcq" data-a="1"><p class="q">What is wrong with this argument?</p><ul><li>Nothing: <span class="m">S</span> is countable, by Theorem 11</li><li>“Every sequence gets a place” is never shown, and it is false: already the first group is infinite, so no sequence of the second group gets a finite position</li><li>The groups overlap, so the list has repetitions</li><li>Sequences of 0s and 1s are finite, so the list is finite</li></ul><p class="why">A list must give every element a finite position <span class="m">1, 2, 3, …</span>. “Sort by first digit, then second, …” is an infinite sorting that never finishes the first group. In fact <span class="m">S</span> is uncountable: the diagonal argument (P40) applies word for word, flipping the <span class="m">n</span>-th digit of the <span class="m">n</span>-th sequence.</p></div>
+        </article>
+      </div>
+
+      <p class="hw-group">Level 7 · Uncountable sets and cardinality</p>
+      <div class="probs">
+        <article class="prob" id="pf-38">
+          <div class="p-head"><span class="pnum">P38</span><h4>A set with an uncountable subset</h4></div>
+          <div class="p-body"><p>Prove that a set with an uncountable subset is itself uncountable. (Exercise 2.17, Lecture 1.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">B ⊆ M</span> with <span class="m">B</span> uncountable, and suppose <span class="m">M</span> is not uncountable, i.e. <span class="m">M</span> is finite or countable. If <span class="m">M</span> is finite, so is its subset <span class="m">B</span>. If <span class="m">M</span> is countable, <span class="m">B</span> is finite or countable by Theorem 10. Either way <span class="m">B</span> is not uncountable, a contradiction. ∎</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-39">
+          <div class="p-head"><span class="pnum">P39</span><h4>Intervals and the real line</h4></div>
+          <div class="p-body"><p>(a) For <span class="m">a &lt; b</span> and <span class="m">c &lt; d</span>, prove <span class="m">[a, b] ∼ [c, d]</span> with an explicit bijection (Example 19 does it geometrically). (b) Prove <span class="m">(0, 1) ∼ ℝ</span>.</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>(a) <span class="m">f(x) = c + (d − c)(x − a)/(b − a)</span> maps <span class="m">a ↦ c</span> and <span class="m">b ↦ d</span>, and is increasing, so it maps <span class="m">[a, b]</span> into <span class="m">[c, d]</span>. Its inverse <span class="m">g(y) = a + (b − a)(y − c)/(d − c)</span> maps <span class="m">[c, d]</span> into <span class="m">[a, b]</span>, and <span class="m">g(f(x)) = x</span>, <span class="m">f(g(y)) = y</span>. A function with a two-sided inverse is a bijection.</p>
+            <p>(b) <span class="m">h(x) = tan(π(x − ½))</span>: as <span class="m">x</span> runs over <span class="m">(0, 1)</span>, <span class="m">π(x − ½)</span> runs over <span class="m">(−π/2, π/2)</span>, and <span class="m">tan</span> is a bijection from there onto <span class="m">ℝ</span> (Example 4). A composition of bijections is a bijection (P19). ∎</p>
+            <p class="small muted">With P38: <span class="m">[0, 1]</span> is uncountable (P40), so <span class="m">ℝ</span> and every interval <span class="m">[c, d]</span> are uncountable.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-40">
+          <div class="p-head"><span class="pnum">P40</span><h4>Puzzle: Cantor's diagonal argument</h4></div>
+          <div class="p-body"><p>Put the steps of the proof that <span class="m">[0, 1]</span> is uncountable (Theorem 14, Lecture 1) in order. Using only the digits 4 and 5 avoids numbers with two decimal expansions, such as <span class="m">0.1999… = 0.2000…</span>.</p></div>
+          <div class="order"><ol class="order-key">
+            <li>Assume the contrary: <span class="m">[0, 1]</span> is countable, so its elements can be listed as <span class="m">α₁, α₂, α₃, …</span></li>
+            <li>Write each in decimal: <span class="m">αₙ = 0.aₙ₁aₙ₂aₙ₃…</span></li>
+            <li>Define <span class="m">β = 0.b₁b₂b₃…</span> by <span class="m">bₙ = 5</span> if <span class="m">aₙₙ ≠ 5</span> and <span class="m">bₙ = 4</span> if <span class="m">aₙₙ = 5</span>.</li>
+            <li>Then <span class="m">β ∈ [0, 1]</span>, and its expansion is the only one it has, because it contains no 0s or 9s.</li>
+            <li>For every <span class="m">n</span>, <span class="m">β</span> and <span class="m">αₙ</span> differ in the <span class="m">n</span>-th digit, so <span class="m">β ≠ αₙ</span>.</li>
+            <li>So <span class="m">β</span> is not in the list, which contradicts the assumption that the list contains all of <span class="m">[0, 1]</span>. ∎</li>
+          </ol></div>
+        </article>
+
+        <article class="prob" id="pf-41">
+          <div class="p-head"><span class="pnum">P41</span><h4>Transcendental numbers exist, uncountably many</h4></div>
+          <div class="p-body"><p>Prove that the set of real numbers that are not algebraic is uncountable. (Exercise 2.16*, Lecture 1.)</p></div>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">𝔸_ℝ</span> be the real algebraic numbers and <span class="m">T = ℝ − 𝔸_ℝ</span>. <span class="m">𝔸_ℝ</span> is countable (an infinite subset of the countable set in P35). Suppose <span class="m">T</span> were finite or countable. Then <span class="m">ℝ = 𝔸_ℝ ∪ T</span> would be countable by Theorem 11. But <span class="m">ℝ</span> is uncountable (P39 with P38). So <span class="m">T</span> is uncountable; in particular it is not empty. ∎</p>
+            <p class="small muted">The proof shows that transcendental numbers exist without exhibiting a single one. Proving that a specific number such as <span class="m">π</span> or <span class="m">e</span> is transcendental is much harder.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-42">
+          <div class="p-head"><span class="pnum">P42</span><h4>Closed and open intervals</h4></div>
+          <div class="p-body"><p>Prove <span class="m">[0, 1] ∼ (0, 1)</span> with an explicit bijection.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Two points too many. Make room in a countable sequence inside <span class="m">(0, 1)</span>, such as <span class="m">½, ⅓, ¼, …</span>, by shifting it two places, the same trick as in Theorem 13.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Define <span class="m">h : [0, 1] → (0, 1)</span>: <span class="m">h(0) = ½</span>, <span class="m">h(1) = ⅓</span>, <span class="m">h(1/n) = 1/(n + 2)</span> for <span class="m">n ≥ 2</span>, and <span class="m">h(x) = x</span> for every other <span class="m">x</span>.</p>
+            <p>Let <span class="m">E = {1/n : n ≥ 2}</span>. <span class="m">h</span> maps <span class="m">{0, 1} ∪ E</span> one-to-one onto <span class="m">E</span>: <span class="m">0, 1, ½, ⅓, …</span> go to <span class="m">½, ⅓, ¼, ⅕, …</span>, which is all of <span class="m">E</span> without repetition. It maps the rest, <span class="m">(0, 1) − E</span>, identically onto itself. These two pieces partition <span class="m">[0, 1]</span> and their images partition <span class="m">(0, 1)</span>, so <span class="m">h</span> is a bijection. ∎</p>
+            <p class="small muted">The same idea gives a general fact (from IIT Kharagpur CS60005 tutorial solutions): if <span class="m">A</span> is uncountable and <span class="m">B ⊆ A</span> is countable, then <span class="m">A − B ∼ A</span>. Take a countable <span class="m">C = {c₁, c₂, …} ⊆ A − B</span> and send <span class="m">bₙ ↦ c₂ₙ₋₁</span>, <span class="m">cₙ ↦ c₂ₙ</span>, everything else to itself.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-43">
+          <div class="p-head"><span class="pnum">P43</span><h4>Cantor's theorem: |M| &lt; |P(M)|</h4></div>
+          <div class="p-body"><p>Prove that for every set <span class="m">M</span> there is no surjection <span class="m">f : M → P(M)</span>, while there is an injection <span class="m">M → P(M)</span>. So the power set always has strictly larger cardinality. (Behind Exercise 2.18*, Lecture 1.)</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Given <span class="m">f</span>, look at the elements that do not belong to their own image: <span class="m">D = {x ∈ M : x ∉ f(x)}</span>. Could <span class="m">D = f(d)</span>?</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>The map <span class="m">x ↦ {x}</span> is injective, so <span class="m">|M| ≤ |P(M)|</span>.</p>
+            <p>Let <span class="m">f : M → P(M)</span> be any function and <span class="m">D = {x ∈ M : x ∉ f(x)} ∈ P(M)</span>. Suppose <span class="m">D = f(d)</span> for some <span class="m">d ∈ M</span>. If <span class="m">d ∈ D</span>, then by the definition of <span class="m">D</span>, <span class="m">d ∉ f(d) = D</span>. If <span class="m">d ∉ D = f(d)</span>, then by the definition of <span class="m">D</span>, <span class="m">d ∈ D</span>. Both cases are impossible, so <span class="m">D</span> is not in the image of <span class="m">f</span>: no <span class="m">f</span> is onto. Hence there is no bijection and <span class="m">|M| &lt; |P(M)|</span>. ∎</p>
+            <p class="small muted">Exercise 2.18 follows: a function <span class="m">M → {0, 1}</span> is the same as a subset of <span class="m">M</span> (the set where it equals 1), so the set of all such functions has cardinality <span class="m">|P(M)| &gt; |M|</span>. Note that this is the diagonal argument again: <span class="m">D</span> differs from <span class="m">f(x)</span> at the element <span class="m">x</span>.</p>
+          </div></details>
+        </article>
+
+        <article class="prob" id="pf-44">
+          <div class="p-head"><span class="pnum">P44</span><h4>Challenge: the Cantor–Bernstein theorem</h4></div>
+          <div class="p-body"><p>Let <span class="m">f : A → B</span> and <span class="m">g : B → A</span> be injections. Prove that <span class="m">A ∼ B</span> (Theorem 16, Lecture 1). Then use it to give an indirect proof that <span class="m">[a, b] ∼ (a, b)</span> (Exercise 2.18).</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Points of <span class="m">A</span> outside <span class="m">g(B)</span> must be sent by <span class="m">f</span>. So must everything reached from them by <span class="m">g ∘ f</span>. Send all other points back with <span class="m">g⁻¹</span>.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">C₀ = A − g(B)</span>, <span class="m">Cₙ₊₁ = g(f(Cₙ))</span>, and <span class="m">C = C₀ ∪ C₁ ∪ C₂ ∪ ⋯</span>. Define <span class="m">h : A → B</span> by <span class="m">h(x) = f(x)</span> for <span class="m">x ∈ C</span> and <span class="m">h(x) = g⁻¹(x)</span> for <span class="m">x ∉ C</span>. The second case makes sense: <span class="m">x ∉ C₀</span> means <span class="m">x ∈ g(B)</span>, and <span class="m">g⁻¹(x)</span> is unique because <span class="m">g</span> is injective.</p>
+            <p><b>Injective.</b> On <span class="m">C</span>, <span class="m">h = f</span> is injective; off <span class="m">C</span>, <span class="m">h = g⁻¹</span> is injective. Suppose <span class="m">f(x) = g⁻¹(x′)</span> with <span class="m">x ∈ Cₙ</span> and <span class="m">x′ ∉ C</span>. Then <span class="m">x′ = g(f(x)) ∈ Cₙ₊₁ ⊆ C</span>, a contradiction.</p>
+            <p><b>Surjective.</b> Let <span class="m">y ∈ B</span>. If <span class="m">g(y) ∉ C</span>, then <span class="m">h(g(y)) = g⁻¹(g(y)) = y</span>. If <span class="m">g(y) ∈ C</span>, then <span class="m">g(y) ∉ C₀</span> (it lies in <span class="m">g(B)</span>), so <span class="m">g(y) ∈ Cₙ₊₁ = g(f(Cₙ))</span> for some <span class="m">n</span>. That is, <span class="m">g(y) = g(f(x))</span> with <span class="m">x ∈ Cₙ</span>, and since <span class="m">g</span> is injective, <span class="m">y = f(x) = h(x)</span>. So <span class="m">h</span> is a bijection. ∎</p>
+            <p><b>Application.</b> The inclusion <span class="m">(a, b) → [a, b]</span> is injective. So is <span class="m">x ↦ m + (x − m)/2</span> from <span class="m">[a, b]</span> to <span class="m">(a, b)</span>, where <span class="m">m = (a + b)/2</span>: it shrinks <span class="m">[a, b]</span> to the middle half, <span class="m">[(3a + b)/4, (a + 3b)/4] ⊂ (a, b)</span>. By Cantor–Bernstein, <span class="m">[a, b] ∼ (a, b)</span>, without building the bijection by hand as in P42.</p>
+          </div></details>
+        </article>
+      </div>
+    </section>
     <section class="chapter" id="errata">
       <p class="eyebrow">Read with care</p>
       <h2>Errata in the notes</h2>
@@ -3989,6 +4503,60 @@ if (typeof module !== 'undefined') module.exports = Core;
     el.append(svg);
   }
 
+  // ------------------------------------------------------------ proof puzzles: put the steps in order
+  // <div class="order"><ol class="order-key"><li>step 1</li><li>step 2</li>…</ol></div>, the key in the right order.
+  function buildOrder(el) {
+    const key = $('.order-key', el);
+    const steps = $$('li', key).map((li, i) => ({ i, html: li.innerHTML }));
+    key.hidden = true;
+    // deterministic shuffle (seeded by the problem id) that never leaves the steps in order
+    let seed = [...(el.closest('[id]')?.id || 'x')].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+    const rnd = () => ((seed = (seed * 1103515245 + 12345) >>> 0) / 4294967296);
+    const pool = steps.slice();
+    do {
+      for (let k = pool.length - 1; k > 0; k--) { const j = Math.floor(rnd() * (k + 1)); [pool[k], pool[j]] = [pool[j], pool[k]]; }
+    } while (pool.length > 1 && pool.every((s, k) => s.i === k));
+    const built = [];
+    const poolEl = h('div', { class: 'order-pool', role: 'group', 'aria-label': 'Steps to place' });
+    const builtEl = h('ol', { class: 'order-built', 'aria-label': 'Your proof' });
+    const fb = h('p', { class: 'fb', role: 'status', 'aria-live': 'polite' });
+    const clearFb = () => { fb.className = 'fb'; fb.replaceChildren(); };
+    const line = (s, where) => {
+      const b = h('button', { type: 'button', class: 'order-step', 'data-i': s.i });
+      b.innerHTML = s.html;
+      b.setAttribute('aria-label', (where === 'pool' ? 'Add: ' : 'Remove: ') + b.textContent);
+      b.addEventListener('click', () => {
+        if (where === 'pool') { pool.splice(pool.indexOf(s), 1); built.push(s); } else { built.splice(built.indexOf(s), 1); pool.push(s); }
+        clearFb();
+        render();
+        const next = where === 'pool' ? $('.order-pool .order-step', el) : $('.order-built .order-step', el);
+        (next || $('.order-step', el))?.focus();
+      });
+      return b;
+    };
+    function render() {
+      poolEl.replaceChildren(...pool.map((s) => line(s, 'pool')));
+      if (!pool.length) poolEl.append(h('p', { class: 'small muted' }, 'All steps placed. Press Check.'));
+      builtEl.replaceChildren(...built.map((s) => h('li', {}, line(s, 'built'))));
+      typeset(el);
+    }
+    const check = h('button', {
+      type: 'button', class: 'btn', onclick: () => {
+        if (pool.length) { showFb(fb, { status: 'error', msg: `Place all ${steps.length} steps first (${pool.length} left).` }); return; }
+        const firstBad = built.findIndex((s, k) => s.i !== k);
+        if (firstBad < 0) showFb(fb, { status: 'ok', msg: 'Correct: every step follows from the ones before it.' });
+        else showFb(fb, { status: 'wrong', msg: firstBad === 0 ? 'The first step is not where this proof starts. Click a step to send it back.' : `Steps 1–${firstBad} are right. Step ${firstBad + 1} does not follow yet; click a step to send it back.` });
+      },
+    }, 'Check');
+    const reset = h('button', { type: 'button', class: 'btn ghost', onclick: () => { pool.push(...built.splice(0)); clearFb(); render(); } }, 'Start again');
+    el.append(
+      h('p', { class: 'order-cap' }, 'Steps (click to add)'), poolEl,
+      h('p', { class: 'order-cap' }, 'Your proof (click a line to remove it)'), builtEl,
+      h('div', { class: 'prim-bar' }, check, reset), fb,
+    );
+    render();
+  }
+
   // ------------------------------------------------------------ Prim's algorithm on a grid graph
   // data-rows="a b c d|e f g h|i j k l" places the vertices; data-e="a-b:2 b-c:3 …" lists the weighted edges.
   // Each click must add an edge Prim's algorithm could choose next (the first one: any lightest edge).
@@ -4369,6 +4937,7 @@ if (typeof module !== 'undefined') module.exports = Core;
     $$('.circuit').forEach((el) => { try { buildCircuit(el); } catch (e) { console.error('circuit', el, e); } });
     $$('.check').forEach((el) => { try { buildCheck(el); } catch (e) { console.error('check', el, e); } });
     $$('.prim').forEach((el) => { try { buildPrim(el); } catch (e) { console.error('prim', el, e); } });
+    $$('.order').forEach((el) => { try { buildOrder(el); } catch (e) { console.error('order', el, e); } });
     $$('.tf > li').forEach(buildTF);
     $$('.mcq').forEach(buildMCQ);
     $$('main .prob').forEach(buildProb);

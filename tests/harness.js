@@ -29,13 +29,28 @@ setTimeout(() => {
     emptyBox.querySelector('form').dispatchEvent(new Event('submit', { cancelable: true }));
     out.emptyButton = emptyBox.querySelector('.fb').className + ' EMPTYBTN';
   }
+  // proof puzzles: a wrong order must be rejected, the key order accepted
+  out.orderOk = 0; out.orderFail = [];
+  document.querySelectorAll('.order').forEach((el) => {
+    const id = el.closest('[id]').id;
+    const n = el.querySelectorAll('.order-key li').length;
+    const place = (seq) => seq.forEach((i) => el.querySelector(`.order-pool .order-step[data-i="${i}"]`).click());
+    const btn = (txt) => [...el.querySelectorAll('button')].find((b) => b.textContent === txt);
+    const fb = el.querySelector('.fb');
+    place([...Array(n).keys()].reverse()); btn('Check').click();
+    if (!fb.classList.contains('wrong')) out.orderFail.push(id + ' reversed order not rejected');
+    btn('Start again').click();
+    place([...Array(n).keys()]); btn('Check').click();
+    if (fb.classList.contains('ok')) out.orderOk++; else out.orderFail.push(id + ': ' + fb.textContent);
+    btn('Start again').click();
+  });
   const count = (sel) => document.querySelectorAll(sel).length;
   const vennPainted = [...document.querySelectorAll('canvas.venn')].filter((c) => c.width > 0).length;
   const summary = {
     checksOk: out.ok, checkFails: out.fail, emptyButton: out.emptyButton, errors: window.__errors,
     circuits: count('svg.circ'), kmaps: count('table.km'), kmSolutions: count('.km-sol'), venns: count('canvas.venn'), vennPainted,
     tfButtons: count('.tfb'), mcqOptions: count('.mcq .opt'), doneButtons: count('.done-btn'), italicLetters: count('.m i'),
-    ttRows: count('#tt-out table.tt tbody tr'), ktCells: count('#kmap-tool .km-btn'), timing: count('.timing-svg'),
+    ttRows: count('#tt-out table.tt tbody tr'), ktCells: count('#kmap-tool .km-btn'), timing: count('.timing-svg'), orderOk: out.orderOk, orderFail: out.orderFail,
     tocCounts: [...document.querySelectorAll('[data-count]')].map((e) => e.dataset.count + '=' + e.textContent),
   };
   console.log('HARNESS ' + JSON.stringify(summary));

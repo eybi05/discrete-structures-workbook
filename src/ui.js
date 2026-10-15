@@ -451,6 +451,60 @@
     el.append(svg);
   }
 
+  // ------------------------------------------------------------ proof puzzles: put the steps in order
+  // <div class="order"><ol class="order-key"><li>step 1</li><li>step 2</li>…</ol></div>, the key in the right order.
+  function buildOrder(el) {
+    const key = $('.order-key', el);
+    const steps = $$('li', key).map((li, i) => ({ i, html: li.innerHTML }));
+    key.hidden = true;
+    // deterministic shuffle (seeded by the problem id) that never leaves the steps in order
+    let seed = [...(el.closest('[id]')?.id || 'x')].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
+    const rnd = () => ((seed = (seed * 1103515245 + 12345) >>> 0) / 4294967296);
+    const pool = steps.slice();
+    do {
+      for (let k = pool.length - 1; k > 0; k--) { const j = Math.floor(rnd() * (k + 1)); [pool[k], pool[j]] = [pool[j], pool[k]]; }
+    } while (pool.length > 1 && pool.every((s, k) => s.i === k));
+    const built = [];
+    const poolEl = h('div', { class: 'order-pool', role: 'group', 'aria-label': 'Steps to place' });
+    const builtEl = h('ol', { class: 'order-built', 'aria-label': 'Your proof' });
+    const fb = h('p', { class: 'fb', role: 'status', 'aria-live': 'polite' });
+    const clearFb = () => { fb.className = 'fb'; fb.replaceChildren(); };
+    const line = (s, where) => {
+      const b = h('button', { type: 'button', class: 'order-step', 'data-i': s.i });
+      b.innerHTML = s.html;
+      b.setAttribute('aria-label', (where === 'pool' ? 'Add: ' : 'Remove: ') + b.textContent);
+      b.addEventListener('click', () => {
+        if (where === 'pool') { pool.splice(pool.indexOf(s), 1); built.push(s); } else { built.splice(built.indexOf(s), 1); pool.push(s); }
+        clearFb();
+        render();
+        const next = where === 'pool' ? $('.order-pool .order-step', el) : $('.order-built .order-step', el);
+        (next || $('.order-step', el))?.focus();
+      });
+      return b;
+    };
+    function render() {
+      poolEl.replaceChildren(...pool.map((s) => line(s, 'pool')));
+      if (!pool.length) poolEl.append(h('p', { class: 'small muted' }, 'All steps placed. Press Check.'));
+      builtEl.replaceChildren(...built.map((s) => h('li', {}, line(s, 'built'))));
+      typeset(el);
+    }
+    const check = h('button', {
+      type: 'button', class: 'btn', onclick: () => {
+        if (pool.length) { showFb(fb, { status: 'error', msg: `Place all ${steps.length} steps first (${pool.length} left).` }); return; }
+        const firstBad = built.findIndex((s, k) => s.i !== k);
+        if (firstBad < 0) showFb(fb, { status: 'ok', msg: 'Correct: every step follows from the ones before it.' });
+        else showFb(fb, { status: 'wrong', msg: firstBad === 0 ? 'The first step is not where this proof starts. Click a step to send it back.' : `Steps 1–${firstBad} are right. Step ${firstBad + 1} does not follow yet; click a step to send it back.` });
+      },
+    }, 'Check');
+    const reset = h('button', { type: 'button', class: 'btn ghost', onclick: () => { pool.push(...built.splice(0)); clearFb(); render(); } }, 'Start again');
+    el.append(
+      h('p', { class: 'order-cap' }, 'Steps (click to add)'), poolEl,
+      h('p', { class: 'order-cap' }, 'Your proof (click a line to remove it)'), builtEl,
+      h('div', { class: 'prim-bar' }, check, reset), fb,
+    );
+    render();
+  }
+
   // ------------------------------------------------------------ Prim's algorithm on a grid graph
   // data-rows="a b c d|e f g h|i j k l" places the vertices; data-e="a-b:2 b-c:3 …" lists the weighted edges.
   // Each click must add an edge Prim's algorithm could choose next (the first one: any lightest edge).
@@ -831,6 +885,7 @@
     $$('.circuit').forEach((el) => { try { buildCircuit(el); } catch (e) { console.error('circuit', el, e); } });
     $$('.check').forEach((el) => { try { buildCheck(el); } catch (e) { console.error('check', el, e); } });
     $$('.prim').forEach((el) => { try { buildPrim(el); } catch (e) { console.error('prim', el, e); } });
+    $$('.order').forEach((el) => { try { buildOrder(el); } catch (e) { console.error('order', el, e); } });
     $$('.tf > li').forEach(buildTF);
     $$('.mcq').forEach(buildMCQ);
     $$('main .prob').forEach(buildProb);
