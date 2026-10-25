@@ -13,9 +13,18 @@ const Core = (() => {
     constructor(msg, pos) { super(msg); this.pos = pos; }
   }
 
-  function stripLhs(s) {
-    const m = s.match(/^\s*[A-Za-z][A-Za-z0-9_]*\s*(\([^)]*\))?\s*=(?![>=])/);
-    return m ? s.slice(m[0].length) : s;
+  // A leading label such as "E =", "Y =" or "f(x, y) =" is dropped. A single variable before "=",
+  // as in "p = q", is kept: there "=" is read as ↔. With no variable list (the tools), a lowercase
+  // letter or a name that reappears on the right counts as a variable.
+  function stripLhs(s, vars) {
+    const m = s.match(/^\s*([A-Za-z][A-Za-z0-9_]*)\s*(\([^)]*\))?\s*=(?![>=])/);
+    if (!m) return s;
+    const name = m[1], rest = s.slice(m[0].length);
+    if (!m[2] && name.length === 1) {
+      const isVar = vars ? vars.includes(name) : (/[a-z]/.test(name) || rest.includes(name));
+      if (isVar) return s;
+    }
+    return rest;
   }
 
   function tokenize(s) {
@@ -27,6 +36,8 @@ const Core = (() => {
       if (/\s/.test(c)) { i++; continue; }
       if (three === '<->' || three === '<=>') { toks.push({ k: 'iff', p: i }); i += 3; continue; }
       if (two === '->' || two === '=>') { toks.push({ k: 'imp', p: i }); i += 2; continue; }
+      if (two === '==') { toks.push({ k: 'iff', p: i }); i += 2; continue; }
+      if (c === '=') { toks.push({ k: 'iff', p: i }); i++; continue; }
       if ('↔⇔≡'.includes(c)) { toks.push({ k: 'iff', p: i }); i++; continue; }
       if ('→⇒'.includes(c)) { toks.push({ k: 'imp', p: i }); i++; continue; }
       if ('([{'.includes(c)) { toks.push({ k: '(', p: i }); i++; continue; }
@@ -56,8 +67,8 @@ const Core = (() => {
     return { t, a: x, b: y };
   };
 
-  function parse(src) {
-    const text = stripLhs(String(src));
+  function parse(src, vars) {
+    const text = stripLhs(String(src), vars);
     const toks = tokenize(text);
     if (!toks.length) throw new ParseError('Type an expression first.', 0);
     let i = 0;
@@ -304,41 +315,57 @@ const Core = (() => {
     if (!ms.length) return { primes: [], essential: [], sums: [[]] };
     if (ms.length === full) { const one = '-'.repeat(n); return { primes: [one], essential: [one], sums: [[one]] }; }
     const primes = primeImplicants(ms, n);
-    const idx = new Map(ms.map((m, i) => [m, i]));
-    const maskOf = (p) => { let b = 0; ms.forEach((m) => { if (covers(p, m, n)) b |= 1 << idx.get(m); }); return b; };
-    const masks = primes.map(maskOf);
-    const target = (ms.length >= 31) ? -1 >>> 0 : (1 << ms.length) - 1;
+    // cells[j]: indices (into ms) of the minterms prime j covers; by[i]: the primes covering minterm i.
+    // Coverage is counted per minterm, so any number of minterms works (no 32-bit masks).
+    const cells = primes.map((p) => ms.flatMap((m, i) => (covers(p, m, n) ? [i] : [])));
+    const by = ms.map(() => []);
+    cells.forEach((cs, j) => cs.forEach((i) => by[i].push(j)));
     const essential = [];
-    ms.forEach((m) => {
-      const c = primes.filter((p) => covers(p, m, n));
-      if (c.length === 1 && !essential.includes(c[0])) essential.push(c[0]);
-    });
+    by.forEach((c) => { if (c.length === 1 && !essential.includes(primes[c[0]])) essential.push(primes[c[0]]); });
 
+    const count = new Int32Array(ms.length);
+    let uncovered = ms.length;
+    const add = (j) => cells[j].forEach((i) => { if (count[i]++ === 0) uncovered--; });
+    const remove = (j) => cells[j].forEach((i) => { if (--count[i] === 0) uncovered++; });
     const found = new Map();
     let budget = 400000;
-    function search(chosen, covered, maxK) {
+    function search(chosen, maxK) {
       if (--budget < 0) return;
-      if ((covered >>> 0) === (target >>> 0)) {
+      if (!uncovered) {
         const key = [...chosen].sort((a, b) => a - b).join(',');
         if (!found.has(key)) found.set(key, [...chosen]);
         return;
       }
       if (chosen.length >= maxK) return;
-      let bit = 0;
-      while ((covered >>> bit) & 1) bit++;
-      for (let j = 0; j < primes.length; j++) {
-        if ((masks[j] >>> bit) & 1 && !chosen.includes(j)) {
-          chosen.push(j); search(chosen, covered | masks[j], maxK); chosen.pop();
-        }
+      const first = count.indexOf(0);
+      for (const j of by[first]) {
+        if (chosen.includes(j)) continue;
+        chosen.push(j); add(j); search(chosen, maxK); remove(j); chosen.pop();
       }
     }
     let kmin = 0;
-    for (let k = 1; k <= primes.length; k++) { found.clear(); budget = 400000; search([], 0, k); if (found.size) { kmin = k; break; } }
-    found.clear(); budget = 400000;
-    search([], 0, Math.min(primes.length, kmin + 2));
+    for (let k = 1; k <= primes.length && budget >= 0; k++) { found.clear(); budget = 400000; search([], k); if (found.size) { kmin = k; break; } }
+    if (kmin) { found.clear(); budget = 400000; search([], Math.min(primes.length, kmin + 2)); }
+    if (!found.size) found.set('greedy', greedyCover());
+    function greedyCover() {
+      // Fallback when the search budget runs out (very large maps): largest new coverage first.
+      const chosen = [], have = new Set();
+      while (have.size < ms.length) {
+        let best = -1, gain = 0;
+        cells.forEach((cs, j) => { const g = cs.filter((i) => !have.has(i)).length; if (g > gain) { gain = g; best = j; } });
+        chosen.push(best); cells[best].forEach((i) => have.add(i));
+      }
+      for (let k = chosen.length - 1; k >= 0; k--) {
+        const others = chosen.filter((_, o) => o !== k);
+        const c = new Set(others.flatMap((j) => cells[j]));
+        if (c.size === ms.length) chosen.splice(k, 1);
+      }
+      return chosen;
+    }
     const irredundant = (set) => set.every((j) => {
-      let c = 0; set.forEach((o) => { if (o !== j) c |= masks[o]; });
-      return (c >>> 0) !== (target >>> 0);
+      const c = new Int32Array(ms.length);
+      set.forEach((o) => { if (o !== j) cells[o].forEach((i) => { c[i]++; }); });
+      return c.includes(0);
     });
     const covers_ = [...found.values()].filter(irredundant).map((s) => ({
       s: s.map((j) => primes[j]), ES: s.length, EL: s.reduce((a, j) => a + patLits(primes[j]), 0),
@@ -363,15 +390,15 @@ const Core = (() => {
   // spec: { answer, vars:[...], mode: 'eq'|'sop'|'csop'|'min'|'prod' }
   function grade(input, spec) {
     let tree;
-    try { tree = parse(input); } catch (e) {
+    const vars = spec.vars;
+    try { tree = parse(input, vars); } catch (e) {
       if (e instanceof ParseError) return { status: 'error', msg: e.message };
       throw e;
     }
-    const vars = spec.vars;
     const used = varsOf(tree);
     const extra = [...used].filter((v) => !vars.includes(v));
     if (extra.length) return { status: 'error', msg: `Use only the variables ${vars.join(', ')} (found ${extra.join(', ')}).` };
-    const ansTree = parse(spec.answer);
+    const ansTree = parse(spec.answer, vars);
     const tu = table(tree, vars), ta = table(ansTree, vars);
     const bad = ta.findIndex((b, i) => b !== tu[i]);
     if (bad >= 0) {
@@ -439,6 +466,14 @@ const Core = (() => {
     return { status: 'wrong', msg: `Not quite: position${bad.length > 1 ? 's' : ''} ${bad.join(', ')} ${bad.length > 1 ? 'are' : 'is'} wrong (counting from the left).` };
   }
 
+  function gradeNum(input, answer) {
+    const s = String(input).replace(/[\s,]/g, '').replace(/^−/, '-');
+    if (!s) return { status: 'error', msg: 'Type a number first.' };
+    if (!/^-?\d+$/.test(s)) return { status: 'error', msg: 'Type a whole number, for example 42 or −3.' };
+    if (parseInt(s, 10) === parseInt(String(answer).replace(/^−/, '-'), 10)) return { status: 'ok', msg: 'Correct.' };
+    return { status: 'wrong', msg: 'Not quite. Check the computation and try again.' };
+  }
+
   function gradeSet(input, answer) {
     const parse_ = (str) => {
       const t = String(str).trim();
@@ -462,7 +497,7 @@ const Core = (() => {
   return {
     ParseError, parse, ev, varsOf, sortVars, table, minterms, envFor, show, steps,
     asSop, sopIssues, termStr, countEL, primeImplicants, minimalSums, patStr, patLits, patCells,
-    covers, toBits, sumStr, csopStr, grade, gradeBits, gradeSet, simpler,
+    covers, toBits, sumStr, csopStr, grade, gradeBits, gradeNum, gradeSet, simpler,
   };
 })();
 if (typeof module !== 'undefined') module.exports = Core;

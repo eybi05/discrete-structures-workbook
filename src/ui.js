@@ -84,7 +84,7 @@
     const kind = box.dataset.kind || 'bool';
     const owner = box.closest('[id]');
     const id = `${owner ? owner.id : 'c'}-in${++seq}`;
-    const ph = box.dataset.ph || (kind === 'bits' ? 'e.g. 01100101' : kind === 'set' ? 'e.g. {1, 2, 3}; type {} for ∅' : "use ' for the prime ′");
+    const ph = box.dataset.ph || (kind === 'bits' ? 'e.g. 01100101' : kind === 'set' ? 'e.g. {1, 2, 3}; type {} for ∅' : kind === 'num' ? 'a whole number' : "use ' for the prime ′");
     const input = h('input', {
       id, type: 'text', autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false',
       inputmode: kind === 'bits' ? 'numeric' : null, placeholder: ph, 'aria-describedby': id + '-fb',
@@ -106,6 +106,7 @@
       let res;
       if (kind === 'bits') res = Core.gradeBits(input.value, box.dataset.answer);
       else if (kind === 'set') res = Core.gradeSet(input.value, box.dataset.answer);
+      else if (kind === 'num') res = Core.gradeNum(input.value, box.dataset.answer);
       else {
         res = Core.grade(input.value, {
           answer: box.dataset.answer, vars: [...box.dataset.vars], mode: box.dataset.mode || 'eq',

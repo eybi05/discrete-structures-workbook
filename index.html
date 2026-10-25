@@ -220,7 +220,7 @@ svg.circ text.gl { font: 600 8px var(--f-mono); fill: var(--ink-3); letter-spaci
 .order-built .order-step { background: var(--mid-soft); border-color: transparent; }
 .proof-box { border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; margin: 0.8rem 0 1.2rem; }
 .proof-box h4 { margin: 0 0 0.35rem; }
-.proof-box ul { margin: 0.2rem 0 0; }
+.proof-box ul, .proof-box ol { margin: 0.2rem 0 0; }
 .prim { margin: 0.6rem 0 0.8rem; }
 .prim-wrap { overflow-x: auto; max-width: 100%; }
 svg.prim-svg { display: block; max-width: none; }
@@ -413,9 +413,9 @@ dl.tt-extra dd .m { white-space: normal; }
 <div class="hero">
   <div class="page hero-inner">
     <div>
-      <p class="kicker">MATH 1101 Discrete Structures · Fall 2026 · Lectures 1–5</p>
+      <p class="kicker">MATH 1101 Discrete Structures · Fall 2026 · Lectures 1–7</p>
       <h1>Discrete Structures Workbook</h1>
-      <p class="lead">Sets, logic and Boolean algebra from Fuad Hajiyev's lecture notes, arranged for study: short notes, worked examples, practice problems that check your answer as you type it, and an answer check for Homework&nbsp;1.</p>
+      <p class="lead">Sets, logic, Boolean algebra and induction from Fuad Hajiyev's lecture notes, arranged for study: short notes, worked examples, practice problems that check your answer as you type it, and an answer check for Homework&nbsp;1.</p>
       <ol class="how">
         <li><strong>Read</strong>one section of the notes</li>
         <li><strong>Solve</strong>its practice problems on paper</li>
@@ -463,6 +463,15 @@ dl.tt-extra dd .m { white-space: normal; }
       <li class="sub"><a href="#ps5">Practice 5 <span class="count" data-count="ps5"></span></a></li>
       <li class="sub"><a href="#ps6">Practice 6 <span class="count" data-count="ps6"></span></a></li>
       <li class="sub"><a href="#ps7">Practice 7 <span class="count" data-count="ps7"></span></a></li>
+      <li><a href="#induction">4 · Induction and recursion</a></li>
+      <li class="sub"><a href="#i-ri">4.1 Regular induction</a></li>
+      <li class="sub"><a href="#i-si">4.2 Strong induction</a></li>
+      <li class="sub"><a href="#i-pitfalls">4.3 Broken proofs</a></li>
+      <li class="sub"><a href="#i-wop">4.4 Well-ordering</a></li>
+      <li class="sub"><a href="#i-rec">4.5 Recursive definitions</a></li>
+      <li class="sub"><a href="#i-struct">4.6 Structural induction</a></li>
+      <li class="sub"><a href="#ps8">Practice 8 <span class="count" data-count="ps8"></span></a></li>
+      <li class="sub"><a href="#ps9">Practice 9 <span class="count" data-count="ps9"></span></a></li>
       <li><a href="#tools">Checkers and tools</a></li>
       <li><a href="#hw1">HW1 answer check <span class="count" data-count="hw1"></span></a></li>
       <li><a href="#mt1">Midterm 1 · Fall 2025 <span class="count" data-count="mt1"></span></a></li>
@@ -480,7 +489,7 @@ dl.tt-extra dd .m { white-space: normal; }
     <section class="chapter" id="big-picture">
       <p class="eyebrow">Start here</p>
       <h2>One algebra, three costumes</h2>
-      <p class="intro">Lectures 1–5 study three systems: sets, propositions and logic circuits. Lecture 4–5 shows that they are one structure, a Boolean algebra. A law you learn in one column holds in the others, so this page keeps pointing back to the table below.</p>
+      <p class="intro">Lectures 1–5 study three systems: sets, propositions and logic circuits. Lecture 4–5 shows that they are one structure, a Boolean algebra. A law you learn in one column holds in the others, so this page keeps pointing back to the table below. Lectures 6–7 then turn to proof itself: induction, the well-ordering property and recursion (chapter 4).</p>
       <div class="scroll">
         <table class="data costume">
           <thead><tr><th>Boolean algebra</th><th>Sets (L1)</th><th>Propositions (L2–3)</th><th>Circuits (L4–5)</th></tr></thead>
@@ -545,7 +554,7 @@ dl.tt-extra dd .m { white-space: normal; }
           </tbody>
         </table>
       </div>
-      <p class="small muted" style="margin-top:0.7rem">Spaces do not matter, and a leading <code>E =</code> or <code>Y =</code> is ignored. For sets of numbers, type the elements with commas: <code>{1, 2, 3}</code>. On paper (HW1 is handwritten) just draw the symbols as in the notes.</p>
+      <p class="small muted" style="margin-top:0.7rem">Spaces do not matter, and a leading <code>E =</code> or <code>Y =</code> is ignored. Between two variables, as in <code>p = q</code>, the sign <code>=</code> means <span class="m">↔</span>. For sets of numbers, type the elements with commas: <code>{1, 2, 3}</code>. On paper (HW1 is handwritten) just draw the symbols as in the notes.</p>
     </section>
     <section class="chapter" id="sets">
       <p class="eyebrow">Lecture 1</p>
@@ -1961,6 +1970,478 @@ dl.tt-extra dd .m { white-space: normal; }
         </div>
       </section>
     </section>
+    <section class="chapter" id="induction">
+      <p class="eyebrow">Lectures 6–7</p>
+      <h2>Induction, well-ordering and recursion</h2>
+      <p class="intro">Lectures 6 and 7 are about one idea in four forms: regular induction, strong induction, the well-ordering property and structural induction. All four are equivalent ways of saying that the positive integers can be reached from 1 by adding 1 again and again. Induction proves a statement once you have guessed it; it does not find the statement for you.</p>
+
+      <h3 id="i-ri"><span class="num">4.1</span>Regular induction</h3>
+      <div class="blk def"><div class="lbl">Principle I (RI)</div><div class="body">
+        <p>To prove that <span class="m">P(n)</span> is true for every positive integer <span class="m">n</span>:</p>
+        <p><strong>Basis step.</strong> Show that <span class="m">P(1)</span> is true.<br><strong>Inductive step.</strong> Show that <span class="m">P(k) → P(k + 1)</span> is true for every positive integer <span class="m">k</span>: assume <span class="m">P(k)</span> (the <em>inductive hypothesis</em>) and deduce <span class="m">P(k + 1)</span>.</p>
+        <p>In the language of Lectures 2–3: <span class="m wrap">[P(1) ∧ ∀k (P(k) → P(k + 1))] → ∀n P(n)</span>.</p>
+        <p>To prove <span class="m">P(n)</span> for <span class="m">n ≥ b</span>, start the basis at <span class="m">P(b)</span> and do the inductive step for every <span class="m">k ≥ b</span>. The integer <span class="m">b</span> may be 0 or negative.</p>
+      </div></div>
+      <div class="proof-box">
+        <h4>Template for a proof by regular induction</h4>
+        <ol>
+          <li>Write the claim as “for all <span class="m">n ≥ b</span>, <span class="m">P(n)</span>” and say what <span class="m">P(n)</span> is.</li>
+          <li><b>Basis step.</b> Show that <span class="m">P(b)</span> is true, with the right value of <span class="m">b</span>.</li>
+          <li><b>Inductive step.</b> State the hypothesis: “assume <span class="m">P(k)</span> is true for an arbitrary fixed integer <span class="m">k ≥ b</span>”. Write out what <span class="m">P(k + 1)</span> says. Prove it, and point to the place where you use <span class="m">P(k)</span>.</li>
+          <li><b>Conclusion.</b> “By mathematical induction, <span class="m">P(n)</span> is true for all integers <span class="m">n ≥ b</span>.”</li>
+        </ol>
+        <p class="small muted">The proof never assumes that <span class="m">P(k)</span> is true for all <span class="m">k</span>. It shows only that if <span class="m">P(k)</span> is true, then <span class="m">P(k + 1)</span> is true.</p>
+      </div>
+      <div class="blk ex"><div class="lbl">Example 1</div><div class="body">
+        <p>Claim: <span class="m">1 + 2 + ⋯ + n = n(n + 1)/2</span>. Basis: <span class="m">1 = 1·2/2</span>. Inductive step: assume <span class="m">1 + ⋯ + k = k(k + 1)/2</span>. Add <span class="m">k + 1</span> to both sides:</p>
+        <p class="m wrap">1 + ⋯ + k + (k + 1) = k(k + 1)/2 + (k + 1) = (k(k + 1) + 2(k + 1))/2 = (k + 1)(k + 2)/2,</p>
+        <p>which is <span class="m">P(k + 1)</span>. ∎</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 2: guess, then prove</div><div class="body">
+        <p>The sums of the first odd numbers are <span class="m">1, 4, 9, 16, 25</span>, so guess <span class="m">1 + 3 + ⋯ + (2n − 1) = n²</span>. The inductive step is one line: <span class="m wrap">[1 + 3 + ⋯ + (2k − 1)] + (2k + 1) = k² + 2k + 1 = (k + 1)²</span>. The bracket is replaced using the hypothesis.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Examples 3–4: inequalities</div><div class="body">
+        <p><span class="m">n &lt; 2ⁿ</span>: from <span class="m">k &lt; 2ᵏ</span> and <span class="m">1 ≤ 2ᵏ</span>, <span class="m">k + 1 &lt; 2ᵏ + 2ᵏ = 2ᵏ⁺¹</span>.</p>
+        <p><span class="m">2ⁿ &lt; n!</span> for <span class="m">n ≥ 4</span> (false for <span class="m">n = 1, 2, 3</span>, so the basis is <span class="m">P(4)</span>: <span class="m">16 &lt; 24</span>). Step: <span class="m">2ᵏ⁺¹ = 2·2ᵏ &lt; 2·k! &lt; (k + 1)·k! = (k + 1)!</span>, because <span class="m">2 &lt; k + 1</span>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 5: sets</div><div class="body">
+        <p>A set with <span class="m">n ≥ 0</span> elements has <span class="m">2ⁿ</span> subsets. Basis: <span class="m">∅</span> has <span class="m">2⁰ = 1</span> subset. Step: write <span class="m">T = S ∪ {a}</span> with <span class="m">|S| = k</span>. Every subset <span class="m">X</span> of <span class="m">S</span> gives exactly two subsets of <span class="m">T</span>, namely <span class="m">X</span> and <span class="m">X ∪ {a}</span>, so <span class="m">T</span> has <span class="m">2·2ᵏ = 2ᵏ⁺¹</span> subsets.</p>
+      </div></div>
+
+      <h3 id="i-si"><span class="num">4.2</span>Strong induction</h3>
+      <div class="blk def"><div class="lbl">Principle II (SI)</div><div class="body">
+        <p><strong>Basis step.</strong> Show that <span class="m">P(1)</span> is true.<br><strong>Inductive step.</strong> Show that <span class="m">[P(1) ∧ P(2) ∧ ⋯ ∧ P(k)] → P(k + 1)</span> for every positive integer <span class="m">k</span>.</p>
+        <p>The hypothesis is stronger: you may use <em>every</em> earlier case, not only <span class="m">P(k)</span>. Theorem 1 shows that SI and RI are equivalent, so whatever one proves, the other proves too; SI is just more convenient when <span class="m">P(k + 1)</span> depends on a case further back.</p>
+      </div></div>
+      <div class="blk key"><div class="lbl">Alternative form</div><div class="body">
+        <p>To prove <span class="m">P(n)</span> for all <span class="m">n ≥ b</span>: check the basis cases <span class="m">P(b), P(b + 1), …, P(b + j)</span>, then show <span class="m">[P(b) ∧ ⋯ ∧ P(k)] → P(k + 1)</span> for every <span class="m">k ≥ b + j</span>. You need several basis cases when the step reaches back several places: a step that uses <span class="m">P(k − 2)</span> needs three of them.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 6: prime factors</div><div class="body">
+        <p>Every integer <span class="m">n &gt; 1</span> is a product of primes. Basis: 2 is prime. Step: if <span class="m">k + 1</span> is prime, done. Otherwise <span class="m">k + 1 = ab</span> with <span class="m">2 ≤ a ≤ b &lt; k + 1</span>. By the strong hypothesis both <span class="m">a</span> and <span class="m">b</span> are products of primes, so <span class="m">k + 1</span> is too. Regular induction would only give you <span class="m">P(k)</span>, which says nothing about <span class="m">a</span> or <span class="m">b</span>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Examples 8–9: stamps and bills</div><div class="body">
+        <p>Two- and five-dollar bills form every amount <span class="m">n ≥ 4</span>. Basis: <span class="m">4 = 2 + 2</span>, <span class="m">5 = 5</span>, <span class="m">6 = 2 + 2 + 2</span>. Step for <span class="m">k ≥ 6</span>: <span class="m">k − 1 ≥ 5</span> can be formed by the hypothesis; add a 2-dollar bill. (Two basis cases would be enough here; three are harmless.)</p>
+        <p>Three- and five-cent stamps form every postage <span class="m">n ≥ 8</span>. Basis: <span class="m">8 = 3 + 5</span>, <span class="m">9 = 3 + 3 + 3</span>, <span class="m">10 = 5 + 5</span>. Step for <span class="m">k ≥ 10</span>: form <span class="m">k − 2</span>, then add a 3-cent stamp.</p>
+      </div></div>
+
+      <h3 id="i-pitfalls"><span class="num">4.3</span>What the steps really prove</h3>
+      <div class="blk key"><div class="lbl">Example 10</div><div class="body">
+        <p>Read the inductive step as a set of arrows and follow them from the basis:</p>
+        <ul>
+          <li><span class="m">P(1)</span> and <span class="m">P(n) → P(n + 2)</span>: only <span class="m">P(1), P(3), P(5), …</span></li>
+          <li><span class="m">P(1)</span> and <span class="m">P(n) → P(2n)</span>: only <span class="m">P(1), P(2), P(4), P(8), …</span></li>
+          <li><span class="m">P(1), P(2)</span> and <span class="m">P(n) ∧ P(n + 1) → P(n + 2)</span>: every <span class="m">n</span> (strong induction).</li>
+        </ul>
+      </div></div>
+      <div class="blk trap"><div class="lbl">Broken proofs</div><div class="body">
+        <p><strong>All horses have the same colour</strong> (Example 11). The step says that the first <span class="m">k</span> and the last <span class="m">k</span> of <span class="m">k + 1</span> horses overlap. For <span class="m">k + 1 = 2</span> they do not, so <span class="m">P(1) → P(2)</span> is false and the chain breaks at its first link.</p>
+        <p><strong><span class="m">5n = 0</span> for every <span class="m">n ≥ 0</span></strong> (Example 12). The step writes <span class="m">k + 1 = i + j</span> with <span class="m">i, j &lt; k + 1</span>. For <span class="m">k + 1 = 1</span> this needs <span class="m">i = 0</span> and <span class="m">j = 1</span>, and <span class="m">j = 1</span> is not smaller than <span class="m">k + 1</span>. Check that the step works for the smallest <span class="m">k</span>, including <span class="m">k = b</span>.</p>
+      </div></div>
+
+      <h3 id="i-wop"><span class="num">4.4</span>The well-ordering property</h3>
+      <div class="blk def"><div class="lbl">Axioms A1–A4</div><div class="body">
+        <p>The positive integers <span class="m">ℕ</span> are the subset of <span class="m">ℤ</span> with: (A1) <span class="m">1 ∈ ℕ</span>; (A2) <span class="m">n ∈ ℕ ⟹ n + 1 ∈ ℕ</span>; (A3) every element other than 1 is a successor; (A4, <strong>WOP</strong>) every nonempty subset of <span class="m">ℕ</span> has a least element. The same holds for nonempty subsets of <span class="m">ℕ ∪ {0}</span>.</p>
+        <p>Theorems 1–2 of Lecture 7 show that WOP and MI imply each other. Together with Lecture 6: <span class="m">SI ⟺ MI ⟺ WOP</span>.</p>
+      </div></div>
+      <div class="proof-box">
+        <h4>Template for a WOP proof (by contradiction)</h4>
+        <ol>
+          <li>Let <span class="m">C = {n ∈ ℕ | ¬P(n)}</span> be the set of counterexamples.</li>
+          <li>Assume <span class="m">C ≠ ∅</span>.</li>
+          <li>By the WOP, <span class="m">C</span> has a least element <span class="m">m</span>.</li>
+          <li>Reach a contradiction: show that <span class="m">P(m)</span> is true after all, or find a counterexample smaller than <span class="m">m</span>. This is the creative part.</li>
+          <li>Conclude that <span class="m">C = ∅</span>: <span class="m">P(n)</span> holds for every <span class="m">n</span>.</li>
+        </ol>
+      </div>
+      <div class="blk ex"><div class="lbl">Example 1: the division algorithm</div><div class="body">
+        <p>For an integer <span class="m">a</span> and <span class="m">d &gt; 0</span> there are unique <span class="m">q, r</span> with <span class="m">a = dq + r</span> and <span class="m">0 ≤ r &lt; d</span>. Existence: <span class="m">S = {a − dq ≥ 0 | q ∈ ℤ}</span> is nonempty, so it has a least element <span class="m">r = a − dq₀ ≥ 0</span>. If <span class="m">r ≥ d</span>, then <span class="m">r − d = a − d(q₀ + 1)</span> would be a smaller element of <span class="m">S</span>. So <span class="m">r &lt; d</span>. Uniqueness: two such pairs give <span class="m">d(q − q′) = r′ − r</span> with <span class="m">−d &lt; r′ − r &lt; d</span>, so <span class="m">r′ = r</span> and <span class="m">q′ = q</span>.</p>
+        <p class="small muted">Watch negative <span class="m">a</span>: <span class="m">−17 = 5·(−4) + 3</span>, so <span class="m">q = −4</span> and <span class="m">r = 3</span>, not <span class="m">q = −3</span>, <span class="m">r = −2</span>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 4: find the least element</div><div class="body">
+        <p>The WOP says a least element <em>exists</em>; finding it takes algebra. For <span class="m">S = {n ∈ ℕ | n = x² − 8x + 12, x ∈ ℤ}</span>: <span class="m">x² − 8x + 12 = (x − 2)(x − 6) &gt; 0</span> exactly when <span class="m">x &lt; 2</span> or <span class="m">x &gt; 6</span>. The values closest to the roots are <span class="m">x = 1</span> and <span class="m">x = 7</span>, both giving 5. So <span class="m">min S = 5</span>.</p>
+      </div></div>
+
+      <h3 id="i-rec"><span class="num">4.5</span>Recursive definitions</h3>
+      <div class="scroll"><table class="data">
+        <thead><tr><th></th><th>Recursive function (sequence)</th><th>Recursive set</th></tr></thead>
+        <tbody>
+          <tr><th>Basis step</th><td>the value at the first point(s)</td><td>an initial collection of elements</td></tr>
+          <tr><th>Recursive step</th><td>a rule giving <span class="m">f(n)</span> from values at smaller integers</td><td>rules that build new elements from known ones</td></tr>
+          <tr><th>Proved with</th><td>MI or SI</td><td>structural induction</td></tr>
+        </tbody>
+      </table></div>
+      <div class="blk ex" style="margin-top:1.2rem"><div class="lbl">Examples 5–7</div><div class="body">
+        <p><span class="m">f(0) = 2</span>, <span class="m">f(n + 1) = 3f(n) − 2</span> gives <span class="m">f(1) = 4</span>, <span class="m">f(2) = 10</span>, <span class="m">f(3) = 28</span>, <span class="m">f(4) = 82</span>. Powers: <span class="m">a⁰ = 1</span>, <span class="m">aⁿ⁺¹ = a·aⁿ</span>. Partial sums: <span class="m">S(0) = a₀</span>, <span class="m">S(n + 1) = S(n) + aₙ₊₁</span>.</p>
+        <p>Fibonacci (Exercise 1.8): <span class="m">F(0) = 0</span>, <span class="m">F(1) = 1</span>, <span class="m">F(n) = F(n − 1) + F(n − 2)</span> for <span class="m">n &gt; 1</span>. The value depends on <em>two</em> earlier values; strong induction shows such definitions are well defined.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Sets and strings</div><div class="body">
+        <p><strong>Example 8.</strong> <span class="m">3 ∈ S</span>; if <span class="m">x, y ∈ S</span> then <span class="m">x + y ∈ S</span>. This produces <span class="m">3, 6, 9, 12, …</span>, the positive multiples of 3 (Example 11). The <em>exclusion rule</em> says that nothing else is in <span class="m">S</span>.</p>
+        <p><strong>Strings over an alphabet Σ</strong> (Definition 5): <span class="m">λ ∈ Σ*</span> (the empty string); if <span class="m">w ∈ Σ*</span> and <span class="m">x ∈ Σ</span>, then <span class="m">wx ∈ Σ*</span>. For <span class="m">Σ = {0, 1}</span> the first steps give <span class="m">λ</span>; then 0, 1; then 00, 01, 10, 11.</p>
+        <p><strong>Length</strong> (Definition 7): <span class="m">l(λ) = 0</span>, <span class="m">l(wx) = l(w) + 1</span>. <strong>Concatenation</strong> (Definition 6): <span class="m">wλ = w</span>, <span class="m">w₁(w₂x) = (w₁w₂)x</span>.</p>
+      </div></div>
+
+      <h3 id="i-struct"><span class="num">4.6</span>Structural induction</h3>
+      <div class="blk def"><div class="lbl">Definition 8</div><div class="body">
+        <p><strong>Basis step.</strong> Show the statement for every element put into the set by the basis step of the definition.<br><strong>Recursive step.</strong> Show that if the statement holds for the elements used to build a new element, it holds for the new element.</p>
+        <p>For strings: show <span class="m">P(λ)</span>; then assume <span class="m">P(w)</span> and show <span class="m">P(wx)</span> for every <span class="m">x ∈ Σ</span>. It is valid because it is ordinary induction on the number of times the recursive rule was used (Theorem 3).</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 11: two inclusions</div><div class="body">
+        <p>To show <span class="m">S = A</span> (with <span class="m">A</span> the positive multiples of 3), prove both inclusions. <span class="m">A ⊆ S</span> by MI on <span class="m">n</span>: <span class="m">3·1 ∈ S</span>, and <span class="m">3k ∈ S</span>, <span class="m">3 ∈ S</span> give <span class="m">3k + 3 ∈ S</span>. <span class="m">S ⊆ A</span> by structural induction: <span class="m">3 ∈ A</span>, and if <span class="m">3 | x</span> and <span class="m">3 | y</span> then <span class="m">3 | x + y</span>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 12</div><div class="body">
+        <p><span class="m">l(xy) = l(x) + l(y)</span>, by structural induction on <span class="m">y</span>. Basis: <span class="m">l(xλ) = l(x) = l(x) + 0 = l(x) + l(λ)</span>. Step: assume <span class="m">l(xy) = l(x) + l(y)</span>. Then <span class="m">l(xya) = l(xy) + 1 = l(x) + l(y) + 1 = l(x) + l(ya)</span>. ∎</p>
+      </div></div>
+
+      <section class="pset" id="ps8">
+        <div class="pset-head"><h3>Practice 8 · Regular and strong induction</h3><p>14 problems from Lecture 6. Write each proof on paper first, then compare it with the model proof.</p></div>
+        <div class="probs">
+
+          <article class="prob" id="p8-1">
+            <div class="p-head"><span class="pnum">P8.1</span><h4>Puzzle: the sum of the first odd numbers</h4></div>
+            <div class="p-body"><p>Put the steps of the proof of <span class="m">1 + 3 + ⋯ + (2n − 1) = n²</span> for all <span class="m">n ≥ 1</span> in order. (Example 2.)</p></div>
+            <div class="order"><ol class="order-key">
+              <li>Let <span class="m">P(n)</span> be the statement <span class="m">1 + 3 + ⋯ + (2n − 1) = n²</span>.</li>
+              <li>Basis step: <span class="m">P(1)</span> says <span class="m">1 = 1²</span>, which is true.</li>
+              <li>Inductive step: assume <span class="m">1 + 3 + ⋯ + (2k − 1) = k²</span> for an arbitrary <span class="m">k ≥ 1</span>.</li>
+              <li>We must show <span class="m">1 + 3 + ⋯ + (2k − 1) + (2k + 1) = (k + 1)²</span>.</li>
+              <li>By the hypothesis the left side equals <span class="m">k² + (2k + 1) = (k + 1)²</span>, so <span class="m">P(k + 1)</span> is true.</li>
+              <li>By mathematical induction, <span class="m">P(n)</span> is true for every positive integer <span class="m">n</span>. ∎</li>
+            </ol></div>
+          </article>
+
+          <article class="prob" id="p8-2">
+            <div class="p-head"><span class="pnum">P8.2</span><h4>Where does the basis start?</h4></div>
+            <div class="p-body"><p>Each claim holds for all <span class="m">n ≥ b</span> and fails for <span class="m">n = b − 1</span> (among positive integers). Find <span class="m">b</span>.</p>
+              <ol class="parts">
+                <li><span class="m">2ⁿ &lt; n!</span></li>
+                <li><span class="m">3ⁿ &lt; n!</span> (Exercise 2.18)</li>
+                <li><span class="m">n² &lt; 2ⁿ</span></li>
+                <li><span class="m">2n + 3 ≤ 2ⁿ</span></li>
+              </ol></div>
+            <div class="check" data-kind="num" data-answer="4" data-label="(a) b ="></div>
+            <div class="check" data-kind="num" data-answer="7" data-label="(b) b ="></div>
+            <div class="check" data-kind="num" data-answer="5" data-label="(c) b ="></div>
+            <div class="check" data-kind="num" data-answer="4" data-label="(d) b ="></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Make a small table of both sides for <span class="m">n = 1, …, 8</span>. In (c), <span class="m">n = 1</span> also works, but <span class="m">n = 2, 3, 4</span> do not.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m">16 &lt; 24</span> at <span class="m">n = 4</span>, but <span class="m">8 &gt; 6</span> at <span class="m">n = 3</span>: <span class="m">b = 4</span>.</p>
+              <p>(b) <span class="m">3⁶ = 729 &gt; 720 = 6!</span>, <span class="m">3⁷ = 2187 &lt; 5040 = 7!</span>: <span class="m">b = 7</span>. Step: <span class="m">3ᵏ⁺¹ = 3·3ᵏ &lt; 3·k! &lt; (k + 1)·k!</span>, since <span class="m">k + 1 &gt; 3</span>.</p>
+              <p>(c) <span class="m">16 = 16</span> at <span class="m">n = 4</span> is not strict; <span class="m">25 &lt; 32</span> at <span class="m">n = 5</span>: <span class="m">b = 5</span>.</p>
+              <p>(d) <span class="m">9 &gt; 8</span> at <span class="m">n = 3</span>, <span class="m">11 ≤ 16</span> at <span class="m">n = 4</span>: <span class="m">b = 4</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p8-3">
+            <div class="p-head"><span class="pnum">P8.3</span><h4>Even numbers and a step of three</h4></div>
+            <div class="p-body"><p>Prove by induction (Exercises 2.3 and 2.4):</p>
+              <ol class="parts">
+                <li><span class="m">2 + 4 + 6 + ⋯ + 2n = n(n + 1)</span></li>
+                <li><span class="m">1 + 4 + 7 + ⋯ + (3n − 2) = n(3n − 1)/2</span></li>
+              </ol></div>
+            <details><summary>Model proof</summary><div class="d-body">
+              <p>(a) Basis: <span class="m">2 = 1·2</span>. Step: assume <span class="m">2 + ⋯ + 2k = k(k + 1)</span>. Then <span class="m">2 + ⋯ + 2k + 2(k + 1) = k(k + 1) + 2(k + 1) = (k + 1)(k + 2)</span>, which is <span class="m">P(k + 1)</span>. ∎</p>
+              <p>(b) Basis: <span class="m">1 = 1·2/2</span>. Step: assume the formula for <span class="m">k</span>. The next term is <span class="m">3(k + 1) − 2 = 3k + 1</span>, and</p>
+              <p class="m wrap">k(3k − 1)/2 + (3k + 1) = (3k² − k + 6k + 2)/2 = (3k² + 5k + 2)/2 = (k + 1)(3k + 2)/2 = (k + 1)(3(k + 1) − 1)/2. ∎</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p8-4">
+            <div class="p-head"><span class="pnum">P8.4</span><h4>The sum of squares</h4></div>
+            <div class="p-body"><p>Prove that <span class="m">1² + 2² + ⋯ + n² = n(n + 1)(2n + 1)/6</span> for every <span class="m">n ≥ 1</span> (Exercise 2.5). Then use it: what is <span class="m">1² + 2² + ⋯ + 10²</span>?</p></div>
+            <div class="check" data-kind="num" data-answer="385" data-label="1² + ⋯ + 10² ="></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>In the step, factor <span class="m">(k + 1)</span> out of <span class="m">k(k + 1)(2k + 1)/6 + (k + 1)²</span> before you expand anything.</p></div></details>
+            <details><summary>Model proof</summary><div class="d-body">
+              <p>Basis: <span class="m">1 = 1·2·3/6</span>. Step: assume the formula for <span class="m">k</span>. Then</p>
+              <p class="m wrap">1² + ⋯ + k² + (k + 1)² = k(k + 1)(2k + 1)/6 + (k + 1)² = (k + 1)[k(2k + 1) + 6(k + 1)]/6 = (k + 1)(2k² + 7k + 6)/6 = (k + 1)(k + 2)(2k + 3)/6,</p>
+              <p>which is the formula for <span class="m">n = k + 1</span>, because <span class="m">2(k + 1) + 1 = 2k + 3</span>. ∎ For <span class="m">n = 10</span>: <span class="m">10·11·21/6 = 385</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p8-5">
+            <div class="p-head"><span class="pnum">P8.5</span><h4>Divisibility</h4></div>
+            <div class="p-body"><p>Prove for every positive integer <span class="m">n</span>:</p>
+              <ol class="parts">
+                <li><span class="m">5 | 7ⁿ − 2ⁿ</span> (Exercise 2.8)</li>
+                <li><span class="m">3 | n³ − 4n + 6</span> (Exercise 2.9)</li>
+                <li><span class="m">21 | 4ⁿ⁺¹ + 5²ⁿ⁻¹</span> (Exercise 2.19)</li>
+              </ol></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Write the <span class="m">(k + 1)</span> expression as a multiple of the <span class="m">k</span> expression plus something visibly divisible. For (a): <span class="m">7ᵏ⁺¹ − 2ᵏ⁺¹ = 7(7ᵏ − 2ᵏ) + 5·2ᵏ</span>.</p></div></details>
+            <details><summary>Model proof</summary><div class="d-body">
+              <p>(a) Basis: <span class="m">7 − 2 = 5</span>. Step: <span class="m">7ᵏ⁺¹ − 2ᵏ⁺¹ = 7·7ᵏ − 2·2ᵏ = 7(7ᵏ − 2ᵏ) + 5·2ᵏ</span>. The first term is divisible by 5 by the hypothesis, the second obviously. ∎</p>
+              <p>(b) Basis: <span class="m">1 − 4 + 6 = 3</span>. Step: <span class="m">(k + 1)³ − 4(k + 1) + 6 = (k³ − 4k + 6) + 3k² + 3k − 3 = (k³ − 4k + 6) + 3(k² + k − 1)</span>. Both parts are divisible by 3. ∎</p>
+              <p>(c) Basis: <span class="m">4² + 5 = 21</span>. Step: <span class="m">4ᵏ⁺² + 5²ᵏ⁺¹ = 4·4ᵏ⁺¹ + 25·5²ᵏ⁻¹ = 4(4ᵏ⁺¹ + 5²ᵏ⁻¹) + 21·5²ᵏ⁻¹</span>. Both parts are divisible by 21. ∎</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p8-6">
+            <div class="p-head"><span class="pnum">P8.6</span><h4>Factorials and Bernoulli's inequality</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>Prove <span class="m">1·1! + 2·2! + ⋯ + n·n! = (n + 1)! − 1</span> for <span class="m">n ≥ 1</span> (Exercise 2.12).</li>
+              <li>Prove that if <span class="m">h &gt; −1</span>, then <span class="m">1 + nh ≤ (1 + h)ⁿ</span> for all <span class="m">n ≥ 0</span> (Exercise 2.13).</li>
+            </ol></div>
+            <details><summary>Model proof</summary><div class="d-body">
+              <p>(a) Basis: <span class="m">1·1! = 1 = 2! − 1</span>. Step: <span class="m">(k + 1)! − 1 + (k + 1)(k + 1)! = (k + 1)!(1 + k + 1) − 1 = (k + 2)! − 1</span>. ∎</p>
+              <p>(b) Basis: <span class="m">n = 0</span> gives <span class="m">1 ≤ 1</span>. Step: assume <span class="m">1 + kh ≤ (1 + h)ᵏ</span>. Because <span class="m">1 + h &gt; 0</span>, multiplying by it keeps the inequality:</p>
+              <p class="m wrap">(1 + h)ᵏ⁺¹ ≥ (1 + kh)(1 + h) = 1 + (k + 1)h + kh² ≥ 1 + (k + 1)h. ∎</p>
+              <p class="small muted">The condition <span class="m">h &gt; −1</span> is used exactly once: to multiply an inequality by <span class="m">1 + h</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p8-7">
+            <div class="p-head"><span class="pnum">P8.7</span><h4>Counting subsets</h4></div>
+            <div class="p-body"><p>Lecture 6 proves by induction that an <span class="m">n</span>-element set has <span class="m">n(n − 1)/2</span> two-element subsets (Exercise 1.3), and asks you to prove that it has <span class="m">n(n − 1)(n − 2)/6</span> three-element subsets (Exercise 2.22). Use the formulas:</p>
+              <ol class="parts">
+                <li>How many two-element subsets does a 10-element set have?</li>
+                <li>How many three-element subsets does a 7-element set have?</li>
+                <li>How many subsets does a 7-element set have in all?</li>
+              </ol></div>
+            <div class="check" data-kind="num" data-answer="45" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="35" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="128" data-label="(c)"></div>
+            <details><summary>Solution</summary><div class="d-body">
+              <p>(a) <span class="m">10·9/2 = 45</span> (b) <span class="m">7·6·5/6 = 35</span> (c) <span class="m">2⁷ = 128</span> (Example 5).</p>
+              <p>Proof of the three-element formula: fix <span class="m">a ∈ S</span> with <span class="m">|S| = k + 1</span> and <span class="m">T = S ∖ {a}</span>. A three-element subset either avoids <span class="m">a</span> (one of the <span class="m">k(k − 1)(k − 2)/6</span> subsets of <span class="m">T</span>, by the hypothesis) or contains <span class="m">a</span> and two elements of <span class="m">T</span> (<span class="m">k(k − 1)/2</span> ways, by Exercise 1.3). The sum is <span class="m">k(k − 1)(k − 2)/6 + 3k(k − 1)/6 = (k + 1)k(k − 1)/6</span>. ∎</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p8-8">
+            <div class="p-head"><span class="pnum">P8.8</span><h4>Stamps of 4 and 7 cents</h4></div>
+            <div class="p-body"><p>Exercise 2.24 (the second one) outlines a strong induction proof that postage of <span class="m">n ≥ 18</span> cents can be formed from 4-cent and 7-cent stamps.</p>
+              <ol class="parts">
+                <li>Which amounts from 1 to 17 cents can <em>not</em> be formed?</li>
+                <li>Give the basis cases <span class="m">P(18), …, P(21)</span>.</li>
+                <li>Which earlier case does the inductive step use for <span class="m">P(k + 1)</span>, <span class="m">k ≥ 21</span>? Complete the step.</li>
+                <li>Using the same idea, what is the largest amount that cannot be formed from 3-cent and 7-cent stamps?</li>
+              </ol></div>
+            <div class="check" data-kind="set" data-answer="1,2,3,5,6,9,10,13,17" data-label="(a) cannot form"></div>
+            <div class="check" data-kind="num" data-answer="11" data-label="(d) largest ="></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Adding one 4-cent stamp moves you up by 4, so the step reaches back 4 places. That is why four basis cases are needed.</p></div></details>
+            <details><summary>Solution</summary><div class="d-body">
+              <p>(a) 4, 7, 8, 11, 12, 14, 15, 16 can be formed; the others, <span class="m">{1, 2, 3, 5, 6, 9, 10, 13, 17}</span>, cannot. So 17 is the largest amount that cannot be formed, and the claim really starts at 18.</p>
+              <p>(b) <span class="m">18 = 4 + 7 + 7</span>, <span class="m">19 = 4 + 4 + 4 + 7</span>, <span class="m">20 = 4·5</span>, <span class="m">21 = 7·3</span>.</p>
+              <p>(c) Hypothesis: <span class="m">P(j)</span> for <span class="m">18 ≤ j ≤ k</span>, with <span class="m">k ≥ 21</span>. Then <span class="m">18 ≤ k − 3 ≤ k</span>, so <span class="m">k − 3</span> cents can be formed; add a 4-cent stamp to get <span class="m">k + 1</span>. ∎</p>
+              <p>(d) With 3 and 7: 1, 2, 4, 5, 8 and 11 cannot be formed, while 12, 13, 14 can (<span class="m">3·4</span>, <span class="m">3·2 + 7</span>, <span class="m">7·2</span>), and adding 3-cent stamps reaches everything above. The largest impossible amount is 11.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p8-9">
+            <div class="p-head"><span class="pnum">P8.9</span><h4>Which P(n) must be true?</h4></div>
+            <div class="p-body"><p>Exercise 2.25. For each set of facts, list the <span class="m">n</span> in <span class="m">{0, 1, …, 10}</span> for which <span class="m">P(n)</span> must be true.</p>
+              <ol class="parts">
+                <li><span class="m">P(0)</span>; <span class="m">P(n) → P(n + 2)</span></li>
+                <li><span class="m">P(0)</span>; <span class="m">P(n) → P(n + 3)</span></li>
+                <li><span class="m">P(0), P(1)</span>; <span class="m">P(n) ∧ P(n + 1) → P(n + 2)</span></li>
+                <li><span class="m">P(0)</span>; <span class="m">P(n) → P(n + 2) ∧ P(n + 3)</span></li>
+              </ol></div>
+            <div class="check" data-kind="set" data-answer="0,2,4,6,8,10" data-label="(a)"></div>
+            <div class="check" data-kind="set" data-answer="0,3,6,9" data-label="(b)"></div>
+            <div class="check" data-kind="set" data-answer="0,1,2,3,4,5,6,7,8,9,10" data-label="(c)"></div>
+            <div class="check" data-kind="set" data-answer="0,2,3,4,5,6,7,8,9,10" data-label="(d)"></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) The even numbers. (b) The multiples of 3. (c) Every <span class="m">n</span>, by strong induction. (d) From 0 you reach 2 and 3, then 4, 5, 6, and from then on everything; only <span class="m">P(1)</span> is not forced. In general: every <span class="m">n ≠ 1</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p8-10">
+            <div class="p-head"><span class="pnum">P8.10</span><h4>Find the flaw: all horses</h4></div>
+            <div class="p-body"><p>Example 11: “Among any <span class="m">k + 1</span> horses, the first <span class="m">k</span> have one colour and the last <span class="m">k</span> have one colour. The two groups overlap, so all <span class="m">k + 1</span> have the same colour.”</p></div>
+            <div class="mcq" data-a="2"><p class="q">Where does it break?</p><ul><li>The basis step: <span class="m">P(1)</span> is false</li><li>It uses strong induction where regular induction is needed</li><li>The step <span class="m">P(1) → P(2)</span>: two horses split into two groups of one that do not overlap</li><li>The step for large <span class="m">k</span>: the groups overlap in too few horses</li></ul><p class="why">For <span class="m">k + 1 = 2</span> the “first one” and “last one” share no horse, so nothing links their colours. Every other step <span class="m">P(k) → P(k + 1)</span> with <span class="m">k ≥ 2</span> is fine, but the chain is broken at its first link, so nothing follows.</p></div>
+          </article>
+
+          <article class="prob" id="p8-11">
+            <div class="p-head"><span class="pnum">P8.11</span><h4>Find the flaw: max(x, y)</h4></div>
+            <div class="p-body"><p>Exercise 2.26 “proves” that if <span class="m">max(x, y) = n</span> for positive integers <span class="m">x, y</span>, then <span class="m">x = y</span>. Step: “if <span class="m">max(x, y) = k + 1</span>, then <span class="m">max(x − 1, y − 1) = k</span>, so <span class="m">x − 1 = y − 1</span> by the hypothesis.”</p></div>
+            <div class="mcq" data-a="1"><p class="q">What is wrong?</p><ul><li>The basis step: <span class="m">max(x, y) = 1</span> allows <span class="m">x ≠ y</span></li><li>The hypothesis is only about <em>positive</em> integers, but <span class="m">x − 1</span> or <span class="m">y − 1</span> may be 0</li><li><span class="m">max(x − 1, y − 1)</span> is <span class="m">k − 1</span>, not <span class="m">k</span></li><li>Nothing: the claim is true</li></ul><p class="why">Take <span class="m">x = 1</span>, <span class="m">y = 2</span>: then <span class="m">max(x − 1, y − 1) = max(0, 1) = 1</span>, but 0 is not a positive integer, so the hypothesis does not apply. The claim is false: <span class="m">max(1, 2) = 2</span> and <span class="m">1 ≠ 2</span>.</p></div>
+          </article>
+
+          <article class="prob" id="p8-12">
+            <div class="p-head"><span class="pnum">P8.12</span><h4>Find the flaw: aⁿ = 1</h4></div>
+            <div class="p-body"><p>Exercise 2.27, for a nonzero real <span class="m">a</span>. Basis: <span class="m">a⁰ = 1</span>. Step (strong): assume <span class="m">aʲ = 1</span> for all <span class="m">0 ≤ j ≤ k</span>; then <span class="m">aᵏ⁺¹ = aᵏ·aᵏ / aᵏ⁻¹ = 1·1/1 = 1</span>.</p></div>
+            <div class="mcq" data-a="3"><p class="q">Where is the error?</p><ul><li>The basis: <span class="m">a⁰</span> is not defined</li><li>The algebra: <span class="m">aᵏ·aᵏ/aᵏ⁻¹</span> is not <span class="m">aᵏ⁺¹</span></li><li>Strong induction cannot be used for powers</li><li>The first step, <span class="m">k = 0</span>: it uses <span class="m">a⁻¹</span>, which is not covered by the hypothesis</li></ul><p class="why">For <span class="m">k = 0</span> the formula needs <span class="m">aᵏ⁻¹ = a⁻¹</span>, and the hypothesis only covers <span class="m">j ≥ 0</span>. So <span class="m">P(0) → P(1)</span> is never proved, and indeed <span class="m">a¹ = a</span> need not be 1. The algebra itself is correct.</p></div>
+          </article>
+
+          <article class="prob" id="p8-13">
+            <div class="p-head"><span class="pnum">P8.13</span><h4>Find the flaw: stamps of 3 and 4 cents</h4></div>
+            <div class="p-body"><p>Exercise 2.28 “proves” that every postage of 3 cents or more can be formed with 3- and 4-cent stamps. Basis: 3 and 4. Step: “form <span class="m">k</span> cents, then replace one 3-cent stamp by a 4-cent stamp, or two 4-cent stamps by three 3-cent stamps.”</p></div>
+            <div class="mcq" data-a="0"><p class="q">Which statement is right?</p><ul><li>For <span class="m">k = 4</span> (a single 4-cent stamp) neither replacement is possible, and 5 cents really cannot be formed</li><li>The proof is correct; every amount from 3 on can be formed</li><li>The basis needs 3, 4 and 5 and then the step works</li><li>It fails only because strong induction was used</li></ul><p class="why">With one 4-cent stamp there is no 3-cent stamp to replace and not two 4-cent stamps to swap. The step <span class="m">P(4) → P(5)</span> fails, and 5 cents is in fact impossible. A correct version: every amount from 6 cents on can be formed, by strong induction with basis 6, 7, 8 and the step from <span class="m">k − 2</span> to <span class="m">k + 1</span> (add a 3-cent stamp).</p></div>
+          </article>
+
+          <article class="prob" id="p8-14">
+            <div class="p-head"><span class="pnum">P8.14</span><h4>True or false: the principles</h4></div>
+            <ol class="tf">
+              <li data-a="F"><span class="q">Induction is a good way to discover a formula.</span><span class="why">It only proves a formula you already have. Example 2 guesses <span class="m">n²</span> from a table first.</span></li>
+              <li data-a="F"><span class="q">In the inductive step of RI we assume that <span class="m">P(k)</span> is true for all <span class="m">k</span>.</span><span class="why">We assume it for one arbitrary <span class="m">k</span> and deduce <span class="m">P(k + 1)</span>. Assuming it for all <span class="m">k</span> would assume the result.</span></li>
+              <li data-a="F"><span class="q">Strong induction can prove statements that regular induction cannot.</span><span class="why">Theorem 1 of Lecture 6: the two principles are equivalent. SI is only more convenient.</span></li>
+              <li data-a="T"><span class="q">A strong induction proof whose step uses <span class="m">P(k − 2)</span> needs three basis cases.</span><span class="why">Each of the three residues must be started, as in Example 9: <span class="m">P(8), P(9), P(10)</span>.</span></li>
+              <li data-a="T"><span class="q">The basis step may be <span class="m">P(0)</span> or even <span class="m">P(−3)</span>.</span><span class="why">The base <span class="m">b</span> can be any integer; the step is then proved for every <span class="m">k ≥ b</span>.</span></li>
+              <li data-a="F"><span class="q">If the inductive step is correct, the basis step can be skipped.</span><span class="why">Without a basis the chain has nowhere to start. <span class="m">P(n)</span>: “<span class="m">n = n + 1</span>” has a valid step <span class="m">P(k) → P(k + 1)</span>, but it is false for every <span class="m">n</span>.</span></li>
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <section class="pset" id="ps9">
+        <div class="pset-head"><h3>Practice 9 · Well-ordering, recursion, structural induction</h3><p>12 problems from Lecture 7.</p></div>
+        <div class="probs">
+
+          <article class="prob" id="p9-1">
+            <div class="p-head"><span class="pnum">P9.1</span><h4>Least elements</h4></div>
+            <div class="p-body"><p>By the WOP each set has a least element. Find it (<span class="m">x</span> ranges over <span class="m">ℤ</span>).</p>
+              <ol class="parts">
+                <li><span class="m">{n ∈ ℕ | n = x² − 8x + 12}</span> (Example 4)</li>
+                <li><span class="m">{n ∈ ℕ | n = x² − 10x + 28}</span> (Exercise 2.1)</li>
+                <li><span class="m">{n ∈ ℕ | n = x² − 4x − 2}</span></li>
+              </ol></div>
+            <div class="check" data-kind="num" data-answer="5" data-label="(a) min ="></div>
+            <div class="check" data-kind="num" data-answer="3" data-label="(b) min ="></div>
+            <div class="check" data-kind="num" data-answer="3" data-label="(c) min ="></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Complete the square. <span class="m">ℕ</span> is the <em>positive</em> integers, so values <span class="m">≤ 0</span> do not count.</p></div></details>
+            <details><summary>Solution</summary><div class="d-body">
+              <p>(a) <span class="m">(x − 2)(x − 6) &gt; 0</span> for <span class="m">x ≤ 1</span> or <span class="m">x ≥ 7</span>; the least value is 5.</p>
+              <p>(b) <span class="m">(x − 5)² + 3 ≥ 3</span>, with equality at <span class="m">x = 5</span>: the least element is 3.</p>
+              <p>(c) <span class="m">(x − 2)² − 6</span>. Squares are <span class="m">0, 1, 4, 9, …</span>, giving <span class="m">−6, −5, −2, 3, …</span>; the first positive value is 3 (at <span class="m">x = −1</span> or <span class="m">x = 5</span>).</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p9-2">
+            <div class="p-head"><span class="pnum">P9.2</span><h4>The division algorithm</h4></div>
+            <div class="p-body"><p>Find <span class="m">q</span> and <span class="m">r</span> with <span class="m">a = dq + r</span> and <span class="m">0 ≤ r &lt; d</span>.</p>
+              <ol class="parts"><li><span class="m">a = 47</span>, <span class="m">d = 6</span></li><li><span class="m">a = −17</span>, <span class="m">d = 5</span></li></ol></div>
+            <div class="check" data-kind="num" data-answer="7" data-label="(a) q ="></div>
+            <div class="check" data-kind="num" data-answer="5" data-label="(a) r ="></div>
+            <div class="check" data-kind="num" data-answer="-4" data-label="(b) q ="></div>
+            <div class="check" data-kind="num" data-answer="3" data-label="(b) r ="></div>
+            <details><summary>Solution</summary><div class="d-body"><p>(a) <span class="m">47 = 6·7 + 5</span>. (b) <span class="m">−17 = 5·(−4) + 3</span>. The remainder must satisfy <span class="m">0 ≤ r &lt; 5</span>, so <span class="m">q = −3</span>, <span class="m">r = −2</span> is not allowed. In the proof, <span class="m">r</span> is the least element of <span class="m">S = {−17 − 5q ≥ 0}</span> <span class="m">= {3, 8, 13, …}</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p9-3">
+            <div class="p-head"><span class="pnum">P9.3</span><h4>Puzzle: every n &gt; 1 has a prime divisor</h4></div>
+            <div class="p-body"><p>Put the steps of the WOP proof in order (Exercise 1.1).</p></div>
+            <div class="order"><ol class="order-key">
+              <li>Let <span class="m">S</span> be the set of integers <span class="m">n &gt; 1</span> with no prime divisor, and assume <span class="m">S ≠ ∅</span>.</li>
+              <li>By the WOP, <span class="m">S</span> has a least element <span class="m">n</span>.</li>
+              <li><span class="m">n</span> is not prime, because a prime is its own prime divisor.</li>
+              <li>So <span class="m">n</span> has a divisor <span class="m">d</span> with <span class="m">1 &lt; d &lt; n</span>.</li>
+              <li>Since <span class="m">d &lt; n</span> is not in <span class="m">S</span>, it has a prime divisor <span class="m">p</span>.</li>
+              <li>From <span class="m">p | d</span> and <span class="m">d | n</span> we get <span class="m">p | n</span>, which contradicts <span class="m">n ∈ S</span>.</li>
+              <li>Hence <span class="m">S = ∅</span>: every integer greater than 1 has a prime divisor. ∎</li>
+            </ol></div>
+          </article>
+
+          <article class="prob" id="p9-4">
+            <div class="p-head"><span class="pnum">P9.4</span><h4>Fill in the gaps: stamps of 10 and 15</h4></div>
+            <div class="p-body"><p>Exercise 1.3: every postage made from 10- and 15-cent stamps is divisible by 5. Let <span class="m">m</span> be the least counterexample. Then <span class="m">m − 10</span> or <span class="m">m − 15</span> can be made too (remove one stamp). Complete: “Suppose <span class="m">m − 10</span> can be made. Then <span class="m">5 | m − 10</span>, because … But then <span class="m">5 | m</span>, because …”</p></div>
+            <details><summary>Model answer</summary><div class="d-body">
+              <p>“Then <span class="m">5 | m − 10</span>, because <span class="m">m − 10 &lt; m</span> can be made and <span class="m">m</span> is the <em>least</em> counterexample, so <span class="m">m − 10</span> is not a counterexample.” (If <span class="m">m − 10 = 0</span>, then <span class="m">m = 10</span> is divisible by 5 anyway.)</p>
+              <p>“Then <span class="m">5 | m</span>, because <span class="m">m = (m − 10) + 10</span> is a sum of two multiples of 5.” This contradicts the choice of <span class="m">m</span>; the case <span class="m">m − 15</span> is the same with 15 in place of 10. ∎</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p9-5">
+            <div class="p-head"><span class="pnum">P9.5</span><h4>Find the flaw: every Fibonacci number is even</h4></div>
+            <div class="p-body"><p>Exercise 1.8. The bogus WOP proof says: (6) <span class="m">m &gt; 0</span>, since <span class="m">F(0) = 0</span> is even. (7) Since <span class="m">m</span> is the least counterexample, <span class="m">F(k)</span> is even for all <span class="m">k &lt; m</span>. (8) In particular <span class="m">F(m − 1)</span> and <span class="m">F(m − 2)</span> are both even. (9) So <span class="m">F(m) = F(m − 1) + F(m − 2)</span> is even.</p></div>
+            <div class="mcq" data-a="2"><p class="q">Which sentence contains the error?</p><ul><li>(6)</li><li>(7)</li><li>(8): for <span class="m">m = 1</span>, <span class="m">m − 2 = −1</span> is not a nonnegative integer</li><li>(9)</li></ul><p class="why">The case <span class="m">m = 1</span> is never handled. There <span class="m">F(m − 2)</span> does not exist, and the recursive rule <span class="m">F(n) = F(n − 1) + F(n − 2)</span> applies only for <span class="m">n &gt; 1</span>, so (9) cannot be used either. In fact <span class="m">F(1) = 1</span> is odd: <span class="m">m = 1</span> is the least counterexample.</p></div>
+          </article>
+
+          <article class="prob" id="p9-6">
+            <div class="p-head"><span class="pnum">P9.6</span><h4>Compute from a recursive definition</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li><span class="m">f(0) = 1</span>, <span class="m">f(n + 1) = 2f(n) + 3</span>. Find <span class="m">f(4)</span>.</li>
+              <li>The Fibonacci numbers of Exercise 1.8. Find <span class="m">F(10)</span>.</li>
+              <li><span class="m">a₀,₀ = 0</span>; <span class="m">aₘ,₀ = aₘ₋₁,₀ + 1</span> for <span class="m">m &gt; 0</span>; <span class="m">aₘ,ₙ = aₘ,ₙ₋₁ + n</span> for <span class="m">n &gt; 0</span> (Example 13). Find <span class="m">a₂,₃</span>.</li>
+            </ol></div>
+            <div class="check" data-kind="num" data-answer="61" data-label="(a) f(4) ="></div>
+            <div class="check" data-kind="num" data-answer="55" data-label="(b) F(10) ="></div>
+            <div class="check" data-kind="num" data-answer="8" data-label="(c) a₂,₃ ="></div>
+            <details><summary>Solution</summary><div class="d-body">
+              <p>(a) <span class="m">f(1) = 5</span>, <span class="m">f(2) = 13</span>, <span class="m">f(3) = 29</span>, <span class="m">f(4) = 61</span>. (In closed form <span class="m">f(n) = 2ⁿ⁺² − 3</span>, which you can prove by induction.)</p>
+              <p>(b) <span class="m">0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55</span>: <span class="m">F(10) = 55</span>.</p>
+              <p>(c) <span class="m">a₂,₀ = 2</span>, <span class="m">a₂,₁ = 3</span>, <span class="m">a₂,₂ = 5</span>, <span class="m">a₂,₃ = 8</span>. This matches <span class="m">aₘ,ₙ = m + n(n + 1)/2 = 2 + 6</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p9-7">
+            <div class="p-head"><span class="pnum">P9.7</span><h4>Write a recursive definition</h4></div>
+            <div class="p-body"><p>Give a basis step and a recursive step for:</p>
+              <ol class="parts">
+                <li><span class="m">n!</span> for <span class="m">n ≥ 0</span></li>
+                <li>the sequence <span class="m">aₙ = 2n + 1</span>, <span class="m">n ≥ 0</span></li>
+                <li>the set of positive even integers</li>
+                <li>the reversal <span class="m">wᴿ</span> of a string <span class="m">w ∈ Σ*</span> (for example <span class="m">(abc)ᴿ = cba</span>)</li>
+              </ol></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m">0! = 1</span>; <span class="m">(n + 1)! = (n + 1)·n!</span>.</p>
+              <p>(b) <span class="m">a₀ = 1</span>; <span class="m">aₙ₊₁ = aₙ + 2</span>.</p>
+              <p>(c) <span class="m">2 ∈ S</span>; if <span class="m">x ∈ S</span> then <span class="m">x + 2 ∈ S</span> (or: if <span class="m">x, y ∈ S</span> then <span class="m">x + y ∈ S</span>).</p>
+              <p>(d) <span class="m">λᴿ = λ</span>; <span class="m">(wx)ᴿ = x wᴿ</span> for <span class="m">w ∈ Σ*</span>, <span class="m">x ∈ Σ</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p9-8">
+            <div class="p-head"><span class="pnum">P9.8</span><h4>Generate a recursive set</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li><span class="m">S</span>: <span class="m">5 ∈ S</span>; if <span class="m">x, y ∈ S</span> then <span class="m">x + y ∈ S</span>. List the elements of <span class="m">S</span> that are at most 30.</li>
+              <li><span class="m">T</span>: <span class="m">3 ∈ T</span>, <span class="m">5 ∈ T</span>; if <span class="m">x, y ∈ T</span> then <span class="m">x + y ∈ T</span>. List the elements of <span class="m">T</span> that are at most 15.</li>
+              <li>For <span class="m">Σ = {0, 1}</span>, how many strings are in <span class="m">Σ*</span> after the basis step and three applications of the recursive step?</li>
+            </ol></div>
+            <div class="check" data-kind="set" data-answer="5,10,15,20,25,30" data-label="(a)"></div>
+            <div class="check" data-kind="set" data-answer="3,5,6,8,9,10,11,12,13,14,15" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="15" data-label="(c)"></div>
+            <details><summary>Solution</summary><div class="d-body">
+              <p>(a) The positive multiples of 5 (Exercise 1.10 with <span class="m">k = 5</span>).</p>
+              <p>(b) Sums of 3s and 5s: everything from 8 on (Example 9 of Lecture 6), plus 3, 5 and 6. Missing: 1, 2, 4, 7.</p>
+              <p>(c) <span class="m">λ</span>, then 2 strings of length 1, 4 of length 2, 8 of length 3: <span class="m">1 + 2 + 4 + 8 = 15</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p9-9">
+            <div class="p-head"><span class="pnum">P9.9</span><h4>Puzzle: the length of a concatenation</h4></div>
+            <div class="p-body"><p>Put the steps of the structural induction proof of <span class="m">l(xy) = l(x) + l(y)</span> in order (Example 12).</p></div>
+            <div class="order"><ol class="order-key">
+              <li>Fix <span class="m">x ∈ Σ*</span>; induct on <span class="m">y</span>, using the recursive definition of <span class="m">Σ*</span>.</li>
+              <li>Basis step: <span class="m">l(xλ) = l(x) = l(x) + 0 = l(x) + l(λ)</span>.</li>
+              <li>Recursive step: assume <span class="m">l(xy) = l(x) + l(y)</span>, and let <span class="m">a ∈ Σ</span>.</li>
+              <li>By the definition of length, <span class="m">l(xya) = l(xy) + 1</span>.</li>
+              <li>By the hypothesis, <span class="m">l(xy) + 1 = l(x) + l(y) + 1</span>.</li>
+              <li>By the definition of length again, <span class="m">l(y) + 1 = l(ya)</span>, so <span class="m">l(xya) = l(x) + l(ya)</span>. ∎</li>
+            </ol></div>
+          </article>
+
+          <article class="prob" id="p9-10">
+            <div class="p-head"><span class="pnum">P9.10</span><h4>Powers of k</h4></div>
+            <div class="p-body"><p>Exercise 1.9: <span class="m">k ∈ S</span>; if <span class="m">x, y ∈ S</span> then <span class="m">xy ∈ S</span>. Show <span class="m">S = A = {kⁿ | n ≥ 1}</span>.</p></div>
+            <details><summary>Model proof</summary><div class="d-body">
+              <p><span class="m">S ⊆ A</span>, by structural induction. Basis: <span class="m">k = k¹ ∈ A</span>. Recursive step: if <span class="m">x, y ∈ S</span> and, by the hypothesis, <span class="m">x = k<sup>p</sup></span>, <span class="m">y = k<sup>q</sup></span> with <span class="m">p, q ≥ 1</span>, then <span class="m">xy = k<sup>p + q</sup> ∈ A</span>.</p>
+              <p><span class="m">A ⊆ S</span>, by MI on <span class="m">n</span>. Basis: <span class="m">k¹ = k ∈ S</span>. Step: if <span class="m">kⁿ ∈ S</span>, then <span class="m">kⁿ</span> and <span class="m">k</span> are both in <span class="m">S</span>, so <span class="m">kⁿ·k = kⁿ⁺¹ ∈ S</span>. ∎</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p9-11">
+            <div class="p-head"><span class="pnum">P9.11</span><h4>Reversal keeps the length</h4></div>
+            <div class="p-body"><p>With the definition of P9.7(d), prove <span class="m">l(wᴿ) = l(w)</span> for every <span class="m">w ∈ Σ*</span>.</p></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>You need <span class="m">l(x wᴿ) = 1 + l(wᴿ)</span>. That is Example 12 with the one-letter string <span class="m">x</span> in front: <span class="m">l(x wᴿ) = l(x) + l(wᴿ)</span>.</p></div></details>
+            <details><summary>Model proof</summary><div class="d-body">
+              <p>Structural induction on <span class="m">w</span>. Basis: <span class="m">l(λᴿ) = l(λ)</span>, since <span class="m">λᴿ = λ</span>. Recursive step: assume <span class="m">l(wᴿ) = l(w)</span> and let <span class="m">x ∈ Σ</span>. Then</p>
+              <p class="m wrap">l((wx)ᴿ) = l(x wᴿ) = l(x) + l(wᴿ) = 1 + l(w) = l(wx),</p>
+              <p>using the definition of reversal, Example 12, the hypothesis, and the definition of length. ∎</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p9-12">
+            <div class="p-head"><span class="pnum">P9.12</span><h4>True or false: WOP and recursion</h4></div>
+            <ol class="tf">
+              <li data-a="T"><span class="q">The WOP, regular induction and strong induction are equivalent.</span><span class="why">Theorems 1–2 of Lecture 7 and Theorem 1 of Lecture 6: <span class="m">SI ⟺ MI ⟺ WOP</span>.</span></li>
+              <li data-a="F"><span class="q">The WOP tells you how to find the least element.</span><span class="why">It only says that one exists. Example 4 needs algebra to find it.</span></li>
+              <li data-a="F"><span class="q">Every nonempty set of integers has a least element.</span><span class="why"><span class="m">ℤ</span> itself has none. The WOP is about subsets of <span class="m">ℕ</span> (or of <span class="m">ℕ ∪ {0}</span>).</span></li>
+              <li data-a="T"><span class="q">In the lexicographic order on <span class="m">ℕ₀ × ℕ₀</span>, <span class="m">(0, 100) ≺ (1, 0)</span>.</span><span class="why">The first coordinates decide: <span class="m">0 &lt; 1</span>.</span></li>
+              <li data-a="F"><span class="q">In the lexicographic order, <span class="m">(3, 5) ≺ (3, 4)</span>.</span><span class="why">The first coordinates are equal and <span class="m">5 &gt; 4</span>, so <span class="m">(3, 4) ≺ (3, 5)</span>.</span></li>
+              <li data-a="T"><span class="q">Without the exclusion rule, the set in Example 8 could also contain 7.</span><span class="why">The basis and recursive steps only say what <em>is</em> in <span class="m">S</span>. The exclusion rule says that nothing else is.</span></li>
+            </ol>
+          </article>
+        </div>
+      </section>
+    </section>
+
     <section class="chapter" id="tools">
       <p class="eyebrow">Check anything</p>
       <h2>Checkers and tools</h2>
@@ -3520,6 +4001,14 @@ dl.tt-extra dd .m { white-space: normal; }
         <li><span class="where">Lectures 4–5 · p. 18 · Example 15(a)</span><span class="m">C</span> and <span class="m">D</span> are printed with 20 bits; with 4 inputs they have 16: <span class="m">C</span> = <span class="bits">0011001100110011</span>, <span class="m">D</span> = <span class="bits">0101010101010101</span>.</li>
         <li><span class="where">Lectures 4–5 · p. 19 · Example 16</span>It refers to “Example 13, Figure 13”; the circuit <span class="m">Y = ABC + AB′C + A′B</span> is Example 1, Figure 5.</li>
         <li><span class="where">Lectures 4–5 · p. 25 · Exercise 1.13(b)</span>The answer is printed as <span class="bits">0101000</span> (7 bits). The correct output is <span class="bits">00101000</span>: positions 3 and 5 are the only ones where all inputs are 1.</li>
+        <li><span class="where">Lecture 6 · p. 8 · Example 6, Remark</span>“We could have started the proof in Example 10 with <span class="m">P(1)</span>” refers to Example 6, the prime-factorisation proof it follows.</li>
+        <li><span class="where">Lecture 6 · p. 8 · Note after Example 6</span>The fundamental theorem of arithmetic is stated for “every nonnegative integer”; it holds for every integer greater than 1 (0 and 1 have no prime factorisation).</li>
+        <li><span class="where">Lecture 6 · p. 10 · Example 11, solution</span>“The two sets do not overlap if <span class="m">n + 1 = 2</span>”: the proof uses <span class="m">k</span>, so this should read <span class="m">k + 1 = 2</span>.</li>
+        <li><span class="where">Lecture 6 · p. 13 · Exercise 1.2</span>The inductive hypothesis is printed as “<span class="m">k⁵ − 5</span> is divisible by 5”; it should be <span class="m">k⁵ − k</span>.</li>
+        <li><span class="where">Lecture 6 · pp. 16–17 · Exercises, Set 2</span>The number 2.24 is used twice: for the inequality with <span class="m">1/√(3n)</span> and for the 4- and 7-cent stamps.</li>
+        <li><span class="where">Lecture 7 · p. 1 onwards · page footers and Part 0</span>The pages are labelled “Lecture 12” and refer to “Lecture Notes 10–11” for strong induction; in this numbering they are Lecture 7 and Lecture 6.</li>
+        <li><span class="where">Lecture 7 · p. 11 · Example 13, inductive step</span>The hypothesis is stated for <span class="m">(m′, n′) ≼ (m, n)</span>; it must be strictly smaller, <span class="m">(m′, n′) ≺ (m, n)</span>, or it assumes what is to be proved.</li>
+        <li><span class="where">Lecture 7 · p. 16 · Exercise 1.10(2)</span>“Every positive integer, which is a power of <span class="m">k</span>” should be “which is a multiple of <span class="m">k</span>”: the set <span class="m">B</span> is <span class="m">{nk | n ≥ 1}</span>.</li>
       </ul>
     </section>
 
@@ -3569,13 +4058,28 @@ dl.tt-extra dd .m { white-space: normal; }
           <li><span class="m">x</span> = <span class="bits">00001111</span>, <span class="m">y</span> = <span class="bits">00110011</span>, <span class="m">z</span> = <span class="bits">01010101</span></li>
           <li>A 1 in position <span class="m">k</span> is the minterm of <span class="m">k − 1</span> in binary</li>
         </ul></div>
+        <div><h4>Induction</h4><ul>
+          <li>RI: basis <span class="m">P(b)</span>; step <span class="m">P(k) → P(k + 1)</span> for every <span class="m">k ≥ b</span></li>
+          <li>SI: step <span class="m">P(b) ∧ ⋯ ∧ P(k) → P(k + 1)</span>; a step back <span class="m">j</span> places needs <span class="m">j</span> basis cases</li>
+          <li>Name <span class="m">P(n)</span>, label the hypothesis, show where you use it</li>
+          <li>Check the step at the smallest <span class="m">k</span> (horses fail at <span class="m">k + 1 = 2</span>)</li>
+          <li><span class="m">SI ⟺ MI ⟺ WOP</span></li>
+        </ul></div>
+        <div><h4>WOP and recursion</h4><ul>
+          <li>WOP: set of counterexamples, least element <span class="m">m</span>, contradiction</li>
+          <li><span class="m">a = dq + r</span>, <span class="m">0 ≤ r &lt; d</span>, even for negative <span class="m">a</span></li>
+          <li>Recursive definition = basis step + recursive step (+ exclusion rule)</li>
+          <li>Strings: <span class="m">λ ∈ Σ*</span>; <span class="m">w ∈ Σ*</span>, <span class="m">x ∈ Σ ⟹ wx ∈ Σ*</span></li>
+          <li>Structural induction: basis elements, then each rule</li>
+          <li>Set equality: <span class="m">S ⊆ A</span> by structural induction, <span class="m">A ⊆ S</span> by MI</li>
+        </ul></div>
       </div>
     </section>
   </main>
 </div>
 <footer class="site-foot">
   <div class="page">
-    <p>Built from Fuad Hajiyev's Lecture Notes on Discrete Structures (v.4, Fall 2026): Lecture 1, Lectures 2–3 and Lectures 4–5, and the MATH 1101 HW1 sheet. Every answer on this page was checked by computer, with truth tables and an exhaustive search for minimal sums. Your “Mark done” progress is saved in this browser only.</p>
+    <p>Built from Fuad Hajiyev's Lecture Notes on Discrete Structures (v.4, Fall 2026): Lecture 1, Lectures 2–3, Lectures 4–5, Lecture 6 and Lecture 7, and the MATH 1101 HW1 sheet. Every answer on this page was checked by computer, with truth tables and an exhaustive search for minimal sums. Your “Mark done” progress is saved in this browser only.</p>
   </div>
 </footer>
 <script>
@@ -3594,9 +4098,18 @@ const Core = (() => {
     constructor(msg, pos) { super(msg); this.pos = pos; }
   }
 
-  function stripLhs(s) {
-    const m = s.match(/^\s*[A-Za-z][A-Za-z0-9_]*\s*(\([^)]*\))?\s*=(?![>=])/);
-    return m ? s.slice(m[0].length) : s;
+  // A leading label such as "E =", "Y =" or "f(x, y) =" is dropped. A single variable before "=",
+  // as in "p = q", is kept: there "=" is read as ↔. With no variable list (the tools), a lowercase
+  // letter or a name that reappears on the right counts as a variable.
+  function stripLhs(s, vars) {
+    const m = s.match(/^\s*([A-Za-z][A-Za-z0-9_]*)\s*(\([^)]*\))?\s*=(?![>=])/);
+    if (!m) return s;
+    const name = m[1], rest = s.slice(m[0].length);
+    if (!m[2] && name.length === 1) {
+      const isVar = vars ? vars.includes(name) : (/[a-z]/.test(name) || rest.includes(name));
+      if (isVar) return s;
+    }
+    return rest;
   }
 
   function tokenize(s) {
@@ -3608,6 +4121,8 @@ const Core = (() => {
       if (/\s/.test(c)) { i++; continue; }
       if (three === '<->' || three === '<=>') { toks.push({ k: 'iff', p: i }); i += 3; continue; }
       if (two === '->' || two === '=>') { toks.push({ k: 'imp', p: i }); i += 2; continue; }
+      if (two === '==') { toks.push({ k: 'iff', p: i }); i += 2; continue; }
+      if (c === '=') { toks.push({ k: 'iff', p: i }); i++; continue; }
       if ('↔⇔≡'.includes(c)) { toks.push({ k: 'iff', p: i }); i++; continue; }
       if ('→⇒'.includes(c)) { toks.push({ k: 'imp', p: i }); i++; continue; }
       if ('([{'.includes(c)) { toks.push({ k: '(', p: i }); i++; continue; }
@@ -3637,8 +4152,8 @@ const Core = (() => {
     return { t, a: x, b: y };
   };
 
-  function parse(src) {
-    const text = stripLhs(String(src));
+  function parse(src, vars) {
+    const text = stripLhs(String(src), vars);
     const toks = tokenize(text);
     if (!toks.length) throw new ParseError('Type an expression first.', 0);
     let i = 0;
@@ -3885,41 +4400,57 @@ const Core = (() => {
     if (!ms.length) return { primes: [], essential: [], sums: [[]] };
     if (ms.length === full) { const one = '-'.repeat(n); return { primes: [one], essential: [one], sums: [[one]] }; }
     const primes = primeImplicants(ms, n);
-    const idx = new Map(ms.map((m, i) => [m, i]));
-    const maskOf = (p) => { let b = 0; ms.forEach((m) => { if (covers(p, m, n)) b |= 1 << idx.get(m); }); return b; };
-    const masks = primes.map(maskOf);
-    const target = (ms.length >= 31) ? -1 >>> 0 : (1 << ms.length) - 1;
+    // cells[j]: indices (into ms) of the minterms prime j covers; by[i]: the primes covering minterm i.
+    // Coverage is counted per minterm, so any number of minterms works (no 32-bit masks).
+    const cells = primes.map((p) => ms.flatMap((m, i) => (covers(p, m, n) ? [i] : [])));
+    const by = ms.map(() => []);
+    cells.forEach((cs, j) => cs.forEach((i) => by[i].push(j)));
     const essential = [];
-    ms.forEach((m) => {
-      const c = primes.filter((p) => covers(p, m, n));
-      if (c.length === 1 && !essential.includes(c[0])) essential.push(c[0]);
-    });
+    by.forEach((c) => { if (c.length === 1 && !essential.includes(primes[c[0]])) essential.push(primes[c[0]]); });
 
+    const count = new Int32Array(ms.length);
+    let uncovered = ms.length;
+    const add = (j) => cells[j].forEach((i) => { if (count[i]++ === 0) uncovered--; });
+    const remove = (j) => cells[j].forEach((i) => { if (--count[i] === 0) uncovered++; });
     const found = new Map();
     let budget = 400000;
-    function search(chosen, covered, maxK) {
+    function search(chosen, maxK) {
       if (--budget < 0) return;
-      if ((covered >>> 0) === (target >>> 0)) {
+      if (!uncovered) {
         const key = [...chosen].sort((a, b) => a - b).join(',');
         if (!found.has(key)) found.set(key, [...chosen]);
         return;
       }
       if (chosen.length >= maxK) return;
-      let bit = 0;
-      while ((covered >>> bit) & 1) bit++;
-      for (let j = 0; j < primes.length; j++) {
-        if ((masks[j] >>> bit) & 1 && !chosen.includes(j)) {
-          chosen.push(j); search(chosen, covered | masks[j], maxK); chosen.pop();
-        }
+      const first = count.indexOf(0);
+      for (const j of by[first]) {
+        if (chosen.includes(j)) continue;
+        chosen.push(j); add(j); search(chosen, maxK); remove(j); chosen.pop();
       }
     }
     let kmin = 0;
-    for (let k = 1; k <= primes.length; k++) { found.clear(); budget = 400000; search([], 0, k); if (found.size) { kmin = k; break; } }
-    found.clear(); budget = 400000;
-    search([], 0, Math.min(primes.length, kmin + 2));
+    for (let k = 1; k <= primes.length && budget >= 0; k++) { found.clear(); budget = 400000; search([], k); if (found.size) { kmin = k; break; } }
+    if (kmin) { found.clear(); budget = 400000; search([], Math.min(primes.length, kmin + 2)); }
+    if (!found.size) found.set('greedy', greedyCover());
+    function greedyCover() {
+      // Fallback when the search budget runs out (very large maps): largest new coverage first.
+      const chosen = [], have = new Set();
+      while (have.size < ms.length) {
+        let best = -1, gain = 0;
+        cells.forEach((cs, j) => { const g = cs.filter((i) => !have.has(i)).length; if (g > gain) { gain = g; best = j; } });
+        chosen.push(best); cells[best].forEach((i) => have.add(i));
+      }
+      for (let k = chosen.length - 1; k >= 0; k--) {
+        const others = chosen.filter((_, o) => o !== k);
+        const c = new Set(others.flatMap((j) => cells[j]));
+        if (c.size === ms.length) chosen.splice(k, 1);
+      }
+      return chosen;
+    }
     const irredundant = (set) => set.every((j) => {
-      let c = 0; set.forEach((o) => { if (o !== j) c |= masks[o]; });
-      return (c >>> 0) !== (target >>> 0);
+      const c = new Int32Array(ms.length);
+      set.forEach((o) => { if (o !== j) cells[o].forEach((i) => { c[i]++; }); });
+      return c.includes(0);
     });
     const covers_ = [...found.values()].filter(irredundant).map((s) => ({
       s: s.map((j) => primes[j]), ES: s.length, EL: s.reduce((a, j) => a + patLits(primes[j]), 0),
@@ -3944,15 +4475,15 @@ const Core = (() => {
   // spec: { answer, vars:[...], mode: 'eq'|'sop'|'csop'|'min'|'prod' }
   function grade(input, spec) {
     let tree;
-    try { tree = parse(input); } catch (e) {
+    const vars = spec.vars;
+    try { tree = parse(input, vars); } catch (e) {
       if (e instanceof ParseError) return { status: 'error', msg: e.message };
       throw e;
     }
-    const vars = spec.vars;
     const used = varsOf(tree);
     const extra = [...used].filter((v) => !vars.includes(v));
     if (extra.length) return { status: 'error', msg: `Use only the variables ${vars.join(', ')} (found ${extra.join(', ')}).` };
-    const ansTree = parse(spec.answer);
+    const ansTree = parse(spec.answer, vars);
     const tu = table(tree, vars), ta = table(ansTree, vars);
     const bad = ta.findIndex((b, i) => b !== tu[i]);
     if (bad >= 0) {
@@ -4020,6 +4551,14 @@ const Core = (() => {
     return { status: 'wrong', msg: `Not quite: position${bad.length > 1 ? 's' : ''} ${bad.join(', ')} ${bad.length > 1 ? 'are' : 'is'} wrong (counting from the left).` };
   }
 
+  function gradeNum(input, answer) {
+    const s = String(input).replace(/[\s,]/g, '').replace(/^−/, '-');
+    if (!s) return { status: 'error', msg: 'Type a number first.' };
+    if (!/^-?\d+$/.test(s)) return { status: 'error', msg: 'Type a whole number, for example 42 or −3.' };
+    if (parseInt(s, 10) === parseInt(String(answer).replace(/^−/, '-'), 10)) return { status: 'ok', msg: 'Correct.' };
+    return { status: 'wrong', msg: 'Not quite. Check the computation and try again.' };
+  }
+
   function gradeSet(input, answer) {
     const parse_ = (str) => {
       const t = String(str).trim();
@@ -4043,7 +4582,7 @@ const Core = (() => {
   return {
     ParseError, parse, ev, varsOf, sortVars, table, minterms, envFor, show, steps,
     asSop, sopIssues, termStr, countEL, primeImplicants, minimalSums, patStr, patLits, patCells,
-    covers, toBits, sumStr, csopStr, grade, gradeBits, gradeSet, simpler,
+    covers, toBits, sumStr, csopStr, grade, gradeBits, gradeNum, gradeSet, simpler,
   };
 })();
 if (typeof module !== 'undefined') module.exports = Core;
@@ -4136,7 +4675,7 @@ if (typeof module !== 'undefined') module.exports = Core;
     const kind = box.dataset.kind || 'bool';
     const owner = box.closest('[id]');
     const id = `${owner ? owner.id : 'c'}-in${++seq}`;
-    const ph = box.dataset.ph || (kind === 'bits' ? 'e.g. 01100101' : kind === 'set' ? 'e.g. {1, 2, 3}; type {} for ∅' : "use ' for the prime ′");
+    const ph = box.dataset.ph || (kind === 'bits' ? 'e.g. 01100101' : kind === 'set' ? 'e.g. {1, 2, 3}; type {} for ∅' : kind === 'num' ? 'a whole number' : "use ' for the prime ′");
     const input = h('input', {
       id, type: 'text', autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false',
       inputmode: kind === 'bits' ? 'numeric' : null, placeholder: ph, 'aria-describedby': id + '-fb',
@@ -4158,6 +4697,7 @@ if (typeof module !== 'undefined') module.exports = Core;
       let res;
       if (kind === 'bits') res = Core.gradeBits(input.value, box.dataset.answer);
       else if (kind === 'set') res = Core.gradeSet(input.value, box.dataset.answer);
+      else if (kind === 'num') res = Core.gradeNum(input.value, box.dataset.answer);
       else {
         res = Core.grade(input.value, {
           answer: box.dataset.answer, vars: [...box.dataset.vars], mode: box.dataset.mode || 'eq',

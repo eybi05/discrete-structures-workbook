@@ -22,6 +22,7 @@ for (const c of checks) {
   let res;
   if (c.kind === 'bits') res = C.gradeBits(c.answer, c.answer);
   else if (c.kind === 'set') res = C.gradeSet(c.answer === '' ? '∅' : c.answer, c.answer);
+  else if (c.kind === 'num') res = C.gradeNum(c.answer, c.answer);
   else res = C.grade(c.answer, { answer: c.answer, vars: [...c.vars], mode: c.mode || 'eq', only: c.only ? c.only.split(',') : null });
   if (res.status !== 'ok') bad(`${c.owner} ${c.label}: key does not grade as ok -> ${res.status}: ${res.msg}`);
 }
@@ -124,7 +125,42 @@ for (const c of checks) {
     if (!brute(c.answer, ['a', 'b', 'c', 'd', 'e', 'f'], f)) bad('hw-t8 ' + c.label);
   }
 }
-const unchecked = checks.filter((c) => c.kind !== 'set' && !seen.has(`${c.owner}|${c.label}`) && c.owner !== 'hw-t8');
+// Lectures 6–7: numbers and sets computed by brute force from the problem statements
+const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+const fact = (n) => (n <= 1 ? 1 : n * fact(n - 1));
+const firstFrom = (ok) => range(1, 50).find((b) => ok(b) && !ok(b - 1) && range(b, 40).every(ok)); // holds from b on, fails at b − 1
+const makeable = (n, coins) => (n === 0 ? true : coins.some((c) => c <= n && makeable(n - c, coins)));
+const reach = (start, step) => { const s = new Set(start); for (let r = 0; r < 20; r++) [...s].forEach((n) => step(n).forEach((m) => { if (m <= 10) s.add(m); })); return [...s].filter((n) => n <= 10); };
+const reachPairs = (start) => { const s = new Set(start); for (let r = 0; r < 20; r++) [...s].forEach((n) => { if (s.has(n + 1) && n + 2 <= 10) s.add(n + 2); }); return [...s]; };
+const minPos = (f) => Math.min(...range(-100, 100).map(f).filter((v) => v > 0));
+const closure = (gen, max) => { const s = new Set(gen); let grew = true; while (grew) { grew = false; for (const x of [...s]) for (const y of [...s]) if (x + y <= max && !s.has(x + y)) { s.add(x + y); grew = true; } } return [...s]; };
+const recF = (n) => (n === 0 ? 1 : 2 * recF(n - 1) + 3);
+const fib = (n) => (n < 2 ? n : fib(n - 1) + fib(n - 2));
+const amn = (m, n) => (m === 0 && n === 0 ? 0 : n === 0 ? amn(m - 1, 0) + 1 : amn(m, n - 1) + n);
+const divq = (a, d) => Math.floor(a / d), divr = (a, d) => a - d * Math.floor(a / d);
+const values = {
+  'p8-2|(a) b =': firstFrom((n) => n >= 1 && 2 ** n < fact(n)), 'p8-2|(b) b =': firstFrom((n) => n >= 1 && 3 ** n < fact(n)),
+  'p8-2|(c) b =': firstFrom((n) => n >= 1 && n * n < 2 ** n), 'p8-2|(d) b =': firstFrom((n) => n >= 1 && 2 * n + 3 <= 2 ** n),
+  'p8-4|1² + ⋯ + 10² =': range(1, 10).reduce((a, k) => a + k * k, 0),
+  'p8-7|(a)': (10 * 9) / 2, 'p8-7|(b)': range(0, 127).filter((m) => m.toString(2).split('1').length - 1 === 3).length, 'p8-7|(c)': 2 ** 7,
+  'p8-8|(a) cannot form': range(1, 17).filter((n) => !makeable(n, [4, 7])),
+  'p8-8|(d) largest =': Math.max(...range(1, 60).filter((n) => !makeable(n, [3, 7]))),
+  'p8-9|(a)': reach([0], (n) => [n + 2]), 'p8-9|(b)': reach([0], (n) => [n + 3]), 'p8-9|(c)': reachPairs([0, 1]), 'p8-9|(d)': reach([0], (n) => [n + 2, n + 3]),
+  'p9-1|(a) min =': minPos((x) => x * x - 8 * x + 12), 'p9-1|(b) min =': minPos((x) => x * x - 10 * x + 28), 'p9-1|(c) min =': minPos((x) => x * x - 4 * x - 2),
+  'p9-2|(a) q =': divq(47, 6), 'p9-2|(a) r =': divr(47, 6), 'p9-2|(b) q =': divq(-17, 5), 'p9-2|(b) r =': divr(-17, 5),
+  'p9-6|(a) f(4) =': recF(4), 'p9-6|(b) F(10) =': fib(10), 'p9-6|(c) a₂,₃ =': amn(2, 3),
+  'p9-8|(a)': closure([5], 30), 'p9-8|(b)': closure([3, 5], 15), 'p9-8|(c)': range(0, 3).reduce((a, k) => a + 2 ** k, 0),
+};
+const norm = (v) => (Array.isArray(v) ? [...v].sort((a, b) => a - b).join(',') : String(v));
+for (const c of checks) {
+  const key = `${c.owner}|${c.label}`;
+  if (!(key in values)) continue;
+  seen.add(key);
+  const want = norm(values[key]);
+  const got = c.kind === 'set' ? norm(c.answer.split(',').filter(Boolean).map(Number)) : String(+c.answer);
+  if (got !== want) bad(`${key}: key ${c.answer} but computed ${want}`);
+}
+const unchecked = checks.filter((c) => (c.kind !== 'set' || c.owner.startsWith('p8') || c.owner.startsWith('p9')) && !seen.has(`${c.owner}|${c.label}`) && c.owner !== 'hw-t8');
 console.log(`${checks.length} answer boxes; ${seen.size} cross-checked against problem data; sets verified separately in Python.`);
 if (unchecked.length) console.log('not cross-checked:', unchecked.map((c) => `${c.owner}|${c.label}`));
 console.log(fails ? `${fails} FAILURES` : 'all keys consistent');
