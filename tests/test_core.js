@@ -20,6 +20,10 @@ eq('hw2.9b', tt("xyz'+xy'z'+x'y'z'", X), '10001010');
 eq('unicode prime', tt('xy′+x′z', X), '01011100');
 eq('unicode prime 2', tt('xy+x′z', X), '01010011');
 eq('lhs strip', tt("E = xy + x'z", X), '01010011');
+eq('lhs strip f(x)', tt('f(x, y) = x + y', ['x', 'y']), '0111');
+eq('= between variables is iff', tt('x = y', ['x', 'y']), '1001');
+eq('== is iff', tt('p == q', ['p', 'q']), '1001');
+eq('label reused on the right is kept', tt('A = A + B', ['A', 'B']), '1011');
 // (p∨¬q)→(p∧q) in 0-first order: pq=00: (0∨1)→0 = 0; 01: (0∨0)→0 = 1; 10: 1→0 = 0; 11: 1→1 = 1  => 0101
 eq('logic ops fixed', tt('(p ∨ ¬q) → (p ∧ q)', ['p', 'q']), '0101');
 eq('iff taut', tt('(p→q) ↔ (¬q→¬p)', ['p', 'q']), '1111');
@@ -60,6 +64,10 @@ eq('cyclic 3var', msop("x'y'z'+x'y'z+x'yz'+xy'z+xyz'+xyz", X).length, 2);
 eq('constant 0', C.minimalSums([], 3).sums, [[]]);
 eq('constant 1', C.sumStr(C.minimalSums([0, 1, 2, 3, 4, 5, 6, 7], 3).sums[0], X), '1');
 eq('fig4 nand', msopN("(AB)'+(A'+C)'", ABC), [sortSum("A′ + B′ + C′")]);
+// more than 31 minterms used to overflow the 32-bit cover masks
+const V5 = ['a', 'b', 'c', 'd', 'e'];
+eq('5 vars, 31 minterms', C.minimalSums([...Array(32).keys()].filter((i) => i !== 5), 5).sums.map((s) => sortSum(C.sumStr(s, V5))), [sortSum('a + b + c′ + d + e′')]);
+eq('6 vars, 63 minterms', C.minimalSums([...Array(64).keys()].slice(1), 6).sums.length, 1);
 
 // grading
 const g = (inp, spec) => C.grade(inp, spec).status;
@@ -69,6 +77,13 @@ eq('grade not minimal', g("x'y+y'z'+x'z'", { answer: "xy'z'+x'y+x'y'z'+x'yz", va
 eq('grade wrong', g("x'y+z'", { answer: "xy'z'+x'y+x'y'z'+x'yz", vars: X, mode: 'min' }), 'wrong');
 eq('grade parse err', g("x'y+(z'", { answer: "x'y", vars: X, mode: 'eq' }), 'error');
 eq('grade bad var', g("x'w", { answer: "x'y", vars: X, mode: 'eq' }), 'error');
+eq('grade p = q as iff', g('p = q', { answer: 'p <-> q', vars: ['p', 'q'], mode: 'eq' }), 'ok');
+eq('grade label stripped', g("E = x'y", { answer: "x'y", vars: X, mode: 'eq' }), 'ok');
+eq('num ok', C.gradeNum(' 82 ', '82').status, 'ok');
+eq('num negative', C.gradeNum('−4', '-4').status, 'ok');
+eq('num wrong', C.gradeNum('81', '82').status, 'wrong');
+eq('num not a number', C.gradeNum('8x', '82').status, 'error');
+eq('num empty', C.gradeNum('', '82').status, 'error');
 eq('sop ok', g("xy+xz'", { answer: "(x+y'z)(y+z')", vars: X, mode: 'sop' }), 'ok');
 eq('sop not expanded', g("x(y+z')", { answer: "(x+y'z)(y+z')", vars: X, mode: 'sop' }), 'partial');
 eq('sop containment', g("xy+xz'+xyz'", { answer: "(x+y'z)(y+z')", vars: X, mode: 'sop' }), 'partial');
@@ -93,8 +108,8 @@ eq('csop str', C.csopStr([1, 3], X), 'x′yz + x′y′z');
 // random cross-check: every minimal sum is equivalent and irredundant; brute-force small cases
 let rnd = 7;
 const rand = () => { rnd = (rnd * 1103515245 + 12345) % 2147483648; return rnd / 2147483648; };
-for (let trial = 0; trial < 300; trial++) {
-  const n = trial % 2 ? 4 : 3;
+for (let trial = 0; trial < 360; trial++) {
+  const n = trial >= 300 ? 5 : trial % 2 ? 4 : 3;
   const m = [];
   for (let i = 0; i < (1 << n); i++) if (rand() < 0.45) m.push(i);
   const res = C.minimalSums(m, n);

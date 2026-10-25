@@ -14,6 +14,14 @@
         <li><span class="where">Lectures 4–5 · p. 18 · Example 15(a)</span><span class="m">C</span> and <span class="m">D</span> are printed with 20 bits; with 4 inputs they have 16: <span class="m">C</span> = <span class="bits">0011001100110011</span>, <span class="m">D</span> = <span class="bits">0101010101010101</span>.</li>
         <li><span class="where">Lectures 4–5 · p. 19 · Example 16</span>It refers to “Example 13, Figure 13”; the circuit <span class="m">Y = ABC + AB′C + A′B</span> is Example 1, Figure 5.</li>
         <li><span class="where">Lectures 4–5 · p. 25 · Exercise 1.13(b)</span>The answer is printed as <span class="bits">0101000</span> (7 bits). The correct output is <span class="bits">00101000</span>: positions 3 and 5 are the only ones where all inputs are 1.</li>
+        <li><span class="where">Lecture 6 · p. 8 · Example 6, Remark</span>“We could have started the proof in Example 10 with <span class="m">P(1)</span>” refers to Example 6, the prime-factorisation proof it follows.</li>
+        <li><span class="where">Lecture 6 · p. 8 · Note after Example 6</span>The fundamental theorem of arithmetic is stated for “every nonnegative integer”; it holds for every integer greater than 1 (0 and 1 have no prime factorisation).</li>
+        <li><span class="where">Lecture 6 · p. 10 · Example 11, solution</span>“The two sets do not overlap if <span class="m">n + 1 = 2</span>”: the proof uses <span class="m">k</span>, so this should read <span class="m">k + 1 = 2</span>.</li>
+        <li><span class="where">Lecture 6 · p. 13 · Exercise 1.2</span>The inductive hypothesis is printed as “<span class="m">k⁵ − 5</span> is divisible by 5”; it should be <span class="m">k⁵ − k</span>.</li>
+        <li><span class="where">Lecture 6 · pp. 16–17 · Exercises, Set 2</span>The number 2.24 is used twice: for the inequality with <span class="m">1/√(3n)</span> and for the 4- and 7-cent stamps.</li>
+        <li><span class="where">Lecture 7 · p. 1 onwards · page footers and Part 0</span>The pages are labelled “Lecture 12” and refer to “Lecture Notes 10–11” for strong induction; in this numbering they are Lecture 7 and Lecture 6.</li>
+        <li><span class="where">Lecture 7 · p. 11 · Example 13, inductive step</span>The hypothesis is stated for <span class="m">(m′, n′) ≼ (m, n)</span>; it must be strictly smaller, <span class="m">(m′, n′) ≺ (m, n)</span>, or it assumes what is to be proved.</li>
+        <li><span class="where">Lecture 7 · p. 16 · Exercise 1.10(2)</span>“Every positive integer, which is a power of <span class="m">k</span>” should be “which is a multiple of <span class="m">k</span>”: the set <span class="m">B</span> is <span class="m">{nk | n ≥ 1}</span>.</li>
       </ul>
     </section>
 
@@ -63,12 +71,27 @@
           <li><span class="m">x</span> = <span class="bits">00001111</span>, <span class="m">y</span> = <span class="bits">00110011</span>, <span class="m">z</span> = <span class="bits">01010101</span></li>
           <li>A 1 in position <span class="m">k</span> is the minterm of <span class="m">k − 1</span> in binary</li>
         </ul></div>
+        <div><h4>Induction</h4><ul>
+          <li>RI: basis <span class="m">P(b)</span>; step <span class="m">P(k) → P(k + 1)</span> for every <span class="m">k ≥ b</span></li>
+          <li>SI: step <span class="m">P(b) ∧ ⋯ ∧ P(k) → P(k + 1)</span>; a step back <span class="m">j</span> places needs <span class="m">j</span> basis cases</li>
+          <li>Name <span class="m">P(n)</span>, label the hypothesis, show where you use it</li>
+          <li>Check the step at the smallest <span class="m">k</span> (horses fail at <span class="m">k + 1 = 2</span>)</li>
+          <li><span class="m">SI ⟺ MI ⟺ WOP</span></li>
+        </ul></div>
+        <div><h4>WOP and recursion</h4><ul>
+          <li>WOP: set of counterexamples, least element <span class="m">m</span>, contradiction</li>
+          <li><span class="m">a = dq + r</span>, <span class="m">0 ≤ r &lt; d</span>, even for negative <span class="m">a</span></li>
+          <li>Recursive definition = basis step + recursive step (+ exclusion rule)</li>
+          <li>Strings: <span class="m">λ ∈ Σ*</span>; <span class="m">w ∈ Σ*</span>, <span class="m">x ∈ Σ ⟹ wx ∈ Σ*</span></li>
+          <li>Structural induction: basis elements, then each rule</li>
+          <li>Set equality: <span class="m">S ⊆ A</span> by structural induction, <span class="m">A ⊆ S</span> by MI</li>
+        </ul></div>
       </div>
     </section>
   </main>
 </div>
 <footer class="site-foot">
   <div class="page">
-    <p>Built from Fuad Hajiyev's Lecture Notes on Discrete Structures (v.4, Fall 2026): Lecture 1, Lectures 2–3 and Lectures 4–5, and the MATH 1101 HW1 sheet. Every answer on this page was checked by computer, with truth tables and an exhaustive search for minimal sums. Your “Mark done” progress is saved in this browser only.</p>
+    <p>Built from Fuad Hajiyev's Lecture Notes on Discrete Structures (v.4, Fall 2026): Lecture 1, Lectures 2–3, Lectures 4–5, Lecture 6 and Lecture 7, and the MATH 1101 HW1 sheet. Every answer on this page was checked by computer, with truth tables and an exhaustive search for minimal sums. Your “Mark done” progress is saved in this browser only.</p>
   </div>
 </footer>

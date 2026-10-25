@@ -1,6 +1,6 @@
 # Discrete Structures Workbook
 
-An interactive study page for **MATH 1101 Discrete Structures** (Fall 2026, Lectures 1–5): sets and functions, propositions and quantifiers, logic circuits and Boolean algebra.
+An interactive study page for **MATH 1101 Discrete Structures** (Fall 2026, Lectures 1–7): sets and functions, propositions and quantifiers, logic circuits and Boolean algebra, induction, well-ordering and recursion.
 
 **Live page: https://eybi05.github.io/discrete-structures-workbook/** (GitHub Pages, served from `index.html` on `main`).
 
@@ -9,7 +9,7 @@ Or open **`index.html`** in any browser. It is one self-contained file; the font
 ## What's inside
 
 - **Notes** for each lecture, with worked examples from the lecture notes and a table that shows the laws of sets, logic and Boolean algebra side by side.
-- **Practice:** 63 problems in 7 sets, plus 30 quick true/false checks. Most answers can be typed into a box that says whether they are right (equivalent, in SoP form, minimal) without showing the solution. Hint, answer and full solution sit behind buttons.
+- **Practice:** 89 problems in 9 sets, plus 42 quick true/false checks. Most answers can be typed into a box that says whether they are right (equivalent, in SoP form, minimal) without showing the solution. Hint, answer and full solution sit behind buttons.
 - **HW1 answer check:** all 23 tasks, with the same answer boxes and model answers.
 - **Midterm 1 practice:** past exams after the HW1 section, with answer boxes, K-map solutions, circuits and model proofs:
   - Fall 2025, both variants (7 tasks each)
@@ -18,7 +18,8 @@ Or open **`index.html`** in any browser. It is one self-contained file; the font
   - Fall 2023 sample tasks (6 tasks, including a second Prim's graph)
 - **Proofs, easy to hard:** 44 proofs in seven levels (warm-up, set identities, quantifiers, functions, Boolean algebra from the axioms, countable sets, uncountable sets up to Cantor–Bernstein). Each has a model proof; some are puzzles where you put the steps in order, and some show a wrong proof to find the flaw in.
 - **Tools:** a truth-table and equivalence checker, a Karnaugh map solver that lists every minimal sum (with a random-map practice mode), and a Venn diagram shader.
-- **Errata:** 11 typos found in the lecture notes while checking every example.
+- **Induction and recursion (Lectures 6–7):** regular and strong induction, broken proofs, the well-ordering property, recursive definitions and structural induction, with Practice 8 and 9 (number and set answer boxes, proof-order puzzles, find-the-flaw questions).
+- **Errata:** 19 typos found in the lecture notes while checking every example.
 
 ## Typing symbols
 
@@ -34,6 +35,7 @@ Every answer box accepts plain-keyboard input:
 | `→` / `↔` | `->` / `<->` |
 | `∖` difference | `\` or `-` |
 | `∅` empty set | `{}` or `empty` |
+| `↔` between variables | `=` (as in `p = q`); a leading `E =` is a label and is ignored |
 
 ## Project layout
 
@@ -44,6 +46,7 @@ src/
   body_top.html      header, contents, "big picture" and typing help
   s1.html s2.html    Lecture 1; Lectures 2-3
   s3.html            Lectures 4-5
+  s4.html            Lectures 6-7: induction, well-ordering, recursion
   tools.html hw.html end.html
   mt1.html mt24.html mt23.html mt23s.html   Midterm 1: Fall 2025, Fall 2024, Fall 2023, Fall 2023 sample tasks
   proofs.html        proofs, easy to hard
@@ -73,7 +76,7 @@ google-chrome --headless=new --enable-logging=stderr --virtual-time-budget=15000
 
 ## Source material
 
-Built from Fuad Hajiyev's *Lecture Notes on Discrete Structures* (v.4, Fall 2026: Lecture 1, Lectures 2–3, Lectures 4–5), the MATH 1101 HW1 sheet, and the Midterm 1 solution sheets for Fall 2025 (two variants), Fall 2024 (two variants), Fall 2023, and the Fall 2023 sample tasks. The midterm sheets are in `pdfs/` and are linked from each section. The lecture notes and the HW1 sheet are not included here.
+Built from Fuad Hajiyev's *Lecture Notes on Discrete Structures* (v.4, Fall 2026: Lecture 1, Lectures 2–3, Lectures 4–5, Lecture 6, Lecture 7), the MATH 1101 HW1 sheet, and the Midterm 1 solution sheets for Fall 2025 (two variants), Fall 2024 (two variants), Fall 2023, and the Fall 2023 sample tasks. The midterm sheets are in `pdfs/` and are linked from each section. The lecture notes and the HW1 sheet are not included here.
 
 A few proof problems come from other courses: UC Davis ECS 20 (set-difference identities) and IIT Kharagpur CS60005 (removing a countable set from an uncountable one).
 
