@@ -23,6 +23,7 @@ for (const c of checks) {
   if (c.kind === 'bits') res = C.gradeBits(c.answer, c.answer);
   else if (c.kind === 'set') res = C.gradeSet(c.answer === '' ? '∅' : c.answer, c.answer);
   else if (c.kind === 'num') res = C.gradeNum(c.answer, c.answer);
+  else if (c.kind === 'pairs') res = C.gradePairs(c.answer, c.answer);
   else res = C.grade(c.answer, { answer: c.answer, vars: [...c.vars], mode: c.mode || 'eq', only: c.only ? c.only.split(',') : null });
   if (res.status !== 'ok') bad(`${c.owner} ${c.label}: key does not grade as ok -> ${res.status}: ${res.msg}`);
 }
@@ -138,6 +139,20 @@ const recF = (n) => (n === 0 ? 1 : 2 * recF(n - 1) + 3);
 const fib = (n) => (n < 2 ? n : fib(n - 1) + fib(n - 2));
 const amn = (m, n) => (m === 0 && n === 0 ? 0 : n === 0 ? amn(m - 1, 0) + 1 : amn(m, n - 1) + n);
 const divq = (a, d) => Math.floor(a / d), divr = (a, d) => a - d * Math.floor(a / d);
+// HW2: the new pairs of each of the first n applications of the recursive step, starting from (0, 0)
+const levels = (rules, n) => {
+  const known = new Set(['0,0']), out = [];
+  for (let r = 0; r < n; r++) {
+    const fresh = new Set();
+    known.forEach((p) => { const [a, b] = p.split(',').map(Number); rules(a, b).forEach(([c, d]) => { if (!known.has(`${c},${d}`)) fresh.add(`${c},${d}`); }); });
+    fresh.forEach((q) => known.add(q));
+    out.push([...fresh].sort().join(';'));
+  }
+  return out;
+};
+const t11 = levels((a, b) => [[a, b + 1], [a + 1, b + 1], [a + 2, b + 1]], 3);
+const t12 = levels((a, b) => [[a + 2, b + 3], [a + 3, b + 2]], 4);
+const pairNorm = (s) => (s.match(/-?\d+,-?\d+/g) || []).sort().join(';');
 const values = {
   'p8-2|(a) b =': firstFrom((n) => n >= 1 && 2 ** n < fact(n)), 'p8-2|(b) b =': firstFrom((n) => n >= 1 && 3 ** n < fact(n)),
   'p8-2|(c) b =': firstFrom((n) => n >= 1 && n * n < 2 ** n), 'p8-2|(d) b =': firstFrom((n) => n >= 1 && 2 * n + 3 <= 2 ** n),
@@ -150,6 +165,10 @@ const values = {
   'p9-2|(a) q =': divq(47, 6), 'p9-2|(a) r =': divr(47, 6), 'p9-2|(b) q =': divq(-17, 5), 'p9-2|(b) r =': divr(-17, 5),
   'p9-6|(a) f(4) =': recF(4), 'p9-6|(b) F(10) =': fib(10), 'p9-6|(c) a₂,₃ =': amn(2, 3),
   'p9-8|(a)': closure([5], 30), 'p9-8|(b)': closure([3, 5], 15), 'p9-8|(c)': range(0, 3).reduce((a, k) => a + 2 ** k, 0),
+  'hw2-t10|Largest impossible amount =': Math.max(...range(1, 60).filter((n) => !makeable(n, [5, 8]))),
+  'hw2-t11|(a) 1st application:': t11[0], 'hw2-t11|(a) 2nd application:': t11[1], 'hw2-t11|(a) 3rd application:': t11[2],
+  'hw2-t12|(a) 1st application:': t12[0], 'hw2-t12|(a) 2nd application:': t12[1], 'hw2-t12|(a) 3rd application:': t12[2],
+  'hw2-t12|(a) 4th application:': t12[3],
 };
 const norm = (v) => (Array.isArray(v) ? [...v].sort((a, b) => a - b).join(',') : String(v));
 for (const c of checks) {
@@ -157,7 +176,7 @@ for (const c of checks) {
   if (!(key in values)) continue;
   seen.add(key);
   const want = norm(values[key]);
-  const got = c.kind === 'set' ? norm(c.answer.split(',').filter(Boolean).map(Number)) : String(+c.answer);
+  const got = c.kind === 'set' ? norm(c.answer.split(',').filter(Boolean).map(Number)) : c.kind === 'pairs' ? pairNorm(c.answer) : String(+c.answer);
   if (got !== want) bad(`${key}: key ${c.answer} but computed ${want}`);
 }
 const unchecked = checks.filter((c) => (c.kind !== 'set' || c.owner.startsWith('p8') || c.owner.startsWith('p9')) && !seen.has(`${c.owner}|${c.label}`) && c.owner !== 'hw-t8');

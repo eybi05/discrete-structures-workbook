@@ -98,6 +98,14 @@ eq('bits len', C.gradeBits('0101000', '00101000').status, 'wrong');
 eq('set ok', C.gradeSet('{5, 2}', '2,5').status, 'ok');
 eq('set empty', C.gradeSet('∅', '').status, 'ok');
 eq('set wrong', C.gradeSet('{2}', '2,5').status, 'wrong');
+eq('pairs ok', C.gradePairs('{(1, 1), (0,1); (2, 1)}', '(0,1),(1,1),(2,1)').status, 'ok');
+eq('pairs repeat ok', C.gradePairs('(0,1),(0,1),(1,1),(2,1)', '(0,1),(1,1),(2,1)').status, 'ok');
+eq('pairs minus', C.gradePairs('(−1, 2)', '(-1,2)').status, 'ok');
+eq('pairs missing', C.gradePairs('(0,1),(1,1)', '(0,1),(1,1),(2,1)').msg, 'Not quite: 1 pair is missing.');
+eq('pairs extra', C.gradePairs('(0,0),(0,1),(1,1),(2,1)', '(0,1),(1,1),(2,1)').msg, 'Not quite: 1 pair does not belong.');
+eq('pairs swapped', C.gradePairs('(1,0),(1,1),(1,2)', '(0,1),(1,1),(2,1)').status, 'wrong');
+eq('pairs format', C.gradePairs('0 1, 1 1', '(0,1),(1,1)').status, 'error');
+eq('pairs empty', C.gradePairs('  ', '(0,1)').status, 'error');
 
 // printing and steps
 eq('show bool', C.show(C.parse("(x+y')'z")), '(x + y′)′z');

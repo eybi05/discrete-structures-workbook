@@ -11,7 +11,8 @@ Or open **`index.html`** in any browser. It is one self-contained file; the font
 - **Notes** for each lecture, with worked examples from the lecture notes and a table that shows the laws of sets, logic and Boolean algebra side by side.
 - **Practice:** 89 problems in 9 sets, plus 42 quick true/false checks. Most answers can be typed into a box that says whether they are right (equivalent, in SoP form, minimal) without showing the solution. Hint, answer and full solution sit behind buttons.
 - **HW1 answer check:** all 23 tasks, with the same answer boxes and model answers.
-- **Midterm 1 practice:** past exams after the HW1 section, with answer boxes, K-map solutions, circuits and model proofs:
+- **HW2 model proofs:** all 15 tasks (regular, strong and structural induction), each with a hint, a complete model proof in the lecture's template and a self-check list; the short-answer parts (the elements of the recursive sets, the largest impossible postage) have answer boxes.
+- **Midterm 1 practice:** past exams after the homework sections, with answer boxes, K-map solutions, circuits and model proofs:
   - Fall 2025, both variants (7 tasks each)
   - Fall 2024, both variants (7 tasks each)
   - Fall 2023 (7 tasks, including a Prim's algorithm graph you solve by clicking edges)
@@ -35,6 +36,7 @@ Every answer box accepts plain-keyboard input:
 | `→` / `↔` | `->` / `<->` |
 | `∖` difference | `\` or `-` |
 | `∅` empty set | `{}` or `empty` |
+| ordered pairs | `(0, 1), (1, 1)` |
 | `↔` between variables | `=` (as in `p = q`); a leading `E =` is a label and is ignored |
 
 ## Project layout
@@ -47,7 +49,7 @@ src/
   s1.html s2.html    Lecture 1; Lectures 2-3
   s3.html            Lectures 4-5
   s4.html            Lectures 6-7: induction, well-ordering, recursion
-  tools.html hw.html end.html
+  tools.html hw.html hw2.html end.html
   mt1.html mt24.html mt23.html mt23s.html   Midterm 1: Fall 2025, Fall 2024, Fall 2023, Fall 2023 sample tasks
   proofs.html        proofs, easy to hard
   core.js            logic engine: parser, truth tables, Quine-McCluskey, minimal sums, answer grading
@@ -59,6 +61,7 @@ tests/
   harness.js         in-browser test: types each key into its box and expects "correct"
   boolkit.py         independent Python implementation used to verify the answers
   verify_hw.py       independent check of all HW1 answers
+  verify_hw2.py      independent check of every claim in the HW2 model proofs (exact arithmetic, brute force)
 ```
 
 ## Build and test
@@ -68,6 +71,7 @@ python3 src/build.py          # writes index.html, build/fragment.html, build/wo
 node tests/test_core.js       # logic engine unit tests
 node tests/check_answers.js   # answer keys against the problems
 python3 tests/verify_hw.py    # HW1 answers, checked independently
+python3 tests/verify_hw2.py   # HW2 model proofs: every identity, inequality and listed set
 
 # in a real browser (headless Chrome): every answer box must accept its key
 google-chrome --headless=new --enable-logging=stderr --virtual-time-budget=15000 \
@@ -76,10 +80,10 @@ google-chrome --headless=new --enable-logging=stderr --virtual-time-budget=15000
 
 ## Source material
 
-Built from Fuad Hajiyev's *Lecture Notes on Discrete Structures* (v.4, Fall 2026: Lecture 1, Lectures 2–3, Lectures 4–5, Lecture 6, Lecture 7), the MATH 1101 HW1 sheet, and the Midterm 1 solution sheets for Fall 2025 (two variants), Fall 2024 (two variants), Fall 2023, and the Fall 2023 sample tasks. The midterm sheets are in `pdfs/` and are linked from each section. The lecture notes and the HW1 sheet are not included here.
+Built from Fuad Hajiyev's *Lecture Notes on Discrete Structures* (v.4, Fall 2026: Lecture 1, Lectures 2–3, Lectures 4–5, Lecture 6, Lecture 7), the MATH 1101 HW1 and HW2 sheets, and the Midterm 1 solution sheets for Fall 2025 (two variants), Fall 2024 (two variants), Fall 2023, and the Fall 2023 sample tasks. The midterm sheets are in `pdfs/` and are linked from each section. The lecture notes and the homework sheets are not included here.
 
 A few proof problems come from other courses: UC Davis ECS 20 (set-difference identities) and IIT Kharagpur CS60005 (removing a countable set from an uncountable one).
 
 One correction to a sheet: in Fall 2024, Variant 2, Task 4(A), the given sum contains a redundant product `z′t`. The page explains this and gives the minimal sum.
 
-The HW1 section contains full answers. HW1 is due 19 October 2026.
+The HW1 section contains full answers; HW1 was due 19 October 2026. The HW2 section contains full model proofs; HW2 is due 7 November 2026.
