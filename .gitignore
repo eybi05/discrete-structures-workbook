@@ -8,3 +8,6 @@ build/
 __pycache__/
 *.pyc
 .DS_Store
+
+# local agent worktrees
+.claude/

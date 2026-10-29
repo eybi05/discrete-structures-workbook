@@ -494,10 +494,29 @@ const Core = (() => {
     return { status: 'wrong', msg: `Not quite: ${parts.join(' and ')}.` };
   }
 
+  // a set of ordered pairs of integers, typed as (a, b), (c, d), … with optional braces
+  function gradePairs(input, answer) {
+    const parse_ = (str) => {
+      const t = String(str).replace(/\s/g, '').replace(/−/g, '-').replace(/^\{(.*)\}$/, '$1');
+      if (!/^(\(-?\d+,-?\d+\)[,;]?)*$/.test(t)) return null;
+      const pairs = (t.match(/\(-?\d+,-?\d+\)/g) || []).map((p) => p.slice(1, -1).split(',').map(Number).join(','));
+      return [...new Set(pairs)];
+    };
+    if (!String(input).trim()) return { status: 'error', msg: 'Type the pairs first, for example (0, 1), (1, 1).' };
+    const u = parse_(input), a = parse_(answer);
+    if (u === null) return { status: 'error', msg: 'Write each pair as (a, b) and separate the pairs with commas, for example (0, 1), (1, 1).' };
+    const missing = a.filter((x) => !u.includes(x)), extra = u.filter((x) => !a.includes(x));
+    if (!missing.length && !extra.length) return { status: 'ok', msg: 'Correct.' };
+    const parts = [];
+    if (missing.length) parts.push(`${missing.length} pair${missing.length > 1 ? 's are' : ' is'} missing`);
+    if (extra.length) parts.push(`${extra.length} pair${extra.length > 1 ? 's do' : ' does'} not belong`);
+    return { status: 'wrong', msg: `Not quite: ${parts.join(' and ')}.` };
+  }
+
   return {
     ParseError, parse, ev, varsOf, sortVars, table, minterms, envFor, show, steps,
     asSop, sopIssues, termStr, countEL, primeImplicants, minimalSums, patStr, patLits, patCells,
-    covers, toBits, sumStr, csopStr, grade, gradeBits, gradeNum, gradeSet, simpler,
+    covers, toBits, sumStr, csopStr, grade, gradeBits, gradeNum, gradeSet, gradePairs, simpler,
   };
 })();
 if (typeof module !== 'undefined') module.exports = Core;

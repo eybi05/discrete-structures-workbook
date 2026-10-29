@@ -1,0 +1,473 @@
+    <section class="chapter" id="hw2">
+      <p class="eyebrow">Homework 2 · due Saturday 7 November 2026, 23:59</p>
+      <h2>HW2 model proofs</h2>
+      <p class="intro">All 15 HW2 tasks, in order. Nearly every task is a proof, so each one has a hint, a complete model proof and a self-check list; the parts with a short answer also have a box that checks it. Write your own proof first, then compare. Every model proof follows the template of <a href="#i-ri">section 4.1</a>: say what <span class="m">P(n)</span> is, do the basis step, state the inductive hypothesis, prove <span class="m">P(k + 1)</span> and point to where the hypothesis is used, then state the conclusion.</p>
+      <div class="hw-note">
+        <h4>Before you submit</h4>
+        <ul>
+          <li>Handwritten solutions with page numbers, scanned into one multipage PDF and uploaded to Blackboard.</li>
+          <li>At the top of page 1: your name and surname, your program (computer science, math, EEE, …), “Fall 25, Discrete Structures”, and “HW2”. The sheet's title and file name say Fall 26, but this header still says Fall 25; follow the sheet unless your instructor says otherwise.</li>
+          <li>File name: <code>Name_Surname_Fall 26_DS_HW2_CRN_xxx.pdf</code>.</li>
+          <li>HW2 is worth 1 point. Use the method each task names (MI, SI or structural induction). Task 7 names none; induction is the natural choice there too.</li>
+          <li>Your wording can differ from the model proofs. What has to be there is the structure: <span class="m">P(n)</span>, basis step, hypothesis, inductive step, conclusion.</li>
+        </ul>
+      </div>
+
+      <p class="hw-group">Regular induction · Lecture 6, Part 1</p>
+      <div class="probs">
+        <article class="prob" id="hw2-t1">
+          <div class="p-head"><span class="pnum">Task 1</span><h4>Bernoulli's inequality</h4></div>
+          <div class="p-body"><p>Use MI to prove that if <span class="m">h &gt; −1</span>, then <span class="m">1 + nh ≤ (1 + h)ⁿ</span> for all nonnegative integers <span class="m">n</span>.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>The basis is <span class="m">n = 0</span>. In the step, multiply both sides of the hypothesis by <span class="m">1 + h</span> (why is that allowed?), expand, and drop a term that is never negative.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Fix a real number <span class="m">h &gt; −1</span>. Let <span class="m">P(n)</span> be the statement “<span class="m">1 + nh ≤ (1 + h)ⁿ</span>”. We prove <span class="m">P(n)</span> for all integers <span class="m">n ≥ 0</span>.</p>
+            <p><strong>Basis step.</strong> <span class="m">P(0)</span> says <span class="m">1 + 0·h ≤ (1 + h)⁰</span>, that is, <span class="m">1 ≤ 1</span>, which is true.</p>
+            <p><strong>Inductive step.</strong> Assume that <span class="m">P(k)</span> is true for an arbitrary fixed integer <span class="m">k ≥ 0</span>, that is, <span class="m">1 + kh ≤ (1 + h)ᵏ</span> (the inductive hypothesis). We must show <span class="m">P(k + 1)</span>: <span class="m">1 + (k + 1)h ≤ (1 + h)ᵏ⁺¹</span>.</p>
+            <p>Because <span class="m">h &gt; −1</span>, the number <span class="m">1 + h</span> is positive, so multiplying both sides of the inductive hypothesis by it keeps the direction of the inequality:</p>
+            <p class="m wrap">(1 + h)ᵏ⁺¹ = (1 + h)ᵏ(1 + h) ≥ (1 + kh)(1 + h) = 1 + h + kh + kh² = 1 + (k + 1)h + kh² ≥ 1 + (k + 1)h.</p>
+            <p>The last inequality holds because <span class="m">k ≥ 0</span> and <span class="m">h² ≥ 0</span>, so <span class="m">kh² ≥ 0</span>. Hence <span class="m">P(k + 1)</span> is true. This completes the inductive step.</p>
+            <p>By mathematical induction, <span class="m">1 + nh ≤ (1 + h)ⁿ</span> for every nonnegative integer <span class="m">n</span>. ∎</p>
+            <p class="small muted">This is Exercise 2.13 of Lecture 6; <a href="#p8-6">P8.6(b)</a> has the short version. The condition <span class="m">h &gt; −1</span> is used exactly once, to multiply by <span class="m">1 + h</span>, and without it the claim can fail: for <span class="m">h = −3</span> and <span class="m">n = 5</span> the left side is <span class="m">−14</span> and the right side is <span class="m">(−2)⁵ = −32</span>.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Is your basis <span class="m">n = 0</span>? The task says nonnegative integers, so starting at <span class="m">n = 1</span> leaves out <span class="m">P(0)</span>.</li>
+              <li>Did you say why multiplying by <span class="m">1 + h</span> keeps the inequality? (It is positive because <span class="m">h &gt; −1</span>.)</li>
+              <li>Did you justify dropping <span class="m">kh²</span>?</li>
+              <li>The induction is on <span class="m">n</span>; <span class="m">h</span> stays fixed throughout.</li>
+            </ul>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw2-t2">
+          <div class="p-head"><span class="pnum">Task 2</span><h4>3ⁿ &lt; n! for n &gt; 6</h4></div>
+          <div class="p-body"><p>Prove that <span class="m">3ⁿ &lt; n!</span> if <span class="m">n</span> is an integer greater than 6. Use MI.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>The basis is <span class="m">n = 7</span>. Then copy Example 4 of Lecture 6, which proves <span class="m">2ⁿ &lt; n!</span>: write <span class="m">3ᵏ⁺¹ = 3·3ᵏ</span> and use <span class="m">3 &lt; k + 1</span>.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">P(n)</span> be the statement “<span class="m">3ⁿ &lt; n!</span>”. We prove <span class="m">P(n)</span> for all integers <span class="m">n ≥ 7</span>.</p>
+            <p><strong>Basis step.</strong> <span class="m">P(7)</span> is true, because <span class="m">3⁷ = 2187 &lt; 5040 = 7!</span>.</p>
+            <p><strong>Inductive step.</strong> Assume that <span class="m">P(k)</span> is true for an arbitrary fixed integer <span class="m">k ≥ 7</span>, that is, <span class="m">3ᵏ &lt; k!</span>. We must show <span class="m">P(k + 1)</span>: <span class="m">3ᵏ⁺¹ &lt; (k + 1)!</span>. We have</p>
+            <p class="m wrap">3ᵏ⁺¹ = 3·3ᵏ &lt; 3·k! &lt; (k + 1)·k! = (k + 1)!.</p>
+            <p>The first inequality is the inductive hypothesis multiplied by 3. The second holds because <span class="m">3 &lt; k + 1</span> (indeed <span class="m">k + 1 ≥ 8</span>) and <span class="m">k! &gt; 0</span>. So <span class="m">P(k + 1)</span> is true. This completes the inductive step.</p>
+            <p>By mathematical induction, <span class="m">3ⁿ &lt; n!</span> for every integer <span class="m">n ≥ 7</span>, that is, for every integer <span class="m">n &gt; 6</span>. ∎</p>
+            <p class="small muted">This is Exercise 2.18 of Lecture 6. The basis cannot start lower: <span class="m">3⁶ = 729 &gt; 720 = 6!</span> (see <a href="#p8-2">P8.2(b)</a>).</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Does your basis use <span class="m">n = 7</span>, with both sides computed?</li>
+              <li>Did you mark the place where the hypothesis <span class="m">3ᵏ &lt; k!</span> is used?</li>
+              <li>Did you say why <span class="m">3 &lt; k + 1</span>?</li>
+              <li>Is your conclusion stated for <span class="m">n ≥ 7</span>, not for all positive integers?</li>
+            </ul>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw2-t3">
+          <div class="p-head"><span class="pnum">Task 3</span><h4>The sum 1·1! + 2·2! + ⋯ + n·n!</h4></div>
+          <div class="p-body"><p>Prove that <span class="m">1·1! + 2·2! + ⋯ + n·n! = (n + 1)! − 1</span> whenever <span class="m">n</span> is a positive integer. Use MI.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Add the next term, <span class="m">(k + 1)·(k + 1)!</span>, to both sides of the hypothesis and factor out <span class="m">(k + 1)!</span>. Do not expand the factorials.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">P(n)</span> be the statement “<span class="m">1·1! + 2·2! + ⋯ + n·n! = (n + 1)! − 1</span>”.</p>
+            <p><strong>Basis step.</strong> <span class="m">P(1)</span> says <span class="m">1·1! = 2! − 1</span>. Both sides equal 1, so <span class="m">P(1)</span> is true.</p>
+            <p><strong>Inductive step.</strong> Assume <span class="m">P(k)</span> for an arbitrary fixed positive integer <span class="m">k</span>: <span class="m">1·1! + ⋯ + k·k! = (k + 1)! − 1</span>. We must show <span class="m">P(k + 1)</span>: <span class="m">1·1! + ⋯ + k·k! + (k + 1)·(k + 1)! = (k + 2)! − 1</span>. Replacing the first <span class="m">k</span> terms by the inductive hypothesis,</p>
+            <p class="m wrap">1·1! + ⋯ + k·k! + (k + 1)·(k + 1)! = (k + 1)! − 1 + (k + 1)·(k + 1)! = (k + 1)!·(1 + k + 1) − 1 = (k + 2)·(k + 1)! − 1 = (k + 2)! − 1.</p>
+            <p>This is <span class="m">P(k + 1)</span>, which completes the inductive step.</p>
+            <p>By mathematical induction, the identity holds for every positive integer <span class="m">n</span>. ∎</p>
+            <p class="small muted">This is Exercise 2.12 of Lecture 6; <a href="#p8-6">P8.6(a)</a> has the short version. A check without induction: <span class="m">k·k! = (k + 1)! − k!</span>, so the sum telescopes to <span class="m">(n + 1)! − 1!</span>.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Is the term you added <span class="m">(k + 1)·(k + 1)!</span>, the term with <span class="m">n = k + 1</span>?</li>
+              <li>Is your last expression exactly <span class="m">(k + 2)! − 1</span>, the right side with <span class="m">n = k + 1</span>?</li>
+              <li>Did you use <span class="m">(k + 2)·(k + 1)! = (k + 2)!</span>, the definition of the factorial?</li>
+            </ul>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw2-t4">
+          <div class="p-head"><span class="pnum">Task 4</span><h4>Three-element subsets</h4></div>
+          <div class="p-body"><p>Prove that a set with <span class="m">n</span> elements has <span class="m">n(n − 1)(n − 2)/6</span> subsets containing exactly three elements whenever <span class="m">n</span> is an integer greater than or equal to 3. Use MI.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Copy Exercise 1.3 of Lecture 6, which does this for two-element subsets. Take a set <span class="m">S</span> with <span class="m">k + 1</span> elements, fix one element <span class="m">a</span>, and count separately the three-element subsets that do not contain <span class="m">a</span> and those that do.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">P(n)</span> be the statement “every set with <span class="m">n</span> elements has exactly <span class="m">n(n − 1)(n − 2)/6</span> three-element subsets”. We prove <span class="m">P(n)</span> for all integers <span class="m">n ≥ 3</span>.</p>
+            <p><strong>Basis step.</strong> A set with 3 elements has exactly one three-element subset, namely itself, and <span class="m">3·2·1/6 = 1</span>. So <span class="m">P(3)</span> is true.</p>
+            <p><strong>Inductive step.</strong> Assume <span class="m">P(k)</span> for an arbitrary fixed integer <span class="m">k ≥ 3</span>: every set with <span class="m">k</span> elements has <span class="m">k(k − 1)(k − 2)/6</span> three-element subsets. We must show that every set <span class="m">S</span> with <span class="m">k + 1</span> elements has <span class="m">(k + 1)k(k − 1)/6</span> of them.</p>
+            <p>Choose an element <span class="m">a ∈ S</span> and let <span class="m">T = S ∖ {a}</span>, so <span class="m">|T| = k</span>. Each three-element subset of <span class="m">S</span> either does not contain <span class="m">a</span> or contains it, and not both:</p>
+            <ul>
+              <li>The subsets that do not contain <span class="m">a</span> are exactly the three-element subsets of <span class="m">T</span>. By the inductive hypothesis there are <span class="m">k(k − 1)(k − 2)/6</span> of them.</li>
+              <li>A subset that contains <span class="m">a</span> is <span class="m">{a} ∪ X</span> for exactly one two-element subset <span class="m">X</span> of <span class="m">T</span>. A <span class="m">k</span>-element set has <span class="m">k(k − 1)/2</span> two-element subsets (Exercise 1.3 of Lecture 6), so there are <span class="m">k(k − 1)/2</span> of these.</li>
+            </ul>
+            <p>Adding the two counts,</p>
+            <p class="m wrap">k(k − 1)(k − 2)/6 + k(k − 1)/2 = k(k − 1)[(k − 2) + 3]/6 = (k + 1)k(k − 1)/6,</p>
+            <p>which is <span class="m">n(n − 1)(n − 2)/6</span> with <span class="m">n = k + 1</span>. So <span class="m">P(k + 1)</span> is true. This completes the inductive step.</p>
+            <p>By mathematical induction, <span class="m">P(n)</span> is true for every integer <span class="m">n ≥ 3</span>. ∎</p>
+            <p class="small muted">This is Exercise 2.22 of Lecture 6. <a href="#p8-7">P8.7</a> uses the formula: a 7-element set has <span class="m">7·6·5/6 = 35</span> three-element subsets.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Does your basis start at <span class="m">n = 3</span>?</li>
+              <li>Did you explain why the two groups of subsets do not overlap and together give every three-element subset of <span class="m">S</span>?</li>
+              <li>Did you justify the count <span class="m">k(k − 1)/2</span> for the subsets that contain <span class="m">a</span>, by Exercise 1.3 or by choosing 2 of the <span class="m">k</span> elements of <span class="m">T</span>?</li>
+              <li>Does the algebra end in <span class="m">(k + 1)k(k − 1)/6</span>?</li>
+            </ul>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw2-t5">
+          <div class="p-head"><span class="pnum">Task 5</span><h4>The derivative of xⁿ</h4></div>
+          <div class="p-body"><p>Use MI to prove that the derivative of <span class="m">f(x) = xⁿ</span> equals <span class="m">nxⁿ⁻¹</span> whenever <span class="m">n</span> is a positive integer. (The sheet's hint: for the inductive step, use the product rule for derivatives.)</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Write <span class="m">xᵏ⁺¹ = x·xᵏ</span>. The product rule says <span class="m">(gh)′ = g′h + gh′</span>; use the inductive hypothesis for the derivative of <span class="m">xᵏ</span>.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Write <span class="m">(g(x))′</span> for the derivative of <span class="m">g</span> with respect to <span class="m">x</span>. Let <span class="m">P(n)</span> be the statement “<span class="m">(xⁿ)′ = nxⁿ⁻¹</span>”.</p>
+            <p><strong>Basis step.</strong> <span class="m">P(1)</span> says <span class="m">(x)′ = 1·x⁰</span>. The derivative of <span class="m">x</span> is 1, and <span class="m">1·x⁰ = 1</span>, so <span class="m">P(1)</span> is true.</p>
+            <p><strong>Inductive step.</strong> Assume <span class="m">P(k)</span> for an arbitrary fixed positive integer <span class="m">k</span>: <span class="m">(xᵏ)′ = kxᵏ⁻¹</span>. We must show <span class="m">P(k + 1)</span>: <span class="m">(xᵏ⁺¹)′ = (k + 1)xᵏ</span>. Since <span class="m">xᵏ⁺¹ = x·xᵏ</span>, the product rule gives</p>
+            <p class="m wrap">(xᵏ⁺¹)′ = (x·xᵏ)′ = (x)′·xᵏ + x·(xᵏ)′ = 1·xᵏ + x·kxᵏ⁻¹ = xᵏ + kxᵏ = (k + 1)xᵏ.</p>
+            <p>The inductive hypothesis replaced <span class="m">(xᵏ)′</span> by <span class="m">kxᵏ⁻¹</span>, and the basis step replaced <span class="m">(x)′</span> by 1. So <span class="m">P(k + 1)</span> is true. This completes the inductive step.</p>
+            <p>By mathematical induction, <span class="m">(xⁿ)′ = nxⁿ⁻¹</span> for every positive integer <span class="m">n</span>. ∎</p>
+            <p class="small muted">This is Exercise 2.23 of Lecture 6.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>In the step, did you avoid the power rule itself? That is what you are proving.</li>
+              <li>Did you write <span class="m">xᵏ⁺¹</span> as a product and name the product rule?</li>
+              <li>Did you point to where the hypothesis <span class="m">(xᵏ)′ = kxᵏ⁻¹</span> is used?</li>
+            </ul>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw2-t6">
+          <div class="p-head"><span class="pnum">Task 6</span><h4>Too many points to be one-to-one</h4></div>
+          <div class="p-body"><p>Suppose that <span class="m">m</span> and <span class="m">n</span> are positive integers with <span class="m">m &gt; n</span> and <span class="m">f: {1, 2, …, m} → {1, 2, …, n}</span>. Use MI on the variable <span class="m">n</span> to show that <span class="m">f</span> is not one-to-one.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Let <span class="m">P(n)</span> say “for <em>every</em> <span class="m">m &gt; n</span>, no function <span class="m">{1, …, m} → {1, …, n}</span> is one-to-one”: the step needs the hypothesis for a different <span class="m">m</span>. In the step, suppose <span class="m">f</span> is one-to-one and look at the points that <span class="m">f</span> sends to <span class="m">k + 1</span>. There is none or exactly one; remove it and shift the later points down by one.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>For a positive integer <span class="m">n</span>, let <span class="m">P(n)</span> be the statement “for every integer <span class="m">m &gt; n</span>, no function <span class="m">f: {1, …, m} → {1, …, n}</span> is one-to-one”. We prove <span class="m">P(n)</span> for all <span class="m">n ≥ 1</span> by induction on <span class="m">n</span>.</p>
+            <p><strong>Basis step.</strong> Let <span class="m">m &gt; 1</span> and <span class="m">f: {1, …, m} → {1}</span>. Then <span class="m">m ≥ 2</span>, and <span class="m">f(1) = f(2) = 1</span> although <span class="m">1 ≠ 2</span>. So <span class="m">f</span> is not one-to-one, and <span class="m">P(1)</span> is true.</p>
+            <p><strong>Inductive step.</strong> Assume <span class="m">P(k)</span> for an arbitrary fixed positive integer <span class="m">k</span>: for every <span class="m">m &gt; k</span>, no function <span class="m">{1, …, m} → {1, …, k}</span> is one-to-one. We must show <span class="m">P(k + 1)</span>. So let <span class="m">m &gt; k + 1</span> and <span class="m">f: {1, …, m} → {1, …, k + 1}</span>, and suppose, to reach a contradiction, that <span class="m">f</span> is one-to-one.</p>
+            <p><em>Case 1: no point is sent to <span class="m">k + 1</span>.</em> Then all values of <span class="m">f</span> lie in <span class="m">{1, …, k}</span>, so the same rule is a one-to-one function <span class="m">{1, …, m} → {1, …, k}</span> with <span class="m">m &gt; k + 1 &gt; k</span>. This contradicts the inductive hypothesis.</p>
+            <p><em>Case 2: <span class="m">f(j) = k + 1</span> for some <span class="m">j</span>.</em> Since <span class="m">f</span> is one-to-one, <span class="m">j</span> is the only such point. Remove <span class="m">j</span> and close the gap: define <span class="m">g: {1, …, m − 1} → {1, …, k}</span> by <span class="m">g(i) = f(i)</span> for <span class="m">i &lt; j</span> and <span class="m">g(i) = f(i + 1)</span> for <span class="m">i ≥ j</span>. Then:</p>
+            <ul>
+              <li><span class="m">g</span> takes the values of <span class="m">f</span> at every point except <span class="m">j</span>. None of them is <span class="m">k + 1</span>, so <span class="m">g</span> really maps into <span class="m">{1, …, k}</span>.</li>
+              <li><span class="m">g</span> is one-to-one. The rule that sends <span class="m">i</span> to <span class="m">i</span> (if <span class="m">i &lt; j</span>) or to <span class="m">i + 1</span> (if <span class="m">i ≥ j</span>) is increasing, so different <span class="m">i</span> give different points of <span class="m">{1, …, m}</span>, and <span class="m">f</span> takes different values at different points.</li>
+              <li><span class="m">m − 1 &gt; k</span>, because <span class="m">m &gt; k + 1</span>.</li>
+            </ul>
+            <p>So <span class="m">g</span> is a one-to-one function <span class="m">{1, …, m − 1} → {1, …, k}</span> with <span class="m">m − 1 &gt; k</span>, which contradicts the inductive hypothesis (used with <span class="m">m − 1</span> in place of <span class="m">m</span>).</p>
+            <p>Both cases lead to a contradiction, so <span class="m">f</span> is not one-to-one, and <span class="m">P(k + 1)</span> is true. This completes the inductive step.</p>
+            <p>By mathematical induction, <span class="m">P(n)</span> is true for every positive integer <span class="m">n</span>: if <span class="m">m &gt; n</span>, no function <span class="m">{1, …, m} → {1, …, n}</span> is one-to-one. ∎</p>
+            <p class="small muted">This is Exercise 2.14 of Lecture 6, the pigeonhole principle: if <span class="m">m</span> pigeons go into <span class="m">n &lt; m</span> holes, some hole gets two pigeons.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Does your <span class="m">P(n)</span> say “for every <span class="m">m &gt; n</span>”? The step uses the hypothesis for <span class="m">m − 1</span>, not for the same <span class="m">m</span>.</li>
+              <li>In the basis, did you name two different points with the same value (this needs <span class="m">m ≥ 2</span>)?</li>
+              <li>Did you handle the case where no point is sent to <span class="m">k + 1</span>?</li>
+              <li>After removing <span class="m">j</span>, did you check that the new function maps into <span class="m">{1, …, k}</span>, is one-to-one, and has more points than values?</li>
+            </ul>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw2-t7">
+          <div class="p-head"><span class="pnum">Task 7</span><h4>aⁿ − bⁿ ≤ naⁿ⁻¹(a − b)</h4></div>
+          <div class="p-body"><p>Suppose that <span class="m">a</span> and <span class="m">b</span> are real numbers with <span class="m">0 &lt; b &lt; a</span>. Prove that if <span class="m">n</span> is a positive integer, then <span class="m">aⁿ − bⁿ ≤ naⁿ⁻¹(a − b)</span>.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Split the difference: <span class="m">aᵏ⁺¹ − bᵏ⁺¹ = a(aᵏ − bᵏ) + bᵏ(a − b)</span>. Use the hypothesis on the first term and <span class="m">bᵏ &lt; aᵏ</span> on the second.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Fix real numbers <span class="m">a, b</span> with <span class="m">0 &lt; b &lt; a</span>, and let <span class="m">P(n)</span> be the statement “<span class="m">aⁿ − bⁿ ≤ naⁿ⁻¹(a − b)</span>”. We use mathematical induction on <span class="m">n</span>.</p>
+            <p><strong>Basis step.</strong> <span class="m">P(1)</span> says <span class="m">a − b ≤ 1·a⁰·(a − b) = a − b</span>, which is true (with equality).</p>
+            <p><strong>Inductive step.</strong> Assume <span class="m">P(k)</span> for an arbitrary fixed positive integer <span class="m">k</span>: <span class="m">aᵏ − bᵏ ≤ kaᵏ⁻¹(a − b)</span>. We must show <span class="m">P(k + 1)</span>: <span class="m">aᵏ⁺¹ − bᵏ⁺¹ ≤ (k + 1)aᵏ(a − b)</span>. Adding and subtracting <span class="m">abᵏ</span>,</p>
+            <p class="m wrap">aᵏ⁺¹ − bᵏ⁺¹ = aᵏ⁺¹ − abᵏ + abᵏ − bᵏ⁺¹ = a(aᵏ − bᵏ) + bᵏ(a − b).</p>
+            <p>We bound the two terms separately.</p>
+            <ul>
+              <li>Multiplying the inductive hypothesis by <span class="m">a &gt; 0</span>: <span class="m">a(aᵏ − bᵏ) ≤ a·kaᵏ⁻¹(a − b) = kaᵏ(a − b)</span>.</li>
+              <li>Since <span class="m">0 &lt; b &lt; a</span>, we have <span class="m">bᵏ &lt; aᵏ</span> (multiply <span class="m">k</span> copies of the inequality <span class="m">b &lt; a</span> between positive numbers), and <span class="m">a − b &gt; 0</span>. So <span class="m">bᵏ(a − b) &lt; aᵏ(a − b)</span>.</li>
+            </ul>
+            <p>Adding the two inequalities,</p>
+            <p class="m wrap">aᵏ⁺¹ − bᵏ⁺¹ ≤ kaᵏ(a − b) + aᵏ(a − b) = (k + 1)aᵏ(a − b).</p>
+            <p>So <span class="m">P(k + 1)</span> is true. This completes the inductive step.</p>
+            <p>By mathematical induction, <span class="m">aⁿ − bⁿ ≤ naⁿ⁻¹(a − b)</span> for every positive integer <span class="m">n</span>. ∎</p>
+            <p class="small muted">This is Exercise 2.20 of Lecture 6. A direct proof also works: <span class="m">aⁿ − bⁿ = (a − b)(aⁿ⁻¹ + aⁿ⁻²b + ⋯ + bⁿ⁻¹)</span>, and each of the <span class="m">n</span> terms in the second bracket is at most <span class="m">aⁿ⁻¹</span>.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Did you check <span class="m">n = 1</span>? Equality is fine, because the claim says <span class="m">≤</span>.</li>
+              <li>Did you show where the splitting identity comes from (add and subtract <span class="m">abᵏ</span>)?</li>
+              <li>Did you use <span class="m">a &gt; 0</span> to multiply the hypothesis, and <span class="m">bᵏ &lt; aᵏ</span>, <span class="m">a − b &gt; 0</span> for the second term?</li>
+              <li>Is your final right side <span class="m">(k + 1)aᵏ(a − b)</span>, the formula with <span class="m">n = k + 1</span>?</li>
+            </ul>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw2-t8">
+          <div class="p-head"><span class="pnum">Task 8</span><h4>When the step fails, prove more</h4></div>
+          <div class="p-body">
+            <p>Suppose that we want to prove that, for all positive integers <span class="m">n</span>,</p>
+            <p class="m wrap" style="text-align:center">(1/2)·(3/4)⋯((2n − 1)/(2n)) &lt; 1/√(3n).</p>
+            <ol class="parts">
+              <li>Show that if we try to prove this inequality using mathematical induction, the basis step works, but the inductive step fails.</li>
+              <li>Show that mathematical induction can be used to prove the stronger inequality <span class="m">(1/2)·(3/4)⋯((2n − 1)/(2n)) &lt; 1/√(3n + 1)</span> for all <span class="m">n &gt; 1</span>, which, together with a verification for the case where <span class="m">n = 1</span>, establishes the weaker inequality we originally tried to prove.</li>
+            </ol>
+          </div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Write <span class="m">aₙ</span> for the product, so that <span class="m">aₖ₊₁ = aₖ·(2k + 1)/(2k + 2)</span>. All numbers are positive, so you can compare squares and the square roots disappear. In (a), show that the bound you get from the hypothesis is always too big; in (b), the same computation leaves room to spare.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Write <span class="m">aₙ = (1/2)·(3/4)⋯((2n − 1)/(2n))</span> for the product of the first <span class="m">n</span> fractions. Then <span class="m">a₁ = 1/2</span>, and since the <span class="m">(k + 1)</span>st fraction is <span class="m">(2(k + 1) − 1)/(2(k + 1)) = (2k + 1)/(2k + 2)</span>,</p>
+            <p class="m wrap" style="text-align:center">aₖ₊₁ = aₖ·(2k + 1)/(2k + 2).</p>
+            <p>All numbers here are positive, and for positive <span class="m">x, y</span> we have <span class="m">x &lt; y ⟺ x² &lt; y²</span>. That is how the square roots are removed below.</p>
+            <p><strong>(a)</strong> Let <span class="m">P(n)</span> be “<span class="m">aₙ &lt; 1/√(3n)</span>”.</p>
+            <p><em>The basis step works.</em> <span class="m">P(1)</span> says <span class="m">1/2 &lt; 1/√3</span>; squaring gives <span class="m">1/4 &lt; 1/3</span>, which is true.</p>
+            <p><em>The inductive step fails.</em> Assume <span class="m">aₖ &lt; 1/√(3k)</span>. The only link between <span class="m">aₖ</span> and <span class="m">aₖ₊₁</span> is <span class="m">aₖ₊₁ = aₖ·(2k + 1)/(2k + 2)</span>, and it gives</p>
+            <p class="m wrap" style="text-align:center">aₖ₊₁ &lt; (2k + 1)/((2k + 2)√(3k)).</p>
+            <p>To conclude <span class="m">P(k + 1)</span> we would need this bound to be at most <span class="m">1/√(3k + 3)</span>. Squaring and clearing the positive denominators, that means</p>
+            <p class="m wrap">(2k + 1)²(3k + 3) ≤ 3k(2k + 2)²<br>⟺ 3(k + 1)(2k + 1)² ≤ 12k(k + 1)²<br>⟺ (2k + 1)² ≤ 4k(k + 1)<br>⟺ 4k² + 4k + 1 ≤ 4k² + 4k,</p>
+            <p>that is, <span class="m">1 ≤ 0</span>, which is false for every <span class="m">k</span>. So the bound from the hypothesis is always larger than <span class="m">1/√(3(k + 1))</span>. The hypothesis allows <span class="m">aₖ</span> to be any number below <span class="m">1/√(3k)</span>, even one very close to it, and <span class="m">(2k + 1)/(2k + 2)</span> times such a number is more than <span class="m">1/√(3k + 3)</span>. So <span class="m">P(k)</span> alone does not give <span class="m">P(k + 1)</span>: the basis step works, but the inductive step cannot be completed. (The inequality is true; it is just too weak to carry itself from <span class="m">k</span> to <span class="m">k + 1</span>.)</p>
+            <p><strong>(b)</strong> Let <span class="m">Q(n)</span> be “<span class="m">aₙ &lt; 1/√(3n + 1)</span>”. We prove <span class="m">Q(n)</span> for all integers <span class="m">n ≥ 2</span>.</p>
+            <p><strong>Basis step.</strong> <span class="m">a₂ = (1/2)·(3/4) = 3/8</span>, and <span class="m">3/8 &lt; 1/√7</span> because <span class="m">(3/8)² = 9/64 &lt; 1/7</span> (that is, <span class="m">63 &lt; 64</span>). So <span class="m">Q(2)</span> is true.</p>
+            <p><strong>Inductive step.</strong> Assume <span class="m">Q(k)</span> for an arbitrary fixed integer <span class="m">k ≥ 2</span>: <span class="m">aₖ &lt; 1/√(3k + 1)</span>. We must show <span class="m">Q(k + 1)</span>: <span class="m">aₖ₊₁ &lt; 1/√(3k + 4)</span>. By the inductive hypothesis,</p>
+            <p class="m wrap" style="text-align:center">aₖ₊₁ = aₖ·(2k + 1)/(2k + 2) &lt; (2k + 1)/((2k + 2)√(3k + 1)),</p>
+            <p>so it is enough to show <span class="m">(2k + 1)/((2k + 2)√(3k + 1)) ≤ 1/√(3k + 4)</span>. Squaring and clearing denominators, this says <span class="m">(2k + 1)²(3k + 4) ≤ (2k + 2)²(3k + 1)</span>. Expanding both sides:</p>
+            <p class="m wrap">(2k + 1)²(3k + 4) = 12k³ + 28k² + 19k + 4,<br>(2k + 2)²(3k + 1) = 12k³ + 28k² + 20k + 4.</p>
+            <p>The right side is larger by <span class="m">k &gt; 0</span>, so the inequality holds, and <span class="m">aₖ₊₁ &lt; 1/√(3(k + 1) + 1)</span>. Thus <span class="m">Q(k + 1)</span> is true. This completes the inductive step, and by mathematical induction <span class="m">Q(n)</span> holds for every integer <span class="m">n ≥ 2</span>.</p>
+            <p><strong>Back to the original inequality.</strong> For <span class="m">n ≥ 2</span>, <span class="m">aₙ &lt; 1/√(3n + 1) &lt; 1/√(3n)</span>, because <span class="m">3n + 1 &gt; 3n</span>. For <span class="m">n = 1</span>, <span class="m">a₁ = 1/2 &lt; 1/√3</span> was checked in (a). Hence <span class="m">aₙ &lt; 1/√(3n)</span> for every positive integer <span class="m">n</span>. ∎</p>
+            <p class="small muted">This is the first Exercise 2.24 of Lecture 6 (the number 2.24 is used twice; see the <a href="#errata">errata</a>). The stronger inequality is false at <span class="m">n = 1</span>, where it would say <span class="m">1/2 &lt; 1/√4 = 1/2</span>; that is why it starts at <span class="m">n = 2</span>. Proving more also gives you more to assume, and here that extra strength is exactly the <span class="m">k</span> of room in the last comparison.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>(a) Did you check the basis with numbers (<span class="m">1/4 &lt; 1/3</span>)?</li>
+              <li>(a) Did you show that the step fails for every <span class="m">k</span>, not only for one value, and say why that means the induction cannot go through?</li>
+              <li>(b) Is your basis <span class="m">n = 2</span>? At <span class="m">n = 1</span> the stronger inequality is false.</li>
+              <li>(b) Did you square both sides correctly and compare the expanded polynomials?</li>
+              <li>Did you go back to the original inequality at the end, including <span class="m">n = 1</span>?</li>
+            </ul>
+          </div></details>
+        </article>
+      </div>
+
+      <p class="hw-group">Strong induction · Lecture 6, Part 2</p>
+      <div class="probs">
+        <article class="prob" id="hw2-t9">
+          <div class="p-head"><span class="pnum">Task 9</span><h4>Stamps of 4 and 7 cents</h4></div>
+          <div class="p-body"><p>Let <span class="m">P(n)</span> be the statement that a postage of <span class="m">n</span> cents can be formed using just 4-cent stamps and 7-cent stamps. Use SI to prove that <span class="m">P(n)</span> is true for <span class="m">n ≥ 18</span>.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Add one 4-cent stamp to <span class="m">k − 3</span> cents. The step reaches back 4 places, so you need four basis cases: 18, 19, 20 and 21. <a href="#p8-8">P8.8</a> walks through the parts one at a time.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>We prove <span class="m">P(n)</span> for all integers <span class="m">n ≥ 18</span> by strong induction.</p>
+            <p><strong>Basis step.</strong> <span class="m">P(18)</span>, <span class="m">P(19)</span>, <span class="m">P(20)</span> and <span class="m">P(21)</span> are true:</p>
+            <ul>
+              <li><span class="m">18 = 4 + 7 + 7</span> (one 4-cent and two 7-cent stamps)</li>
+              <li><span class="m">19 = 4 + 4 + 4 + 7</span> (three 4-cent stamps and one 7-cent stamp)</li>
+              <li><span class="m">20 = 4 + 4 + 4 + 4 + 4</span> (five 4-cent stamps)</li>
+              <li><span class="m">21 = 7 + 7 + 7</span> (three 7-cent stamps)</li>
+            </ul>
+            <p><strong>Inductive step.</strong> Let <span class="m">k ≥ 21</span> be an arbitrary fixed integer. The inductive hypothesis is that <span class="m">P(j)</span> is true for every integer <span class="m">j</span> with <span class="m">18 ≤ j ≤ k</span>: each of these amounts can be formed with 4-cent and 7-cent stamps. We must show <span class="m">P(k + 1)</span>: a postage of <span class="m">k + 1</span> cents can be formed.</p>
+            <p>Because <span class="m">k ≥ 21</span>, we have <span class="m">18 ≤ k − 3 ≤ k</span>, so <span class="m">P(k − 3)</span> is part of the inductive hypothesis: <span class="m">k − 3</span> cents can be formed. Adding one 4-cent stamp gives <span class="m">(k − 3) + 4 = k + 1</span> cents. So <span class="m">P(k + 1)</span> is true. This completes the inductive step.</p>
+            <p>We have completed the basis step and the inductive step, so by strong induction <span class="m">P(n)</span> is true for every integer <span class="m">n ≥ 18</span>. ∎</p>
+            <p class="small muted">This is the second Exercise 2.24 of Lecture 6. Four basis cases are needed because the step for <span class="m">k + 1</span> needs <span class="m">k − 3 ≥ 18</span>, so it only proves <span class="m">P(22)</span> onwards; 19, 20 and 21 cannot be reached from 18 by adding 4-cent stamps. And 18 is the right start: 17 cents cannot be formed (take away zero, one or two 7-cent stamps and you are left with 17, 10 or 3, none a multiple of 4).</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Did you give an explicit stamp combination for each of 18, 19, 20 and 21?</li>
+              <li>Is your hypothesis the strong one, <span class="m">P(j)</span> for all <span class="m">j</span> with <span class="m">18 ≤ j ≤ k</span>, and is <span class="m">k ≥ 21</span>?</li>
+              <li>Did you say why <span class="m">P(k − 3)</span> is covered by the hypothesis (<span class="m">k − 3 ≥ 18</span> because <span class="m">k ≥ 21</span>)?</li>
+              <li>Does your conclusion say “by strong induction, for all <span class="m">n ≥ 18</span>”?</li>
+            </ul>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw2-t10">
+          <div class="p-head"><span class="pnum">Task 10</span><h4>Stamps of 5 and 8 cents</h4></div>
+          <div class="p-body">
+            <p>Prove using SI that every amount of postage of 28 cents or more can be formed using just 5-cent and 8-cent stamps.</p>
+            <p class="small muted">Before the proof: what is the largest amount that can <em>not</em> be formed? It explains why the claim starts at 28.</p>
+          </div>
+          <div class="check" data-kind="num" data-answer="27" data-label="Largest impossible amount ="></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Add one 5-cent stamp to <span class="m">k − 4</span> cents. That reaches back 5 places, so you need five basis cases, 28 to 32. Each of them is a few 5s and a few 8s.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">P(n)</span> be the statement “a postage of <span class="m">n</span> cents can be formed using just 5-cent and 8-cent stamps”. We prove <span class="m">P(n)</span> for all integers <span class="m">n ≥ 28</span> by strong induction.</p>
+            <p><strong>Basis step.</strong> <span class="m">P(28)</span>, …, <span class="m">P(32)</span> are true:</p>
+            <ul>
+              <li><span class="m">28 = 5 + 5 + 5 + 5 + 8</span> (four 5-cent stamps and one 8-cent stamp)</li>
+              <li><span class="m">29 = 5 + 8 + 8 + 8</span> (one 5-cent and three 8-cent stamps)</li>
+              <li><span class="m">30 = 5 + 5 + 5 + 5 + 5 + 5</span> (six 5-cent stamps)</li>
+              <li><span class="m">31 = 5 + 5 + 5 + 8 + 8</span> (three 5-cent and two 8-cent stamps)</li>
+              <li><span class="m">32 = 8 + 8 + 8 + 8</span> (four 8-cent stamps)</li>
+            </ul>
+            <p><strong>Inductive step.</strong> Let <span class="m">k ≥ 32</span> be an arbitrary fixed integer, and assume the inductive hypothesis: <span class="m">P(j)</span> is true for every integer <span class="m">j</span> with <span class="m">28 ≤ j ≤ k</span>. We must show <span class="m">P(k + 1)</span>.</p>
+            <p>Because <span class="m">k ≥ 32</span>, we have <span class="m">28 ≤ k − 4 ≤ k</span>, so by the inductive hypothesis <span class="m">k − 4</span> cents can be formed. Adding one 5-cent stamp gives <span class="m">(k − 4) + 5 = k + 1</span> cents, so <span class="m">P(k + 1)</span> is true. This completes the inductive step.</p>
+            <p>By strong induction, every postage of <span class="m">n ≥ 28</span> cents can be formed using just 5-cent and 8-cent stamps. ∎</p>
+            <p class="small muted">The answer to the box: 27 cents cannot be formed (take away zero to three 8-cent stamps and you are left with 27, 19, 11 or 3, none a multiple of 5), so the claim cannot start lower. For two stamp values <span class="m">a</span>, <span class="m">b</span> with no common divisor greater than 1, the largest impossible amount is <span class="m">ab − a − b</span>: here <span class="m">40 − 5 − 8 = 27</span>, and in Task 9 <span class="m">28 − 4 − 7 = 17</span>. You do not need this fact for the proof.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Five basis cases, 28 to 32, each with an explicit combination?</li>
+              <li>Is your hypothesis the strong one, for all <span class="m">j</span> from 28 to <span class="m">k</span>, with <span class="m">k ≥ 32</span>?</li>
+              <li>Did you check that <span class="m">k − 4 ≥ 28</span>, so that the hypothesis covers it?</li>
+              <li>If your step adds an 8-cent stamp instead, it reaches back 8 places and needs eight basis cases, 28 to 35. That is also correct.</li>
+            </ul>
+          </div></details>
+        </article>
+      </div>
+
+      <p class="hw-group">Recursive sets and structural induction · Lecture 7</p>
+      <div class="probs">
+        <article class="prob" id="hw2-t11">
+          <div class="p-head"><span class="pnum">Task 11</span><h4>Pairs with a ≤ 2b</h4></div>
+          <div class="p-body">
+            <p>Let <span class="m">S</span> be the subset of the set of ordered pairs of integers defined recursively by</p>
+            <p><strong>Basis step:</strong> <span class="m">(0, 0) ∈ S</span>.<br><strong>Recursive step:</strong> if <span class="m">(a, b) ∈ S</span>, then <span class="m">(a, b + 1) ∈ S</span>, <span class="m">(a + 1, b + 1) ∈ S</span> and <span class="m">(a + 2, b + 1) ∈ S</span>.</p>
+            <ol class="parts">
+              <li>List the elements of <span class="m">S</span> produced by the first three applications of the recursive definition.</li>
+              <li>Use strong induction on the number of applications of the recursive step of the definition to show that <span class="m">a ≤ 2b</span> whenever <span class="m">(a, b) ∈ S</span>.</li>
+              <li>Use structural induction to show that <span class="m">a ≤ 2b</span> whenever <span class="m">(a, b) ∈ S</span>.</li>
+            </ol>
+            <p class="small muted">For (a), type the <em>new</em> pairs of each application, for example <code>(0, 1), (1, 1)</code>, in any order.</p>
+          </div>
+          <div class="check" data-kind="pairs" data-answer="(0,1),(1,1),(2,1)" data-label="(a) 1st application:"></div>
+          <div class="check" data-kind="pairs" data-answer="(0,2),(1,2),(2,2),(3,2),(4,2)" data-label="(a) 2nd application:"></div>
+          <div class="check" data-kind="pairs" data-answer="(0,3),(1,3),(2,3),(3,3),(4,3),(5,3),(6,3)" data-label="(a) 3rd application:"></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>(a) Apply all three rules to every pair you have so far. Each rule raises <span class="m">b</span> by exactly 1, so the pairs from the <span class="m">n</span>th application all have <span class="m">b = n</span>. (b) Let <span class="m">P(n)</span> be about the elements obtained by <span class="m">n</span> applications; the last application starts from an element obtained by fewer. (c) Check the basis element and each of the three rules.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p><strong>(a)</strong> The basis step gives <span class="m">(0, 0)</span>. Every rule raises the second coordinate by exactly 1 and the first by 0, 1 or 2. So the pairs produced by the <span class="m">n</span>th application are the pairs <span class="m">(a, n)</span> where <span class="m">a</span> is a sum of <span class="m">n</span> numbers from <span class="m">{0, 1, 2}</span>, that is, any whole number from 0 to <span class="m">2n</span>:</p>
+            <ul>
+              <li>1st application (from <span class="m">(0, 0)</span>): <span class="m">(0, 1), (1, 1), (2, 1)</span></li>
+              <li>2nd application: <span class="m">(0, 2), (1, 2), (2, 2), (3, 2), (4, 2)</span></li>
+              <li>3rd application: <span class="m">(0, 3), (1, 3), (2, 3), (3, 3), (4, 3), (5, 3), (6, 3)</span></li>
+            </ul>
+            <p>That is <span class="m">3 + 5 + 7 = 15</span> new elements, besides <span class="m">(0, 0)</span>.</p>
+            <p><strong>(b)</strong> For <span class="m">n ≥ 0</span>, let <span class="m">P(n)</span> be the statement “<span class="m">a ≤ 2b</span> for every <span class="m">(a, b) ∈ S</span> obtained by <span class="m">n</span> applications of the recursive step”. We prove <span class="m">P(n)</span> for all <span class="m">n ≥ 0</span> by strong induction.</p>
+            <p><strong>Basis step.</strong> The only element obtained with no application of the recursive step is <span class="m">(0, 0)</span>, and <span class="m">0 ≤ 2·0</span>. So <span class="m">P(0)</span> is true.</p>
+            <p><strong>Inductive step.</strong> Let <span class="m">k ≥ 0</span> be an arbitrary fixed integer and assume <span class="m">P(0), P(1), …, P(k)</span>: every element obtained by at most <span class="m">k</span> applications satisfies <span class="m">a ≤ 2b</span>. Let <span class="m">(c, d)</span> be an element obtained by <span class="m">k + 1</span> applications. The last application was made to an element <span class="m">(a, b) ∈ S</span> obtained by <span class="m">k</span> applications, so <span class="m">a ≤ 2b</span> by the inductive hypothesis, and <span class="m">(c, d)</span> is one of the three new pairs:</p>
+            <ul>
+              <li><span class="m">(a, b + 1)</span>: <span class="m">a ≤ 2b ≤ 2b + 2 = 2(b + 1)</span>;</li>
+              <li><span class="m">(a + 1, b + 1)</span>: <span class="m">a + 1 ≤ 2b + 1 ≤ 2(b + 1)</span>;</li>
+              <li><span class="m">(a + 2, b + 1)</span>: <span class="m">a + 2 ≤ 2b + 2 = 2(b + 1)</span>.</li>
+            </ul>
+            <p>In every case <span class="m">c ≤ 2d</span>, so <span class="m">P(k + 1)</span> is true. This completes the inductive step.</p>
+            <p>By strong induction, <span class="m">P(n)</span> is true for every <span class="m">n ≥ 0</span>. Every element of <span class="m">S</span> is obtained by some finite number of applications (the exclusion rule), so <span class="m">a ≤ 2b</span> for every <span class="m">(a, b) ∈ S</span>. ∎</p>
+            <p><strong>(c)</strong> <strong>Basis step.</strong> The element put into <span class="m">S</span> by the basis step, <span class="m">(0, 0)</span>, satisfies <span class="m">0 ≤ 2·0</span>.</p>
+            <p><strong>Recursive step.</strong> Let <span class="m">(a, b) ∈ S</span> and assume that <span class="m">a ≤ 2b</span>. The recursive step builds <span class="m">(a, b + 1)</span>, <span class="m">(a + 1, b + 1)</span> and <span class="m">(a + 2, b + 1)</span> from it, and the three lines in (b) show that each of them satisfies the inequality: <span class="m">a ≤ 2(b + 1)</span>, <span class="m">a + 1 ≤ 2(b + 1)</span> and <span class="m">a + 2 ≤ 2(b + 1)</span>.</p>
+            <p>By structural induction, <span class="m">a ≤ 2b</span> for every <span class="m">(a, b) ∈ S</span>. ∎</p>
+            <p class="small muted">Parts (b) and (c) are the same argument. Structural induction is (b) without the counting of applications, and Theorem 3 of Lecture 7 shows that this is allowed. Here each rule starts from a single element, so only <span class="m">P(k)</span> was really used in (b); write it as strong induction anyway, since the task asks for it. Strong induction is essential for rules that combine two elements, such as <span class="m">x + y</span> in Example 8 of Lecture 7, where the two can come from different numbers of applications.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>(a) Did you list only the new pairs of each application, without repeats?</li>
+              <li>(b) Is your <span class="m">P(n)</span> about the elements obtained by <span class="m">n</span> applications, with the basis at <span class="m">n = 0</span>?</li>
+              <li>(b) Did you say that the last application starts from an element covered by the hypothesis?</li>
+              <li>(b), (c) Did you check all three rules, not just one?</li>
+              <li>(c) A structural induction proof has no <span class="m">n</span> in it: only the basis element and the rules.</li>
+            </ul>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw2-t12">
+          <div class="p-head"><span class="pnum">Task 12</span><h4>Pairs with 5 | a + b</h4></div>
+          <div class="p-body">
+            <p>Let <span class="m">S</span> be the subset of the set of ordered pairs of integers defined recursively by</p>
+            <p><strong>Basis step:</strong> <span class="m">(0, 0) ∈ S</span>.<br><strong>Recursive step:</strong> if <span class="m">(a, b) ∈ S</span>, then <span class="m">(a + 2, b + 3) ∈ S</span> and <span class="m">(a + 3, b + 2) ∈ S</span>.</p>
+            <ol class="parts">
+              <li>List the elements of <span class="m">S</span> produced by the first four applications of the recursive definition.</li>
+              <li>Use strong induction on the number of applications of the recursive step of the definition to show that <span class="m">5 | a + b</span> when <span class="m">(a, b) ∈ S</span>.</li>
+              <li>Use structural induction to show that <span class="m">5 | a + b</span> when <span class="m">(a, b) ∈ S</span>.</li>
+            </ol>
+            <p class="small muted">For (a), type the new pairs of each application, in any order.</p>
+          </div>
+          <div class="check" data-kind="pairs" data-answer="(2,3),(3,2)" data-label="(a) 1st application:"></div>
+          <div class="check" data-kind="pairs" data-answer="(4,6),(5,5),(6,4)" data-label="(a) 2nd application:"></div>
+          <div class="check" data-kind="pairs" data-answer="(6,9),(7,8),(8,7),(9,6)" data-label="(a) 3rd application:"></div>
+          <div class="check" data-kind="pairs" data-answer="(8,12),(9,11),(10,10),(11,9),(12,8)" data-label="(a) 4th application:"></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Each rule adds 5 to <span class="m">a + b</span>. In (a), the order in which the two rules are used does not matter, only how many times each is used.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p><strong>(a)</strong> Each rule adds 2 to one coordinate and 3 to the other. After <span class="m">n</span> applications, with <span class="m">i</span> uses of the first rule and <span class="m">n − i</span> of the second (in any order), the pair is <span class="m">(2i + 3(n − i), 3i + 2(n − i)) = (3n − i, 2n + i)</span> for <span class="m">i = 0, 1, …, n</span>:</p>
+            <ul>
+              <li>1st application: <span class="m">(2, 3), (3, 2)</span></li>
+              <li>2nd application: <span class="m">(4, 6), (5, 5), (6, 4)</span></li>
+              <li>3rd application: <span class="m">(6, 9), (7, 8), (8, 7), (9, 6)</span></li>
+              <li>4th application: <span class="m">(8, 12), (9, 11), (10, 10), (11, 9), (12, 8)</span></li>
+            </ul>
+            <p>That is <span class="m">2 + 3 + 4 + 5 = 14</span> new elements, besides <span class="m">(0, 0)</span>.</p>
+            <p><strong>(b)</strong> For <span class="m">n ≥ 0</span>, let <span class="m">P(n)</span> be the statement “<span class="m">5 | a + b</span> for every <span class="m">(a, b) ∈ S</span> obtained by <span class="m">n</span> applications of the recursive step”. We use strong induction.</p>
+            <p><strong>Basis step.</strong> The only element obtained with no application is <span class="m">(0, 0)</span>, and <span class="m">0 + 0 = 0 = 5·0</span>. So <span class="m">P(0)</span> is true.</p>
+            <p><strong>Inductive step.</strong> Let <span class="m">k ≥ 0</span> be an arbitrary fixed integer and assume <span class="m">P(0), …, P(k)</span>. Let <span class="m">(c, d)</span> be obtained by <span class="m">k + 1</span> applications. The last application was made to an element <span class="m">(a, b)</span> obtained by <span class="m">k</span> applications, so by the inductive hypothesis <span class="m">a + b = 5m</span> for some integer <span class="m">m</span>. Then <span class="m">(c, d)</span> is <span class="m">(a + 2, b + 3)</span> or <span class="m">(a + 3, b + 2)</span>, and in both cases</p>
+            <p class="m wrap" style="text-align:center">c + d = a + b + 5 = 5m + 5 = 5(m + 1).</p>
+            <p>So <span class="m">5 | c + d</span>, and <span class="m">P(k + 1)</span> is true. This completes the inductive step. By strong induction, <span class="m">P(n)</span> holds for every <span class="m">n ≥ 0</span>, and since every element of <span class="m">S</span> is obtained by finitely many applications, <span class="m">5 | a + b</span> for every <span class="m">(a, b) ∈ S</span>. ∎</p>
+            <p><strong>(c)</strong> <strong>Basis step.</strong> For the basis element <span class="m">(0, 0)</span>, <span class="m">a + b = 0 = 5·0</span>.</p>
+            <p><strong>Recursive step.</strong> Let <span class="m">(a, b) ∈ S</span> and assume <span class="m">5 | a + b</span>, say <span class="m">a + b = 5m</span>. The new elements are <span class="m">(a + 2, b + 3)</span> and <span class="m">(a + 3, b + 2)</span>, and for both the sum of the coordinates is <span class="m">a + b + 5 = 5(m + 1)</span>, which is divisible by 5.</p>
+            <p>By structural induction, <span class="m">5 | a + b</span> for every <span class="m">(a, b) ∈ S</span>. ∎</p>
+            <p class="small muted">The pairs in (a) agree: the sums are 5, 10, 15 and 20. The converse is false: <span class="m">(5, 0)</span> has <span class="m">5 | a + b</span> but is not in <span class="m">S</span>, because both coordinates of every element other than <span class="m">(0, 0)</span> are at least 2.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>(a) Did you get <span class="m">n + 1</span> new pairs at the <span class="m">n</span>th application, each with <span class="m">a + b = 5n</span>?</li>
+              <li>(b) Basis at <span class="m">n = 0</span>, and does the step say which earlier element the last application starts from?</li>
+              <li>Did you write “divisible by 5” as an equation, <span class="m">a + b = 5m</span>, so that you can compute with it?</li>
+              <li>(b), (c) Did you check both rules?</li>
+            </ul>
+          </div></details>
+        </article>
+      </div>
+
+      <p class="hw-group">Regular induction: a sum and divisibility · Lecture 6, Part 1</p>
+      <div class="probs">
+        <article class="prob" id="hw2-t13">
+          <div class="p-head"><span class="pnum">Task 13</span><h4>A telescoping sum</h4></div>
+          <div class="p-body"><p>Prove, using MI:</p><p class="m wrap" style="text-align:center">1/(1·5) + 1/(5·9) + ⋯ + 1/((4n − 3)(4n + 1)) = n/(4n + 1).</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>The <span class="m">(k + 1)</span>st term is <span class="m">1/((4k + 1)(4k + 5))</span>, because <span class="m">4(k + 1) − 3 = 4k + 1</span>. Put both fractions over <span class="m">(4k + 1)(4k + 5)</span> and factor the numerator.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">P(n)</span> be the statement “<span class="m">1/(1·5) + 1/(5·9) + ⋯ + 1/((4n − 3)(4n + 1)) = n/(4n + 1)</span>”.</p>
+            <p><strong>Basis step.</strong> <span class="m">P(1)</span> says <span class="m">1/(1·5) = 1/(4·1 + 1)</span>; both sides equal <span class="m">1/5</span>.</p>
+            <p><strong>Inductive step.</strong> Assume <span class="m">P(k)</span> for an arbitrary fixed positive integer <span class="m">k</span>: the sum of the first <span class="m">k</span> terms is <span class="m">k/(4k + 1)</span>. The <span class="m">(k + 1)</span>st term is <span class="m">1/((4(k + 1) − 3)(4(k + 1) + 1)) = 1/((4k + 1)(4k + 5))</span>, and we must show that the sum of the first <span class="m">k + 1</span> terms is <span class="m">(k + 1)/(4k + 5)</span>. Replacing the first <span class="m">k</span> terms by the inductive hypothesis,</p>
+            <p class="m wrap">k/(4k + 1) + 1/((4k + 1)(4k + 5)) = (k(4k + 5) + 1)/((4k + 1)(4k + 5)) = (4k² + 5k + 1)/((4k + 1)(4k + 5)) = (4k + 1)(k + 1)/((4k + 1)(4k + 5)) = (k + 1)/(4k + 5).</p>
+            <p>Since <span class="m">4k + 5 = 4(k + 1) + 1</span>, this is <span class="m">P(k + 1)</span>. This completes the inductive step.</p>
+            <p>By mathematical induction, the identity holds for every positive integer <span class="m">n</span>. ∎</p>
+            <p class="small muted">This is Exercise 2.7 of Lecture 6; Exercise 2.6 is the same with <span class="m">2n ± 1</span>. A check without induction: <span class="m">1/((4j − 3)(4j + 1)) = (1/4)(1/(4j − 3) − 1/(4j + 1))</span>, so the sum telescopes to <span class="m">(1/4)(1 − 1/(4n + 1)) = n/(4n + 1)</span>.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Did you put <span class="m">k + 1</span> into <em>both</em> factors of the last term, to get <span class="m">(4k + 1)(4k + 5)</span>?</li>
+              <li>Did you factor <span class="m">4k² + 5k + 1 = (4k + 1)(k + 1)</span> and cancel <span class="m">4k + 1</span>?</li>
+              <li>Did you write the result as <span class="m">(k + 1)/(4(k + 1) + 1)</span>, so that it is visibly <span class="m">P(k + 1)</span>?</li>
+            </ul>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw2-t14">
+          <div class="p-head"><span class="pnum">Task 14</span><h4>5 divides 7ⁿ − 2ⁿ</h4></div>
+          <div class="p-body"><p>Prove that <span class="m">7ⁿ − 2ⁿ</span> is divisible by 5 for all <span class="m">n ∈ ℕ</span>. Use MI.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Add and subtract <span class="m">7·2ᵏ</span>: <span class="m">7ᵏ⁺¹ − 2ᵏ⁺¹ = 7(7ᵏ − 2ᵏ) + 5·2ᵏ</span>.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>In this course <span class="m">ℕ</span> is the set of positive integers, so we prove the claim for all <span class="m">n ≥ 1</span>. Let <span class="m">P(n)</span> be the statement “<span class="m">5 | 7ⁿ − 2ⁿ</span>”.</p>
+            <p><strong>Basis step.</strong> <span class="m">7¹ − 2¹ = 5 = 5·1</span>, so <span class="m">P(1)</span> is true.</p>
+            <p><strong>Inductive step.</strong> Assume <span class="m">P(k)</span> for an arbitrary fixed positive integer <span class="m">k</span>: <span class="m">7ᵏ − 2ᵏ = 5m</span> for some integer <span class="m">m</span>. We must show <span class="m">5 | 7ᵏ⁺¹ − 2ᵏ⁺¹</span>. Adding and subtracting <span class="m">7·2ᵏ</span>,</p>
+            <p class="m wrap">7ᵏ⁺¹ − 2ᵏ⁺¹ = 7·7ᵏ − 7·2ᵏ + 7·2ᵏ − 2·2ᵏ = 7(7ᵏ − 2ᵏ) + 5·2ᵏ = 7·5m + 5·2ᵏ = 5(7m + 2ᵏ).</p>
+            <p>Since <span class="m">7m + 2ᵏ</span> is an integer, <span class="m">7ᵏ⁺¹ − 2ᵏ⁺¹</span> is divisible by 5, and <span class="m">P(k + 1)</span> is true. This completes the inductive step.</p>
+            <p>By mathematical induction, <span class="m">5 | 7ⁿ − 2ⁿ</span> for every <span class="m">n ∈ ℕ</span>. ∎</p>
+            <p class="small muted">This is Exercise 2.8 of Lecture 6 and <a href="#p8-5">P8.5(a)</a>. If your <span class="m">ℕ</span> includes 0, add the case <span class="m">7⁰ − 2⁰ = 0 = 5·0</span>. A check without induction: the factorisation in the note to Task 7 gives <span class="m">7ⁿ − 2ⁿ = (7 − 2)(7ⁿ⁻¹ + 7ⁿ⁻²·2 + ⋯ + 2ⁿ⁻¹)</span>.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Basis at <span class="m">n = 1</span>, and <span class="m">n = 0</span> too if your <span class="m">ℕ</span> contains 0?</li>
+              <li>Did you write the hypothesis as an equation, <span class="m">7ᵏ − 2ᵏ = 5m</span>?</li>
+              <li>Did you end with 5 times an integer, and say that it is an integer?</li>
+            </ul>
+          </div></details>
+        </article>
+
+        <article class="prob" id="hw2-t15">
+          <div class="p-head"><span class="pnum">Task 15</span><h4>3 divides n³ − 4n + 6</h4></div>
+          <div class="p-body"><p>Prove that <span class="m">n³ − 4n + 6</span> is divisible by 3 for all <span class="m">n ∈ ℕ</span>. Use MI.</p></div>
+          <details class="hint"><summary>Hint</summary><div class="d-body"><p>Expand <span class="m">(k + 1)³ − 4(k + 1) + 6</span> and look for <span class="m">k³ − 4k + 6</span> inside it. What is left over is a multiple of 3.</p></div></details>
+          <details><summary>Model proof</summary><div class="d-body">
+            <p>Let <span class="m">P(n)</span> be the statement “<span class="m">3 | n³ − 4n + 6</span>”, for <span class="m">n ∈ ℕ</span>, the positive integers.</p>
+            <p><strong>Basis step.</strong> <span class="m">1³ − 4·1 + 6 = 3 = 3·1</span>, so <span class="m">P(1)</span> is true.</p>
+            <p><strong>Inductive step.</strong> Assume <span class="m">P(k)</span> for an arbitrary fixed positive integer <span class="m">k</span>: <span class="m">k³ − 4k + 6 = 3m</span> for some integer <span class="m">m</span>. We must show <span class="m">3 | (k + 1)³ − 4(k + 1) + 6</span>. Expanding,</p>
+            <p class="m wrap">(k + 1)³ − 4(k + 1) + 6 = k³ + 3k² + 3k + 1 − 4k − 4 + 6 = (k³ − 4k + 6) + 3k² + 3k − 3 = 3m + 3(k² + k − 1) = 3(m + k² + k − 1).</p>
+            <p>Since <span class="m">m + k² + k − 1</span> is an integer, <span class="m">P(k + 1)</span> is true. This completes the inductive step.</p>
+            <p>By mathematical induction, <span class="m">3 | n³ − 4n + 6</span> for every <span class="m">n ∈ ℕ</span>. ∎</p>
+            <p class="small muted">This is Exercise 2.9 of Lecture 6 and <a href="#p8-5">P8.5(b)</a>. For <span class="m">n = 0</span> the value is 6, also divisible by 3.</p>
+          </div></details>
+          <details><summary>Self-check for your proof</summary><div class="d-body">
+            <ul>
+              <li>Is your expansion right: <span class="m">(k + 1)³ = k³ + 3k² + 3k + 1</span>?</li>
+              <li>Did you regroup into the hypothesis part plus <span class="m">3(k² + k − 1)</span>, rather than only checking a few values of <span class="m">n</span>?</li>
+              <li>Did you end with 3 times an integer?</li>
+            </ul>
+          </div></details>
+        </article>
+      </div>
+    </section>
