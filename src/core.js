@@ -466,12 +466,76 @@ const Core = (() => {
     return { status: 'wrong', msg: `Not quite: position${bad.length > 1 ? 's' : ''} ${bad.join(', ')} ${bad.length > 1 ? 'are' : 'is'} wrong (counting from the left).` };
   }
 
+  // Exact arithmetic for number boxes: 26*25*10^3, 26²·10³, 12!/(3!2!), C(13, 6), P(7, 3). Returns a BigInt or throws.
+  const SUP = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9' };
+  function evalNum(str) {
+    const src = String(str).replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, (m) => '^' + [...m].map((c) => SUP[c]).join(''))
+      .replace(/[×·∙⋅]/g, '*').replace(/÷/g, '/').replace(/[−–]/g, '-').replace(/\s+/g, '');
+    const toks = src.match(/\d+|[CP](?=\()|[-+*/^!(),]|./g) || [];
+    let i = 0;
+    const fail = (m) => { throw new ParseError(m); };
+    const gcd = (a, b) => { a = a < 0n ? -a : a; while (b) [a, b] = [b, a % b]; return a; };
+    const Q = (n, d = 1n) => { if (d === 0n) fail('Division by zero.'); if (d < 0n) { n = -n; d = -d; } const g = gcd(n, d) || 1n; return { n: n / g, d: d / g }; };
+    const int = (q, what) => { if (q.d !== 1n) fail(`${what} must be a whole number.`); return q.n; };
+    const fact = (n) => { if (n < 0n || n > 1000n) fail('Factorials are allowed for 0 to 1000.'); let r = 1n; for (let k = 2n; k <= n; k++) r *= k; return r; };
+    const perm = (n, r) => (r < 0n || r > n ? 0n : fact(n) / fact(n - r));
+    const peek = () => toks[i];
+    const eat = (t) => { if (toks[i] !== t) fail(t === ')' ? 'A bracket is not closed.' : `Expected “${t}”.`); i++; };
+    const startsFactor = (t) => t !== undefined && (/^\d/.test(t) || t === '(' || t === 'C' || t === 'P');
+    function expr() {
+      let v = term();
+      while (peek() === '+' || peek() === '-') { const op = toks[i++], w = term(); v = Q(op === '+' ? v.n * w.d + w.n * v.d : v.n * w.d - w.n * v.d, v.d * w.d); }
+      return v;
+    }
+    function term() {
+      let v = unary();
+      for (;;) {
+        const t = peek();
+        if (t === '*' || t === '/') { i++; const w = unary(); v = t === '*' ? Q(v.n * w.n, v.d * w.d) : Q(v.n * w.d, v.d * w.n); } else if (startsFactor(t)) { const w = unary(); v = Q(v.n * w.n, v.d * w.d); } else return v; // 3!2! means 3!·2!
+      }
+    }
+    function unary() { if (peek() === '-') { i++; const v = unary(); return Q(-v.n, v.d); } if (peek() === '+') { i++; return unary(); } return power(); }
+    function power() {
+      const b = postfix();
+      if (peek() !== '^') return b;
+      i++;
+      const e = int(unary(), 'An exponent');
+      if (e > 1000n || e < -1000n) fail('The exponent is too large.');
+      return e >= 0n ? Q(b.n ** e, b.d ** e) : Q(b.d ** -e, b.n ** -e);
+    }
+    function postfix() { let v = primary(); while (peek() === '!') { i++; v = Q(fact(int(v, 'A factorial'))); } return v; }
+    function primary() {
+      const t = toks[i++];
+      if (t === undefined) fail('The expression ends too early.');
+      if (/^\d+$/.test(t)) return Q(BigInt(t));
+      if (t === '(') { const v = expr(); eat(')'); return v; }
+      if (t === 'C' || t === 'P') {
+        eat('(');
+        const n = int(expr(), 'n'); eat(','); const r = int(expr(), 'r'); eat(')');
+        return Q(t === 'P' ? perm(n, r) : perm(n, r) / fact(r < 0n || r > n ? 0n : r));
+      }
+      return fail(`Unexpected “${t}”. Use digits, + − * / ^ !, brackets, C(n, r) and P(n, r).`);
+    }
+    if (!toks.length) fail('Type a number first.');
+    const v = expr();
+    if (i < toks.length) fail(`Unexpected “${toks[i]}”.`);
+    return v;
+  }
+  const groupDigits = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
   function gradeNum(input, answer) {
-    const s = String(input).replace(/[\s,]/g, '').replace(/^−/, '-');
-    if (!s) return { status: 'error', msg: 'Type a number first.' };
-    if (!/^-?\d+$/.test(s)) return { status: 'error', msg: 'Type a whole number, for example 42 or −3.' };
-    if (parseInt(s, 10) === parseInt(String(answer).replace(/^−/, '-'), 10)) return { status: 'ok', msg: 'Correct.' };
-    return { status: 'wrong', msg: 'Not quite. Check the computation and try again.' };
+    const raw = String(input).trim();
+    if (!raw) return { status: 'error', msg: 'Type a number first.' };
+    let v;
+    // plain numbers keep their thousands separators: 676,000 and 676 000 both mean 676000
+    if (/^[−-]?\d{1,3}([ ,]\d{3})+$|^[−-]?\d+$/.test(raw)) v = { n: BigInt(raw.replace(/[\s,]/g, '').replace(/^−/, '-')), d: 1n };
+    else {
+      try { v = evalNum(raw); } catch (e) { return { status: 'error', msg: e.message }; }
+    }
+    if (v.d !== 1n) return { status: 'wrong', msg: `Your expression equals ${v.n}/${v.d}, which is not a whole number.` };
+    const shown = /^[−-]?[\d ,]+$/.test(raw) ? '' : ` Your expression equals ${groupDigits(v.n)}.`;
+    if (v.n === BigInt(String(answer).replace(/^−/, '-'))) return { status: 'ok', msg: 'Correct.' + shown };
+    return { status: 'wrong', msg: 'Not quite.' + shown + ' Check the computation and try again.' };
   }
 
   function gradeSet(input, answer) {
@@ -566,7 +630,7 @@ const Core = (() => {
   return {
     ParseError, parse, ev, varsOf, sortVars, table, minterms, envFor, show, steps,
     asSop, sopIssues, termStr, countEL, primeImplicants, minimalSums, patStr, patLits, patCells,
-    covers, toBits, sumStr, csopStr, grade, gradeBits, gradeNum, gradeSet, gradePairs, simpler,
+    covers, toBits, sumStr, csopStr, grade, gradeBits, gradeNum, evalNum, groupDigits, gradeSet, gradePairs, simpler,
     parsePairs, parseElems, inverse, compose, relUnion, transClosure, relProps, reflClosure, symClosure, eqClosure, eqClasses, sortEls, relStr,
   };
 })();
