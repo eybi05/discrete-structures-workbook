@@ -76,6 +76,8 @@
   function showFb(el, res) {
     el.className = 'fb ' + res.status;
     el.replaceChildren(h('span', { class: 'fb-icon', 'aria-hidden': 'true' }, ICON[res.status]), h('span', {}, res.msg));
+    const item = el.closest('.check, .order');
+    if (item) { item.toggleAttribute('data-solved', res.status === 'ok'); autoDone(item); }
   }
 
   // ------------------------------------------------------------ answer boxes
@@ -152,6 +154,7 @@
           li.classList.toggle('is-bad', !ok);
           res.textContent = ok ? '✓ Right' : '✗ Not quite';
           if (why) why.hidden = false;
+          autoDone(li);
         },
       }, labels[k]));
     });
@@ -176,6 +179,7 @@
           box.classList.toggle('is-bad', !ok);
           res.textContent = ok ? '✓ Right' : '✗ Not quite, try another option';
           if (why) why.hidden = !ok;
+          autoDone(box);
         },
       });
       while (li.firstChild) btn.append(li.firstChild);
@@ -203,19 +207,27 @@
     if (!head) return;
     const on = done.has(art.id);
     art.classList.toggle('is-done', on);
-    const btn = h('button', {
-      type: 'button', class: 'done-btn', 'aria-pressed': String(on), title: 'Mark this problem as done',
-      onclick: () => {
-        if (done.has(art.id)) done.delete(art.id); else done.add(art.id);
-        store.set('dsw-done', [...done]);
-        const now = done.has(art.id);
-        btn.setAttribute('aria-pressed', String(now));
-        btn.lastChild.textContent = now ? 'Done' : 'Mark done';
-        art.classList.toggle('is-done', now);
-        updateCounts();
-      },
-    }, h('span', { class: 'box', 'aria-hidden': 'true' }), on ? 'Done' : 'Mark done');
-    head.append(btn);
+    head.append(h('button', {
+      type: 'button', class: 'done-btn', 'aria-pressed': String(on), title: 'Mark this problem as done (answering every check correctly marks it for you)',
+      onclick: () => setDone(art, !done.has(art.id)),
+    }, h('span', { class: 'box', 'aria-hidden': 'true' }), on ? 'Done' : 'Mark done'));
+  }
+  function setDone(art, now) {
+    if (now) done.add(art.id); else done.delete(art.id);
+    store.set('dsw-done', [...done]);
+    const btn = $('.done-btn', art);
+    if (btn) { btn.setAttribute('aria-pressed', String(now)); btn.lastChild.textContent = now ? 'Done' : 'Mark done'; }
+    art.classList.toggle('is-done', now);
+    updateCounts();
+  }
+  // A problem marks itself done once every answer box, true/false item, multiple-choice question and order puzzle
+  // in it is answered correctly. Problems with nothing to check (proofs) keep the manual button; nothing is un-marked.
+  function autoDone(node) {
+    const art = node.closest('.prob');
+    if (!art || done.has(art.id)) return;
+    const items = $$('.check, .order, .tf > li, .mcq', art);
+    const ok = (it) => (it.matches('.check, .order') ? it.hasAttribute('data-solved') : it.classList.contains('is-ok'));
+    if (items.length && items.every(ok)) setDone(art, true);
   }
 
   // ------------------------------------------------------------ Karnaugh maps

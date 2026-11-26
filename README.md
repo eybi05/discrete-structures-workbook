@@ -9,7 +9,7 @@ Or open **`index.html`** in any browser. It is one self-contained file; the font
 ## What's inside
 
 - **Notes** for each lecture, with worked examples from the lecture notes and a table that shows the laws of sets, logic and Boolean algebra side by side.
-- **Practice:** 89 problems in 9 sets, plus 42 quick true/false checks. Most answers can be typed into a box that says whether they are right (equivalent, in SoP form, minimal) without showing the solution. Hint, answer and full solution sit behind buttons.
+- **Practice:** 89 problems in 9 sets, plus 42 quick true/false checks. Most answers can be typed into a box that says whether they are right (equivalent, in SoP form, minimal) without showing the solution. Hint, answer and full solution sit behind buttons. A problem marks itself done once every check in it is answered correctly; proofs with nothing to check use the “Mark done” button.
 - **HW1 answer check:** all 23 tasks, with the same answer boxes and model answers.
 - **HW2 model proofs:** all 15 tasks (regular, strong and structural induction), each with a hint, a complete model proof in the lecture's template and a self-check list; the short-answer parts (the elements of the recursive sets, the largest impossible postage) have answer boxes.
 - **Midterm 1 practice:** past exams after the homework sections, with answer boxes, K-map solutions, circuits and model proofs:
