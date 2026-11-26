@@ -1,6 +1,6 @@
 # Discrete Structures Workbook
 
-An interactive study page for **MATH 1101 Discrete Structures** (Fall 2026, Lectures 1–7): sets and functions, propositions and quantifiers, logic circuits and Boolean algebra, induction, well-ordering and recursion.
+An interactive study page for **MATH 1101 Discrete Structures** (Fall 2026, Lectures 1–11): sets and functions, propositions and quantifiers, logic circuits and Boolean algebra, induction, well-ordering and recursion, counting, and relations.
 
 **Live page: https://eybi05.github.io/discrete-structures-workbook/** (GitHub Pages, served from `index.html` on `main`).
 
@@ -20,7 +20,9 @@ Or open **`index.html`** in any browser. It is one self-contained file; the font
 - **Proofs, easy to hard:** 44 proofs in seven levels (warm-up, set identities, quantifiers, functions, Boolean algebra from the axioms, countable sets, uncountable sets up to Cantor–Bernstein). Each has a model proof; some are puzzles where you put the steps in order, and some show a wrong proof to find the flaw in.
 - **Tools:** a truth-table and equivalence checker, a Karnaugh map solver that lists every minimal sum (with a random-map practice mode), and a Venn diagram shader.
 - **Induction and recursion (Lectures 6–7):** regular and strong induction, broken proofs, the well-ordering property, recursive definitions and structural induction, with Practice 8 and 9 (number and set answer boxes, proof-order puzzles, find-the-flaw questions).
-- **Errata:** 19 typos found in the lecture notes while checking every example.
+- **Counting (Lectures 8–9):** sum and product rules, inclusion–exclusion (with onto functions), the pigeonhole principle, binomial coefficients and Pascal's triangle, permutations and combinations, with Practice 10 and 11 (30 problems, number answer boxes).
+- **Relations (Lectures 10–11):** matrices and directed graphs, the four properties, composition, closures, equivalence relations and partitions, with Practice 12 and 13 (pair and set answer boxes) and a relation checker that shows the matrix, the properties with counterexamples, the closures and the equivalence classes of any relation you type.
+- **Errata:** 32 typos and wrong answers found in the lecture notes while checking every example.
 
 ## Typing symbols
 
@@ -36,7 +38,7 @@ Every answer box accepts plain-keyboard input:
 | `→` / `↔` | `->` / `<->` |
 | `∖` difference | `\` or `-` |
 | `∅` empty set | `{}` or `empty` |
-| ordered pairs | `(0, 1), (1, 1)` |
+| ordered pairs | `(0, 1), (1, a)`; `{}` is the empty relation |
 | `↔` between variables | `=` (as in `p = q`); a leading `E =` is a label and is ignored |
 
 ## Project layout
@@ -49,11 +51,13 @@ src/
   s1.html s2.html    Lecture 1; Lectures 2-3
   s3.html            Lectures 4-5
   s4.html            Lectures 6-7: induction, well-ordering, recursion
+  s5.html            Lectures 8-9: counting
+  s6.html            Lectures 10-11: relations, with the relation checker
   tools.html hw.html hw2.html end.html
   mt1.html mt24.html mt23.html mt23s.html   Midterm 1: Fall 2025, Fall 2024, Fall 2023, Fall 2023 sample tasks
   proofs.html        proofs, easy to hard
-  core.js            logic engine: parser, truth tables, Quine-McCluskey, minimal sums, answer grading
-  ui.js              answer boxes, quizzes, Karnaugh maps, circuit drawings, Prim's algorithm graphs, proof-order puzzles, Venn diagrams, tools
+  core.js            logic engine: parser, truth tables, Quine-McCluskey, minimal sums, answer grading, relations
+  ui.js              answer boxes, quizzes, Karnaugh maps, circuit drawings, Prim's algorithm graphs, proof-order puzzles, Venn diagrams, tools, relation checker
   build.py           assembles index.html and runs structural checks
 tests/
   test_core.js       unit tests for core.js
@@ -80,7 +84,7 @@ google-chrome --headless=new --enable-logging=stderr --virtual-time-budget=15000
 
 ## Source material
 
-Built from Fuad Hajiyev's *Lecture Notes on Discrete Structures* (v.4, Fall 2026: Lecture 1, Lectures 2–3, Lectures 4–5, Lecture 6, Lecture 7), the MATH 1101 HW1 and HW2 sheets, and the Midterm 1 solution sheets for Fall 2025 (two variants), Fall 2024 (two variants), Fall 2023, and the Fall 2023 sample tasks. The midterm sheets are in `pdfs/` and are linked from each section. The lecture notes and the homework sheets are not included here.
+Built from Fuad Hajiyev's *Lecture Notes on Discrete Structures* (v.4, Fall 2026: Lecture 1, Lectures 2–3, Lectures 4–5, Lecture 6, Lecture 7, Lectures 8–9, Lectures 10–11), the MATH 1101 HW1 and HW2 sheets, and the Midterm 1 solution sheets for Fall 2025 (two variants), Fall 2024 (two variants), Fall 2023, and the Fall 2023 sample tasks. The midterm sheets are in `pdfs/` and are linked from each section. The lecture notes and the homework sheets are not included here.
 
 A few proof problems come from other courses: UC Davis ECS 20 (set-difference identities) and IIT Kharagpur CS60005 (removing a countable set from an uncountable one).
 

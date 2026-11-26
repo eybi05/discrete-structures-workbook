@@ -1,0 +1,475 @@
+    <section class="chapter" id="counting">
+      <p class="eyebrow">Lectures 8–9</p>
+      <h2>Counting</h2>
+      <p class="intro">Lectures 8–9 count the elements of finite sets without listing them. Two rules do almost all the work: add when the cases are disjoint, multiply when the choices are made one after another. Inclusion–exclusion repairs the sum rule when the cases overlap, the pigeonhole principle proves that something must happen, and permutations and combinations package the product rule for “order matters” and “order does not matter”.</p>
+
+      <h3 id="c-rules"><span class="num">5.1</span>The sum and product rules</h3>
+      <div class="blk def"><div class="lbl">Lemmas 1–2</div><div class="body">
+        <p>If <span class="m">A</span> and <span class="m">B</span> are finite and <strong>disjoint</strong>, then <span class="m">n(A ∪ B) = n(A) + n(B)</span>. For any finite <span class="m">A, B</span>: <span class="m">n(A × B) = n(A)·n(B)</span>.</p>
+        <p>Consequences: <span class="m">n(A ∖ B) = n(A) − n(A ∩ B)</span> (Corollary 1) and <span class="m">n(A′) = n(U) − n(A)</span> (Corollary 2). Both extend to any finite number of sets.</p>
+      </div></div>
+      <div class="blk key"><div class="lbl">The two rules in words</div><div class="body">
+        <p><strong>Sum rule.</strong> A task can be done in one of <span class="m">m</span> ways <em>or</em> in one of <span class="m">n</span> other ways, with no way counted in both lists: there are <span class="m">m + n</span> ways.</p>
+        <p><strong>Product rule.</strong> A procedure is a first task <em>and then</em> a second task, with <span class="m">m</span> ways for the first and, for each of them, <span class="m">n</span> ways for the second: there are <span class="m">mn</span> ways.</p>
+        <p class="small muted">Signal words: “one of” or “either … or” → add; “one of each”, “and then”, “a string of” → multiply.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 2: sections</div><div class="body">
+        <p>5 Calculus 1, 3 Discrete Structures and 4 Linear Algebra sections. One of each kind: <span class="m">5·3·4 = 60</span>. Just one section: <span class="m">5 + 3 + 4 = 12</span>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Exercises 1.4–1.5: loops</div><div class="body">
+        <p><span class="m">m</span> <em>nested</em> loops of lengths <span class="m">n₁, …, nₘ</span> run the innermost statement <span class="m">n₁n₂⋯nₘ</span> times (product rule). The same loops written <em>one after another</em> run <span class="m">n₁ + n₂ + ⋯ + nₘ</span> times (sum rule).</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Exercise 1.6: count the complement</div><div class="body">
+        <p>Passwords of 6 characters (uppercase letters or digits) with <em>at least one digit</em>: count all strings and subtract those with no digit, <span class="m">P₆ = 36⁶ − 26⁶ = 1 867 866 560</span>. “At least one” is almost always easier as “all minus none”.</p>
+      </div></div>
+
+      <h3 id="c-iep"><span class="num">5.2</span>Inclusion–exclusion</h3>
+      <div class="blk def"><div class="lbl">Theorems 1–3 (IEP)</div><div class="body">
+        <p class="m wrap">n(A ∪ B) = n(A) + n(B) − n(A ∩ B)</p>
+        <p class="m wrap">n(A ∪ B ∪ C) = n(A) + n(B) + n(C) − n(A ∩ B) − n(A ∩ C) − n(B ∩ C) + n(A ∩ B ∩ C)</p>
+        <p>In general, with <span class="m">sₖ</span> the sum of the sizes of all <span class="m">k</span>-fold intersections: <span class="m wrap">n(A₁ ∪ ⋯ ∪ Aᵣ) = s₁ − s₂ + s₃ − ⋯ + (−1)ʳ⁻¹sᵣ</span>.</p>
+        <p><strong>Alternate form</strong> (by De Morgan): the number of elements in <em>none</em> of the sets is <span class="m wrap">n(A₁′ ∩ ⋯ ∩ Aᵣ′) = |U| − s₁ + s₂ − ⋯ + (−1)ʳsᵣ = |U| − n(A₁ ∪ ⋯ ∪ Aᵣ)</span>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 4: two lists</div><div class="body">
+        <p>30 names on list <span class="m">A</span>, 35 on list <span class="m">B</span>, 20 on both. Only <span class="m">A</span>: <span class="m">30 − 20 = 10</span>. Only <span class="m">B</span>: 15. On <span class="m">A</span> or <span class="m">B</span>: <span class="m">30 + 35 − 20 = 45</span>. On exactly one: <span class="m">n(A ⊕ B) = 10 + 15 = 25</span>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 5: not divisible by 3, 5 or 7</div><div class="body">
+        <p>In <span class="m">U = {1, …, 1000}</span> let <span class="m">A, B, C</span> be the multiples of 3, 5, 7. The multiples of <span class="m">d</span> up to <span class="m">N</span> number <span class="m">⌊N/d⌋</span>, and a number divisible by 3 and 5 is divisible by 15:</p>
+        <div class="scroll"><table class="data">
+          <thead><tr><th>Set</th><th class="m">A</th><th class="m">B</th><th class="m">C</th><th class="m">A ∩ B</th><th class="m">A ∩ C</th><th class="m">B ∩ C</th><th class="m">A ∩ B ∩ C</th></tr></thead>
+          <tbody><tr><td>Size</td><td>333</td><td>200</td><td>142</td><td>66</td><td>47</td><td>28</td><td>9</td></tr></tbody>
+        </table></div>
+        <p><span class="m wrap">n(A ∪ B ∪ C) = 675 − 141 + 9 = 543</span>, so <span class="m">n(A′ ∩ B′ ∩ C′) = 1000 − 543 = 457</span>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 23 and Theorem 11: onto functions</div><div class="body">
+        <p>Let <span class="m">|A| = 6</span>, <span class="m">|B| = 4</span> and let <span class="m">Fᵢ</span> be the functions that miss <span class="m">bᵢ</span>. A function misses a given set of <span class="m">j</span> elements of <span class="m">B</span> in <span class="m">(4 − j)⁶</span> ways, so the onto functions number</p>
+        <p class="m wrap">4⁶ − C(4, 1)·3⁶ + C(4, 2)·2⁶ − C(4, 3)·1⁶ = 4096 − 2916 + 384 − 4 = 1560.</p>
+        <p>In general, from an <span class="m">m</span>-set onto an <span class="m">n</span>-set: <span class="m wrap">nᵐ − C(n, 1)(n − 1)ᵐ + C(n, 2)(n − 2)ᵐ − ⋯ + (−1)ⁿ⁻¹C(n, n − 1)·1ᵐ</span>.</p>
+      </div></div>
+      <div class="blk trap"><div class="lbl">Watch out</div><div class="body">
+        <p>In a Venn-diagram problem, “read Newsweek and Time” (20 people) includes those who read all three. The region “Newsweek and Time but not Fortune” is <span class="m">20 − 8 = 12</span>. Fill the diagram from the centre outwards (Exercise 1.20).</p>
+      </div></div>
+
+      <h3 id="c-pigeon"><span class="num">5.3</span>The pigeonhole principle</h3>
+      <div class="blk def"><div class="lbl">PP and GPP</div><div class="body">
+        <p><strong>PP.</strong> If <span class="m">k + 1</span> or more objects are placed in <span class="m">k</span> boxes, some box contains at least two of them. Equivalently (Corollary 3): a function from a set of <span class="m">k + 1</span> or more elements to a set of <span class="m">k</span> elements is not one-to-one.</p>
+        <p><strong>GPP.</strong> If <span class="m">N</span> objects are placed in <span class="m">k</span> boxes, some box contains at least <span class="m">⌈N/k⌉</span> of them. Here <span class="m">⌈x⌉</span> rounds up: <span class="m">⌈3.2⌉ = 4</span>, <span class="m">⌈−3.2⌉ = −3</span>, <span class="m">⌈3⌉ = 3</span>.</p>
+        <p>Both are proved by contradiction: if every box had at most <span class="m">⌈N/k⌉ − 1</span> objects, there would be at most <span class="m">k(⌈N/k⌉ − 1) &lt; k(N/k + 1 − 1) = N</span> objects.</p>
+      </div></div>
+      <div class="blk key"><div class="lbl">“How many to guarantee r in one box?”</div><div class="body">
+        <p>The answer is <span class="m">N = k(r − 1) + 1</span>. It is enough, because <span class="m">⌈N/k⌉ ≥ r</span>. It is the least, because <span class="m">k(r − 1)</span> objects fit with exactly <span class="m">r − 1</span> in every box. Always give both halves when you justify a minimum.</p>
+        <p class="small muted">Example 9: to be sure six students share one of five grades, <span class="m">5·5 + 1 = 26</span> students are needed. With 25, five could get each grade.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 7: a multiple made of 0s and 1s</div><div class="body">
+        <p>Take the <span class="m">n + 1</span> numbers <span class="m">1, 11, 111, …</span> (the last has <span class="m">n + 1</span> ones). There are only <span class="m">n</span> remainders mod <span class="m">n</span>, so two of them, <span class="m">a &gt; b</span>, have the same remainder. Then <span class="m">n | a − b</span>, and <span class="m">a − b = 11…100…0</span> has only 0s and 1s.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 11: exactly 19 games</div><div class="body">
+        <p>In 40 days a team plays at least one game a day and at most 60 games. Let <span class="m">aⱼ</span> be the number of games in the first <span class="m">j</span> days: <span class="m">1 ≤ a₁ &lt; ⋯ &lt; a₄₀ ≤ 60</span>, so <span class="m">20 ≤ a₁ + 19 &lt; ⋯ &lt; a₄₀ + 19 ≤ 79</span>. These 80 numbers all lie in <span class="m">{1, …, 79}</span>, so two are equal; each list has distinct entries, so <span class="m">aᵢ = aⱼ + 19</span> for some <span class="m">j &lt; i</span>, and exactly 19 games were played on days <span class="m">j + 1, …, i</span>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 12: one divides another</div><div class="body">
+        <p>Among any <span class="m">n + 1</span> integers in <span class="m">{1, …, 2n}</span>, one divides another. Write each as <span class="m">aⱼ = 2<sup>kⱼ</sup>·qⱼ</span> with <span class="m">qⱼ</span> odd. There are only <span class="m">n</span> odd numbers below <span class="m">2n</span>, so <span class="m">qᵢ = qⱼ</span> for some <span class="m">i ≠ j</span>, and the one with the smaller power of 2 divides the other.</p>
+      </div></div>
+
+      <h3 id="c-binom"><span class="num">5.4</span>Factorials and binomial coefficients</h3>
+      <div class="blk def"><div class="lbl">Definitions 1–2</div><div class="body">
+        <p><span class="m">n! = n(n − 1)⋯2·1</span>, with <span class="m">0! = 1</span> and <span class="m">n! = n·(n − 1)!</span>.</p>
+        <p class="m wrap">C(n, r) = n(n − 1)⋯(n − r + 1) / r! = n! / (r!(n − r)!)</p>
+        <p>The first form has <span class="m">r</span> factors above and below (Corollary 4). Use <span class="m">C(n, r) = C(n, n − r)</span> (Lemma 3) to keep <span class="m">r</span> small: <span class="m">C(10, 7) = C(10, 3) = 10·9·8/(3·2·1) = 120</span>. Also <span class="m">C(n, 0) = C(n, n) = 1</span>.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Theorems 4–5</div><div class="body">
+        <p><strong>Pascal's identity.</strong> <span class="m">C(n + 1, r) = C(n, r − 1) + C(n, r)</span>.</p>
+        <p><strong>Binomial theorem.</strong> <span class="m wrap">(a + b)ⁿ = Σᵣ₌₀ⁿ C(n, r)·aⁿ⁻ʳbʳ</span>, proved by induction on <span class="m">n</span> with Pascal's identity in the step.</p>
+        <p>With <span class="m">a = b = 1</span>: <span class="m">C(n, 0) + C(n, 1) + ⋯ + C(n, n) = 2ⁿ</span> (Corollary 6). This is a second proof that an <span class="m">n</span>-set has <span class="m">2ⁿ</span> subsets (Theorem 10): count the subsets of each size <span class="m">k</span> and add.</p>
+      </div></div>
+      <div class="scroll"><table class="data">
+        <caption>Pascal's triangle (Table 2): each entry is the sum of the two above it</caption>
+        <thead><tr><th class="m">n</th><th>Row</th><th>Sum</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>1</td><td class="m">2⁰ = 1</td></tr>
+          <tr><td>1</td><td>1 1</td><td class="m">2¹ = 2</td></tr>
+          <tr><td>2</td><td>1 2 1</td><td class="m">2² = 4</td></tr>
+          <tr><td>3</td><td>1 3 3 1</td><td class="m">2³ = 8</td></tr>
+          <tr><td>4</td><td>1 4 6 4 1</td><td class="m">2⁴ = 16</td></tr>
+          <tr><td>5</td><td>1 5 10 10 5 1</td><td class="m">2⁵ = 32</td></tr>
+          <tr><td>6</td><td>1 6 15 20 15 6 1</td><td class="m">2⁶ = 64</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 id="c-perm"><span class="num">5.5</span>Permutations and combinations</h3>
+      <div class="blk def"><div class="lbl">Theorems 6–9</div><div class="body">
+        <p>A <strong>permutation</strong> of a set is an ordered arrangement of all of it, a bijection <span class="m">X → X</span>: there are <span class="m">P(n) = n!</span>. An <strong><span class="m">r</span>-permutation</strong> arranges <span class="m">r</span> of the <span class="m">n</span> objects in order: <span class="m">P(n, r) = n(n − 1)⋯(n − r + 1) = n!/(n − r)!</span>.</p>
+        <p><strong>With repeated objects</strong> (<span class="m">n₁</span> alike, <span class="m">n₂</span> alike, …): <span class="m">P(n; n₁, …, nᵣ) = n!/(n₁!n₂!⋯nᵣ!)</span>. BENZENE has 3 E's and 2 N's: <span class="m">7!/(3!2!) = 420</span>.</p>
+        <p>An <strong><span class="m">r</span>-combination</strong> is an <span class="m">r</span>-element subset; order does not count. Each one can be ordered in <span class="m">r!</span> ways, so <span class="m">P(n, r) = r!·C(n, r)</span> and <span class="m">C(n, r) = n!/(r!(n − r)!)</span>, the binomial coefficient.</p>
+      </div></div>
+      <div class="scroll"><table class="data">
+        <caption>Which formula? Choosing <span class="m">r</span> things from <span class="m">n</span></caption>
+        <thead><tr><th></th><th>Order matters</th><th>Order does not matter</th></tr></thead>
+        <tbody>
+          <tr><th>No repetition</th><td><span class="m">P(n, r) = n!/(n − r)!</span>: words, rankings, president and vice president, samples without replacement</td><td><span class="m">C(n, r)</span>: committees, hands of cards, bit strings with <span class="m">r</span> ones</td></tr>
+          <tr><th>Repetition allowed</th><td><span class="m">nʳ</span>: samples with replacement, codes, passwords</td><td>not in these lectures</td></tr>
+        </tbody>
+      </table></div>
+      <div class="blk ex"><div class="lbl">Exercise 1.12: a row and a circle</div><div class="body">
+        <p>5 people in a row: <span class="m">5! = 120</span>. Around a round table only the order relative to one person matters, so fix that person and arrange the other 4: <span class="m">4! = 24</span>. In general <span class="m">n</span> objects make <span class="m">(n − 1)!</span> circular arrangements.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Exercises 1.16–1.17: committees</div><div class="body">
+        <p>13 students, 8 men and 5 women. A 6-member committee: <span class="m">C(13, 6) = 1716</span>. With 3 men and 3 women: <span class="m">C(8, 3)·C(5, 3) = 56·10 = 560</span>. President, vice president and treasurer: <span class="m">P(13, 3) = 13·12·11 = 1716</span>. A committee of 3 with a chairperson from 9 people: <span class="m">9·C(8, 2) = 252</span>.</p>
+      </div></div>
+      <div class="blk trap"><div class="lbl">“Together” and “not together”</div><div class="body">
+        <p>To keep a group together, glue it into one block, arrange the blocks, then arrange inside the block: two people side by side in a row of 5 give <span class="m">4!·2! = 48</span>. For “not together”, count all and subtract “together”. For “at least one”, subtract “none” from all: <span class="m">C(12, 4) − C(9, 4) = 369</span> committees with at least one of 3 women.</p>
+      </div></div>
+
+      <section class="pset" id="ps10">
+        <div class="pset-head"><h3>Practice 10 · Counting rules, inclusion–exclusion and pigeonholes</h3><p>15 problems from Lectures 8–9, Parts 1–3. Answers are whole numbers; work them out on paper, then type the number.</p></div>
+        <div class="probs">
+
+          <article class="prob" id="p10-1">
+            <div class="p-head"><span class="pnum">P10.1</span><h4>Add or multiply?</h4></div>
+            <div class="p-body"><p>A store has 3 kinds of jackets, 7 kinds of shirts and 5 kinds of pants (Exercise 2.1). In how many ways can a person buy</p>
+              <ol class="parts"><li>one of the items;</li><li>one of each of the three kinds?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="15" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="105" data-label="(b)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) Sum rule: <span class="m">3 + 7 + 5 = 15</span>. (b) Product rule: <span class="m">3·7·5 = 105</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-2">
+            <div class="p-head"><span class="pnum">P10.2</span><h4>Codes</h4></div>
+            <div class="p-body"><p>A code is two letters (from 26) followed by three digits (Exercise 2.2). How many codes are there</p>
+              <ol class="parts"><li>in all;</li><li>with two different letters;</li><li>with the same letter twice?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="676000" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="650000" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="26000" data-label="(c)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">26²·10³ = 676 000</span>. (b) <span class="m">26·25·10³ = 650 000</span>. (c) <span class="m">26·10³ = 26 000</span>. Check: (b) + (c) = (a).</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-3">
+            <div class="p-head"><span class="pnum">P10.3</span><h4>Bus lines</h4></div>
+            <div class="p-body"><p>There are 4 bus lines between <span class="m">A</span> and <span class="m">B</span>, and 3 between <span class="m">B</span> and <span class="m">C</span> (Exercise 1.3). In how many ways can a man travel</p>
+              <ol class="parts"><li>from <span class="m">A</span> to <span class="m">C</span> by way of <span class="m">B</span>;</li><li>round trip from <span class="m">A</span> to <span class="m">C</span> by way of <span class="m">B</span>;</li><li>round trip, without using any bus line twice?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="12" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="144" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="72" data-label="(c)"></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Write the trip as <span class="m">A → B → C → B → A</span> and put the number of choices over each arrow.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">4·3 = 12</span>. (b) <span class="m">12·12 = 144</span>. (c) <span class="m">4·3·2·3 = 72</span>: on the way back one line from <span class="m">C</span> to <span class="m">B</span> and one from <span class="m">B</span> to <span class="m">A</span> are already used.</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-4">
+            <div class="p-head"><span class="pnum">P10.4</span><h4>Loops</h4></div>
+            <div class="p-body"><p>Each loop adds 1 to <span class="m">k</span>, which starts at 0. The loops run 3, 4 and 5 times (Exercises 1.4–1.5). What is <span class="m">k</span> at the end if the three loops are</p>
+              <ol class="parts"><li>nested inside each other;</li><li>written one after another?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="60" data-label="(a) k ="></div>
+            <div class="check" data-kind="num" data-answer="12" data-label="(b) k ="></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) Product rule: <span class="m">3·4·5 = 60</span>. (b) Sum rule: <span class="m">3 + 4 + 5 = 12</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-5">
+            <div class="p-head"><span class="pnum">P10.5</span><h4>Passwords</h4></div>
+            <div class="p-body"><p>A password is 6 to 8 characters long, each an uppercase letter or a digit, with at least one digit (Exercise 1.6).</p>
+              <ol class="parts"><li>How many passwords of length 6 are there?</li><li>How many passwords are there in all?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="1867866560" data-label="(a) P₆ ="></div>
+            <div class="check" data-kind="num" data-answer="2684483063360" data-label="(b) P ="></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>All strings minus strings with no digit. The three lengths are disjoint cases.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">36⁶ − 26⁶ = 1 867 866 560</span>. (b) <span class="m wrap">(36⁶ − 26⁶) + (36⁷ − 26⁷) + (36⁸ − 26⁸) = 2 684 483 063 360</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-6">
+            <div class="p-head"><span class="pnum">P10.6</span><h4>Bit strings: start or end</h4></div>
+            <div class="p-body"><p>How many bit strings of length 10 start with 1 or end with 00? (Exercise 1.9 has length 8; its answer is 160.)</p></div>
+            <div class="check" data-kind="num" data-answer="640" data-label="Number ="></div>
+            <details><summary>Answer</summary><div class="d-body"><p>Start with 1: <span class="m">2⁹ = 512</span>. End with 00: <span class="m">2⁸ = 256</span>. Both: <span class="m">2⁷ = 128</span>. By IEP: <span class="m">512 + 256 − 128 = 640</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-7">
+            <div class="p-head"><span class="pnum">P10.7</span><h4>Two classes</h4></div>
+            <div class="p-body"><p>32 students are in Programming (<span class="m">P</span>), 24 in Calculus (<span class="m">C</span>), and 10 in both (Exercise 2.21). How many are</p>
+              <ol class="parts"><li>in <span class="m">P</span> or <span class="m">C</span> but not both;</li><li>only in <span class="m">P</span>;</li><li>only in <span class="m">C</span>?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="36" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="22" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="14" data-label="(c)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(b) <span class="m">32 − 10 = 22</span>. (c) <span class="m">24 − 10 = 14</span>. (a) <span class="m">n(P ⊕ C) = 22 + 14 = 36</span>. The answer list in the notes gives 46, which is <span class="m">n(P ∪ C) = 32 + 24 − 10</span>; see the errata.</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-8">
+            <div class="p-head"><span class="pnum">P10.8</span><h4>Divisible by 3, 5, 7</h4></div>
+            <div class="p-body"><p>Among the integers 1 to 300 (Exercise 2.24), how many are divisible by</p>
+              <ol class="parts"><li>at least one of 3, 5, 7;</li><li>3 and 5 but not 7;</li><li>5 but neither 3 nor 7;</li><li>none of 3, 5, 7?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="162" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="18" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="34" data-label="(c)"></div>
+            <div class="check" data-kind="num" data-answer="138" data-label="(d)"></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p><span class="m">⌊300/3⌋ = 100</span>, <span class="m">⌊300/5⌋ = 60</span>, <span class="m">⌊300/7⌋ = 42</span>, <span class="m">⌊300/15⌋ = 20</span>, <span class="m">⌊300/21⌋ = 14</span>, <span class="m">⌊300/35⌋ = 8</span>, <span class="m">⌊300/105⌋ = 2</span>.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">100 + 60 + 42 − 20 − 14 − 8 + 2 = 162</span>. (b) <span class="m">20 − 2 = 18</span>. (c) <span class="m">60 − 20 − 8 + 2 = 34</span>. (d) <span class="m">300 − 162 = 138</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-9">
+            <div class="p-head"><span class="pnum">P10.9</span><h4>Odd or a square</h4></div>
+            <div class="p-body"><p>Among the integers 1 to 100 (Exercise 2.22), how many are</p>
+              <ol class="parts"><li>odd or the square of an integer;</li><li>even or the cube of an integer?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="55" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="52" data-label="(b)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) 50 odd, 10 squares, 5 odd squares (1, 9, 25, 49, 81): <span class="m">50 + 10 − 5 = 55</span>. (b) 50 even, 4 cubes (1, 8, 27, 64), 2 even cubes: <span class="m">50 + 4 − 2 = 52</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-10">
+            <div class="p-head"><span class="pnum">P10.10</span><h4>Three magazines</h4></div>
+            <div class="p-body"><p>Of 120 people, 65 read Newsweek, 45 Time and 42 Fortune; 20 read Newsweek and Time, 25 Newsweek and Fortune, 15 Time and Fortune, and 8 read all three (Exercise 1.20). How many read</p>
+              <ol class="parts"><li>at least one magazine;</li><li>only Newsweek;</li><li>exactly one magazine;</li><li>no magazine?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="100" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="28" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="56" data-label="(c)"></div>
+            <div class="check" data-kind="num" data-answer="20" data-label="(d)"></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m">65 + 45 + 42 − 20 − 25 − 15 + 8 = 100</span>.</p>
+              <p>Regions from the centre: all three 8; exactly N and T <span class="m">20 − 8 = 12</span>; exactly N and F <span class="m">17</span>; exactly T and F <span class="m">7</span>. Only N: <span class="m">65 − 12 − 17 − 8 = 28</span>; only T: <span class="m">45 − 12 − 7 − 8 = 18</span>; only F: <span class="m">42 − 17 − 7 − 8 = 10</span>.</p>
+              <p>(b) 28. (c) <span class="m">28 + 18 + 10 = 56</span>. (d) <span class="m">120 − 100 = 20</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p10-11">
+            <div class="p-head"><span class="pnum">P10.11</span><h4>Four sets</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>Sets <span class="m">A, B, C, D</span> have 50, 60, 70, 80 elements; each pair shares 20, each three share 10, and all four share 5 (Exercise 2.25). How many elements are in <span class="m">A ∪ B ∪ C ∪ D</span>?</li>
+              <li>With the course data of Exercise 1.21 (<span class="m">s₁ = 77</span>, <span class="m">s₂ = 48</span>, <span class="m">s₃ = 26</span>, <span class="m">s₄ = 4</span>, and 11 students take no course), how many students are in the department?</li>
+            </ol></div>
+            <div class="check" data-kind="num" data-answer="175" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="62" data-label="(b)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) There are <span class="m">C(4, 2) = 6</span> pairs and <span class="m">C(4, 3) = 4</span> triples: <span class="m">260 − 6·20 + 4·10 − 5 = 175</span>. (b) <span class="m">77 − 48 + 26 − 4 = 51</span> take at least one course; <span class="m">51 + 11 = 62</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-12">
+            <div class="p-head"><span class="pnum">P10.12</span><h4>Counting functions</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>How many one-to-one functions are there from a 3-element set to a 5-element set? (Exercise 1.8)</li>
+              <li>How many functions are there from a 5-element set onto a 3-element set? (Theorem 11)</li>
+            </ol></div>
+            <div class="check" data-kind="num" data-answer="60" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="150" data-label="(b)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">5·4·3 = 60</span>: each new element of the domain must avoid the values already used. (b) <span class="m">3⁵ − C(3, 1)·2⁵ + C(3, 2)·1⁵ = 243 − 96 + 3 = 150</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-13">
+            <div class="p-head"><span class="pnum">P10.13</span><h4>How many to be sure?</h4></div>
+            <div class="p-body"><p>Find the least number that guarantees the event.</p>
+              <ol class="parts">
+                <li>Students, so that 5 are in the same year (Freshman, Sophomore, Junior, Senior). (Exercise 1.28)</li>
+                <li>Cards from a 52-card deck, so that 5 have the same suit. (Exercise 1.30)</li>
+                <li>Cards, so that at least 4 are diamonds. (Exercise 1.30)</li>
+                <li>Numbers from <span class="m">{1, …, 6}</span>, so that two of them add up to 7. (Exercise 2.26)</li>
+                <li>Products in a warehouse with 50 aisles, 85 locations per aisle and 5 shelves, so that two share a bin. (Exercise 2.27)</li>
+              </ol></div>
+            <div class="check" data-kind="num" data-answer="17" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="17" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="43" data-label="(c)"></div>
+            <div class="check" data-kind="num" data-answer="4" data-label="(d)"></div>
+            <div class="check" data-kind="num" data-answer="21251" data-label="(e)"></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>(a), (b): <span class="m">k(r − 1) + 1</span>. (c) is not a pigeonhole question: imagine the worst case. (d): the boxes are the pairs <span class="m">{1, 6}, {2, 5}, {3, 4}</span>.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">4·4 + 1 = 17</span>. (b) <span class="m">4·4 + 1 = 17</span>. (c) All 39 clubs, hearts and spades can come first: <span class="m">39 + 4 = 43</span>. (d) Three boxes: 4 numbers force two in one pair; 1, 2, 3 is a bad choice of 3. (e) <span class="m">50·85·5 = 21 250</span> bins, so 21 251.</p></div></details>
+          </article>
+
+          <article class="prob" id="p10-14">
+            <div class="p-head"><span class="pnum">P10.14</span><h4>Puzzle: a multiple made of 0s and 1s</h4></div>
+            <div class="p-body"><p>Put the steps of Example 7 in order: every positive integer <span class="m">n</span> has a multiple whose decimal digits are all 0 or 1.</p></div>
+            <div class="order"><ol class="order-key">
+              <li>Consider the <span class="m">n + 1</span> integers <span class="m">1, 11, 111, …</span>, the last with <span class="m">n + 1</span> ones.</li>
+              <li>Division by <span class="m">n</span> leaves one of only <span class="m">n</span> remainders <span class="m">0, 1, …, n − 1</span>.</li>
+              <li>By the pigeonhole principle two of the integers, <span class="m">a &gt; b</span>, have the same remainder.</li>
+              <li>Then <span class="m">a = mn + q</span> and <span class="m">b = kn + q</span>, so <span class="m">a − b = (m − k)n</span> is a multiple of <span class="m">n</span>.</li>
+              <li>Subtracting a shorter string of ones from a longer one leaves ones followed by zeros, so <span class="m">a − b</span> has only the digits 0 and 1. ∎</li>
+            </ol></div>
+          </article>
+
+          <article class="prob" id="p10-15">
+            <div class="p-head"><span class="pnum">P10.15</span><h4>True or false: Parts 1–3</h4></div>
+            <ol class="tf">
+              <li data-a="F"><span class="q"><span class="m">n(A ∪ B) = n(A) + n(B)</span> for all finite sets.</span><span class="why">Only for disjoint sets. In general subtract <span class="m">n(A ∩ B)</span>, which was counted twice.</span></li>
+              <li data-a="T"><span class="q">Among any 13 people, two were born in the same month.</span><span class="why">13 pigeons, 12 holes (Example 6).</span></li>
+              <li data-a="F"><span class="q">Among any 12 people, two were born in the same month.</span><span class="why">12 people can have 12 different months. The principle needs more objects than boxes.</span></li>
+              <li data-a="T"><span class="q">Among 75 people, at least 7 were born in the same month.</span><span class="why"><span class="m">⌈75/12⌉ = 7</span> (Example 8).</span></li>
+              <li data-a="T"><span class="q">In a group of 25 students who are each a freshman, sophomore or junior, there are at least 9 of one kind.</span><span class="why">Otherwise there are at most <span class="m">3·8 = 24</span> students (Exercise 1.24).</span></li>
+              <li data-a="T"><span class="q">Among any five integers, two have the same remainder when divided by 4.</span><span class="why">Four remainders 0, 1, 2, 3 and five integers (Exercise 1.22).</span></li>
+              <li data-a="F"><span class="q">The pigeonhole principle tells you which box has two objects.</span><span class="why">It only proves that such a box exists. Pigeonhole proofs are existence proofs.</span></li>
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <section class="pset" id="ps11">
+        <div class="pset-head"><h3>Practice 11 · Permutations and combinations</h3><p>15 problems from Lectures 8–9, Parts 4–5. First decide whether order matters and whether repetition is allowed, then count.</p></div>
+        <div class="probs">
+
+          <article class="prob" id="p11-1">
+            <div class="p-head"><span class="pnum">P11.1</span><h4>Warm-up values</h4></div>
+            <div class="p-body"><p>Compute (Exercises 1.11, Example 14):</p>
+              <ol class="parts"><li><span class="m">P(7, 3)</span></li><li><span class="m">P(14, 2)</span></li><li><span class="m">C(10, 7)</span></li><li><span class="m">C(13, 6)</span></li></ol></div>
+            <div class="check" data-kind="num" data-answer="210" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="182" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="120" data-label="(c)"></div>
+            <div class="check" data-kind="num" data-answer="1716" data-label="(d)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">7·6·5 = 210</span>. (b) <span class="m">14·13 = 182</span>. (c) <span class="m">C(10, 3) = 120</span>. (d) <span class="m">13·12·11·10·9·8/6! = 1716</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-2">
+            <div class="p-head"><span class="pnum">P11.2</span><h4>Find n</h4></div>
+            <div class="p-body"><p>Find the positive integer <span class="m">n</span> (Exercises 1.15, 2.10):</p>
+              <ol class="parts"><li><span class="m">P(n, 2) = 20</span></li><li><span class="m">P(n, 4) = 42·P(n, 2)</span></li><li><span class="m">2P(n, 2) + 50 = P(2n, 2)</span></li></ol></div>
+            <div class="check" data-kind="num" data-answer="5" data-label="(a) n ="></div>
+            <div class="check" data-kind="num" data-answer="9" data-label="(b) n ="></div>
+            <div class="check" data-kind="num" data-answer="5" data-label="(c) n ="></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">n² − n − 20 = (n − 5)(n + 4) = 0</span>, so <span class="m">n = 5</span>. (b) Divide by <span class="m">P(n, 2) = n(n − 1)</span>: <span class="m">(n − 2)(n − 3) = 42 = 7·6</span>, so <span class="m">n = 9</span>. (c) <span class="m">2n(n − 1) + 50 = 2n(2n − 1)</span> gives <span class="m">2n² = 50</span>, so <span class="m">n = 5</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-3">
+            <div class="p-head"><span class="pnum">P11.3</span><h4>Rows and round tables</h4></div>
+            <div class="p-body"><p>In how many ways can 5 people sit (Exercises 2.7–2.8)</p>
+              <ol class="parts"><li>in a row;</li><li>in a row, with two of them next to each other;</li><li>around a circular table;</li><li>around a circular table, with two of them next to each other?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="120" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="48" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="24" data-label="(c)"></div>
+            <div class="check" data-kind="num" data-answer="12" data-label="(d)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">5! = 120</span>. (b) Glue the two into a block: <span class="m">4!·2 = 48</span>. (c) <span class="m">4! = 24</span>. (d) Four units around the table, the pair in either order: <span class="m">3!·2 = 12</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-4">
+            <div class="p-head"><span class="pnum">P11.4</span><h4>A debating team</h4></div>
+            <div class="p-body"><p>3 boys and 3 girls sit in a row (Exercise 2.6). Count the arrangements</p>
+              <ol class="parts"><li>with no restrictions;</li><li>with the boys together and the girls together;</li><li>with just the girls together.</li></ol></div>
+            <div class="check" data-kind="num" data-answer="720" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="72" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="144" data-label="(c)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">6! = 720</span>. (b) Two blocks in 2 orders: <span class="m">2·3!·3! = 72</span>. (c) The girls' block and 3 boys are 4 units: <span class="m">4!·3! = 144</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-5">
+            <div class="p-head"><span class="pnum">P11.5</span><h4>Books on a shelf</h4></div>
+            <div class="p-body"><p>5 large, 4 medium and 3 small books, all different (Exercise 2.5). Count the arrangements</p>
+              <ol class="parts"><li>with no restrictions;</li><li>with the books of each size together.</li></ol></div>
+            <div class="check" data-kind="num" data-answer="479001600" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="103680" data-label="(b)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">12! = 479 001 600</span>. (b) Order the three blocks, then each block: <span class="m">3!·5!·4!·3! = 103 680</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-6">
+            <div class="p-head"><span class="pnum">P11.6</span><h4>Words from letters</h4></div>
+            <div class="p-body"><p>How many different words can be made from all the letters of (Examples 18, Exercises 1.13, 2.11)</p>
+              <ol class="parts"><li>THOSE</li><li>UNUSUAL</li><li>BENZENE</li><li>QUEUE</li><li>COMMITTEE</li><li>BASEBALL</li></ol></div>
+            <div class="check" data-kind="num" data-answer="120" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="840" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="420" data-label="(c)"></div>
+            <div class="check" data-kind="num" data-answer="30" data-label="(d)"></div>
+            <div class="check" data-kind="num" data-answer="45360" data-label="(e)"></div>
+            <div class="check" data-kind="num" data-answer="5040" data-label="(f)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">5! = 120</span>. (b) three U's: <span class="m">7!/3! = 840</span>. (c) three E's, two N's: <span class="m">7!/(3!2!) = 420</span>. (d) two U's, two E's: <span class="m">5!/(2!2!) = 30</span>. (e) two each of M, T, E: <span class="m">9!/(2!2!2!) = 45 360</span>. (f) two each of B, A, L: <span class="m">8!/(2!2!2!) = 5040</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-7">
+            <div class="p-head"><span class="pnum">P11.7</span><h4>Flags and samples</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>4 identical red, 2 identical blue and 3 identical green flags hang in a vertical line. How many signals? (Exercise 2.12)</li>
+              <li>A box has 12 light bulbs. How many ordered samples of size 3 are there with replacement? (Exercise 2.13)</li>
+              <li>… and without replacement?</li>
+            </ol></div>
+            <div class="check" data-kind="num" data-answer="1260" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="1728" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="1320" data-label="(c)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">9!/(4!2!3!) = 1260</span>. (b) <span class="m">12³ = 1728</span>. (c) <span class="m">P(12, 3) = 12·11·10 = 1320</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-8">
+            <div class="p-head"><span class="pnum">P11.8</span><h4>Three-digit numbers</h4></div>
+            <div class="p-body"><p>Three-digit numbers are formed from the digits 2, 3, 5, 6, 7, 9 without repetition (Exercise 2.9). How many are there</p>
+              <ol class="parts"><li>in all;</li><li>less than 400;</li><li>even?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="120" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="40" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="40" data-label="(c)"></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Fill the restricted position first.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">6·5·4 = 120</span>. (b) First digit 2 or 3: <span class="m">2·5·4 = 40</span>. (c) Last digit 2 or 6: <span class="m">2·5·4 = 40</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-9">
+            <div class="p-head"><span class="pnum">P11.9</span><h4>Plates and prizes</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>A licence plate has 2 different letters followed by 3 different digits. How many plates? (Exercise 2.3)</li>
+              <li>… if, in addition, the first digit cannot be 0?</li>
+              <li>In how many ways can a judge award first, second and third places among 18 contestants? (Exercise 2.4)</li>
+            </ol></div>
+            <div class="check" data-kind="num" data-answer="468000" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="421200" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="4896" data-label="(c)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">26·25·10·9·8 = 468 000</span>. (b) <span class="m">26·25·9·9·8 = 421 200</span>. (c) <span class="m">P(18, 3) = 18·17·16 = 4896</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-10">
+            <div class="p-head"><span class="pnum">P11.10</span><h4>Committees with women</h4></div>
+            <div class="p-body"><p>A class has 9 men and 3 women. A committee of 4 is chosen (Exercise 2.16). How many committees have</p>
+              <ol class="parts"><li>no restrictions;</li><li>2 men and 2 women;</li><li>exactly one woman;</li><li>at least one woman?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="495" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="108" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="252" data-label="(c)"></div>
+            <div class="check" data-kind="num" data-answer="369" data-label="(d)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">C(12, 4) = 495</span>. (b) <span class="m">C(9, 2)·C(3, 2) = 36·3 = 108</span>. (c) <span class="m">C(9, 3)·C(3, 1) = 84·3 = 252</span>. (d) <span class="m">C(12, 4) − C(9, 4) = 495 − 126 = 369</span>, or <span class="m">252 + 108 + 9</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-11">
+            <div class="p-head"><span class="pnum">P11.11</span><h4>A dinner party</h4></div>
+            <div class="p-body"><p>A woman invites 5 of her 11 close friends to dinner (Exercise 2.17). In how many ways, if</p>
+              <ol class="parts"><li>there are no restrictions;</li><li>two of the friends are married and will only come together;</li><li>two of the friends are not speaking and will not come together?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="462" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="210" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="378" data-label="(c)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">C(11, 5) = 462</span>. (b) Both come, <span class="m">C(9, 3) = 84</span>, or neither, <span class="m">C(9, 5) = 126</span>: 210. (c) All minus those with both: <span class="m">462 − 84 = 378</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-12">
+            <div class="p-head"><span class="pnum">P11.12</span><h4>Questions on an exam</h4></div>
+            <div class="p-body"><p>A student answers 10 of 13 questions (Exercise 2.20). How many choices are there if she must answer</p>
+              <ol class="parts"><li>the first two questions;</li><li>the first or the second question, but not both;</li><li>exactly 3 of the first 5 questions;</li><li>at least 3 of the first 5 questions?</li></ol></div>
+            <div class="check" data-kind="num" data-answer="165" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="110" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="80" data-label="(c)"></div>
+            <div class="check" data-kind="num" data-answer="276" data-label="(d)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) 8 more from 11: <span class="m">C(11, 8) = 165</span>. (b) Pick which one, then 9 from the other 11: <span class="m">2·C(11, 9) = 110</span>. (c) <span class="m">C(5, 3)·C(8, 7) = 80</span>. (d) <span class="m">80 + C(5, 4)·C(8, 6) + C(5, 5)·C(8, 5) = 80 + 140 + 56 = 276</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-13">
+            <div class="p-head"><span class="pnum">P11.13</span><h4>Socks, pens and committees</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>6 blue and 4 white socks: two socks of different colours. (Exercise 2.19)</li>
+              <li>9 blue and 7 red pens: two pens of the same colour. (Exercise 1.18)</li>
+              <li>A committee of 3 with a chairperson, from 9 people. (Exercise 1.17)</li>
+              <li>A committee of 2 of the 5 mathematicians and 3 of the 9 computer scientists. (Example 22)</li>
+            </ol></div>
+            <div class="check" data-kind="num" data-answer="24" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="57" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="252" data-label="(c)"></div>
+            <div class="check" data-kind="num" data-answer="840" data-label="(d)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">6·4 = 24</span>. (b) <span class="m">C(9, 2) + C(7, 2) = 36 + 21 = 57</span>; the notes print 43 (see the errata). (c) <span class="m">9·C(8, 2) = 252</span>. (d) <span class="m">C(5, 2)·C(9, 3) = 10·84 = 840</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-14">
+            <div class="p-head"><span class="pnum">P11.14</span><h4>Binomial coefficients at work</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>The coefficient of <span class="m">a³b⁵</span> in <span class="m">(a + b)⁸</span>.</li>
+              <li>The number of bit strings of length 10 with exactly three 1s. (Example 21)</li>
+              <li>The sum of row 7 of Pascal's triangle, <span class="m">C(7, 0) + ⋯ + C(7, 7)</span>.</li>
+            </ol></div>
+            <div class="check" data-kind="num" data-answer="56" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="120" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="128" data-label="(c)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">C(8, 5) = C(8, 3) = 56</span>. (b) Choose the positions of the 1s: <span class="m">C(10, 3) = 120</span>. (c) <span class="m">2⁷ = 128</span> (Corollary 6).</p></div></details>
+          </article>
+
+          <article class="prob" id="p11-15">
+            <div class="p-head"><span class="pnum">P11.15</span><h4>True or false: Parts 4–5</h4></div>
+            <ol class="tf">
+              <li data-a="F"><span class="q">Choosing a committee of 3 from 10 people is a permutation problem.</span><span class="why">The members have no order, so it is <span class="m">C(10, 3) = 120</span>. Electing a president, a secretary and a treasurer is <span class="m">P(10, 3) = 720</span>.</span></li>
+              <li data-a="T"><span class="q"><span class="m">P(n, r) = r!·C(n, r)</span>.</span><span class="why">Each <span class="m">r</span>-subset can be ordered in <span class="m">r!</span> ways (Theorem 9).</span></li>
+              <li data-a="T"><span class="q"><span class="m">C(n, r) = C(n, n − r)</span>.</span><span class="why">Choosing the <span class="m">r</span> to take is the same as choosing the <span class="m">n − r</span> to leave (Lemma 3).</span></li>
+              <li data-a="F"><span class="q"><span class="m">0! = 0</span>.</span><span class="why"><span class="m">0! = 1</span> by definition; it keeps <span class="m">n! = n·(n − 1)!</span> true for <span class="m">n = 1</span> and makes <span class="m">C(n, 0) = 1</span>.</span></li>
+              <li data-a="T"><span class="q"><span class="m">C(n + 1, r) = C(n, r − 1) + C(n, r)</span>.</span><span class="why">Pascal's identity (Theorem 4): each entry of the triangle is the sum of the two above it.</span></li>
+              <li data-a="F"><span class="q">5 people can sit around a round table in <span class="m">5! = 120</span> ways.</span><span class="why">Rotations give the same seating: <span class="m">4! = 24</span> (Exercise 1.12).</span></li>
+              <li data-a="T"><span class="q">Ordered samples of size <span class="m">r</span> with replacement from <span class="m">n</span> objects number <span class="m">nʳ</span>.</span><span class="why">Each of the <span class="m">r</span> draws has all <span class="m">n</span> choices.</span></li>
+            </ol>
+          </article>
+        </div>
+      </section>
+    </section>

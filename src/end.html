@@ -22,6 +22,19 @@
         <li><span class="where">Lecture 7 · p. 1 onwards · page footers and Part 0</span>The pages are labelled “Lecture 12” and refer to “Lecture Notes 10–11” for strong induction; in this numbering they are Lecture 7 and Lecture 6.</li>
         <li><span class="where">Lecture 7 · p. 11 · Example 13, inductive step</span>The hypothesis is stated for <span class="m">(m′, n′) ≼ (m, n)</span>; it must be strictly smaller, <span class="m">(m′, n′) ≺ (m, n)</span>, or it assumes what is to be proved.</li>
         <li><span class="where">Lecture 7 · p. 16 · Exercise 1.10(2)</span>“Every positive integer, which is a power of <span class="m">k</span>” should be “which is a multiple of <span class="m">k</span>”: the set <span class="m">B</span> is <span class="m">{nk | n ≥ 1}</span>.</li>
+        <li><span class="where">Lectures 8–9 · p. 4 · Example 5, last line</span>The signs inside the brackets are garbled: it should read <span class="m">1000 − [(333 + 200 + 142) − (66 + 47 + 28) + 9] = 1000 − 675 + 141 − 9 = 457</span>. The final answer, 457, is right.</li>
+        <li><span class="where">Lectures 8–9 · p. 14 · Example 18</span>“By Theorem 13-2” refers to Theorem 8 (permutations with repetitions).</li>
+        <li><span class="where">Lectures 8–9 · p. 15 · Example 20</span>The last row lists BDC twice; the six orderings of <span class="m">{B, C, D}</span> begin BCD, BDC.</li>
+        <li><span class="where">Lectures 8–9 · pp. 9, 17 · Theorem 5 and Example 23</span>The proof of the binomial theorem cites Pascal’s identity as “Theorem 10” (it is Theorem 4), and Example 23 cites the alternate form of IEP as “Theorem 9” (it is Theorem 3). Exercise 1.21 likewise cites “Theorem 8” for Theorem 2.</li>
+        <li><span class="where">Lectures 8–9 · p. 16 · before Theorem 10</span>“Example 5 from the Lecture Notes 10–11” (subsets of an <span class="m">n</span>-set) is Example 5 of Lecture 6.</li>
+        <li><span class="where">Lectures 8–9 · p. 22 · Exercise 1.16(b)</span><span class="m">C(8, 3)·C(5, 3) = 56·10</span> is 560, not 510.</li>
+        <li><span class="where">Lectures 8–9 · p. 22 · Exercise 1.18(b)</span><span class="m">C(9, 2) + C(7, 2) = 36 + 21</span> is 57, not 43.</li>
+        <li><span class="where">Lectures 8–9 · p. 28 · Answer 2.21(a)</span>“In <span class="m">P</span> or <span class="m">C</span> but not both” is <span class="m">22 + 14 = 36</span>. The printed 46 is <span class="m">n(P ∪ C)</span>.</li>
+        <li><span class="where">Lectures 10–11 · p. 17 · Exercise 3(b)</span>Row <span class="m">a</span> of <span class="m">M<sub>S</sub></span> is printed <span class="bits">011</span>; since <span class="m">S</span> contains only <span class="m">(a, y)</span> from <span class="m">a</span>, it is <span class="bits">010</span>. The product <span class="m">M<sub>R</sub>M<sub>S</sub></span> shown is correct.</li>
+        <li><span class="where">Lectures 10–11 · p. 18 · Exercise 7(b)</span>The example <span class="m">{(1, 2), (2, 3)}</span> is antisymmetric (no two distinct elements are related both ways), so it is not “neither symmetric nor antisymmetric”. <span class="m">{(1, 2), (2, 1), (2, 3)}</span> is.</li>
+        <li><span class="where">Lectures 10–11 · p. 19 · Exercise 9(ii)</span>“Hence <span class="m">(c, d) = (a, b)</span>” should be <span class="m">(c, d) ≈ (a, b)</span>.</li>
+        <li><span class="where">Lectures 10–11 · p. 21 · Answer to Exercise 5</span>(i) is also false: the empty relation is symmetric, and <span class="m">∅ ∩ ∅⁻¹ = ∅</span>.</li>
+        <li><span class="where">Lectures 10–11 · p. 22 · Answer 13(a)</span>The class <span class="m">[(1, 2)]</span> is listed as <span class="m">{(1, 2), (3, 4), (4, 5), …}</span>; it also contains <span class="m">(2, 3)</span>.</li>
       </ul>
     </section>
 
@@ -85,6 +98,28 @@
           <li>Strings: <span class="m">λ ∈ Σ*</span>; <span class="m">w ∈ Σ*</span>, <span class="m">x ∈ Σ ⟹ wx ∈ Σ*</span></li>
           <li>Structural induction: basis elements, then each rule</li>
           <li>Set equality: <span class="m">S ⊆ A</span> by structural induction, <span class="m">A ⊆ S</span> by MI</li>
+        </ul></div>
+        <div><h4>Counting</h4><ul>
+          <li>Disjoint cases: add. Successive choices: multiply</li>
+          <li>“At least one” = all − none</li>
+          <li><span class="m">n(A ∪ B ∪ C) = Σ n(A) − Σ n(A ∩ B) + n(A ∩ B ∩ C)</span></li>
+          <li>Multiples of <span class="m">d</span> up to <span class="m">N</span>: <span class="m">⌊N/d⌋</span></li>
+          <li>GPP: some box has <span class="m">⌈N/k⌉</span>; to force <span class="m">r</span> in a box need <span class="m">k(r − 1) + 1</span></li>
+        </ul></div>
+        <div><h4>Permutations, combinations</h4><ul>
+          <li><span class="m">P(n, r) = n!/(n − r)!</span>, <span class="m">C(n, r) = n!/(r!(n − r)!)</span></li>
+          <li>Order matters → <span class="m">P</span>; committees, subsets → <span class="m">C</span>; repetition → <span class="m">nʳ</span></li>
+          <li>Repeated letters: <span class="m">n!/(n₁!n₂!⋯)</span>; circle: <span class="m">(n − 1)!</span></li>
+          <li><span class="m">C(n + 1, r) = C(n, r − 1) + C(n, r)</span>, <span class="m">Σ C(n, r) = 2ⁿ</span></li>
+          <li>Onto <span class="m">m → n</span>: <span class="m">nᵐ − C(n, 1)(n − 1)ᵐ + ⋯</span></li>
+        </ul></div>
+        <div><h4>Relations</h4><ul>
+          <li><span class="m">2<sup>n²</sup></span> relations on an <span class="m">n</span>-set</li>
+          <li>Reflexive: all loops. Symmetric: <span class="m">R = R⁻¹</span>. Transitive: <span class="m">R² ⊆ R</span></li>
+          <li>Antisymmetric: no <span class="m">a ≠ b</span> related both ways (not the opposite of symmetric)</li>
+          <li><span class="m">S∘R</span>: <span class="m">R</span> first; matrix <span class="m">M<sub>R</sub>M<sub>S</sub></span></li>
+          <li>Closures: <span class="m">R ∪ Δ</span>, <span class="m">R ∪ R⁻¹</span>, <span class="m">R ∪ R² ∪ ⋯ ∪ Rⁿ</span></li>
+          <li>Equivalence relation ⟺ partition into classes <span class="m">[a]</span></li>
         </ul></div>
       </div>
     </section>
