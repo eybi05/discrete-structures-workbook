@@ -494,15 +494,65 @@ const Core = (() => {
     return { status: 'wrong', msg: `Not quite: ${parts.join(' and ')}.` };
   }
 
-  // a set of ordered pairs of integers, typed as (a, b), (c, d), … with optional braces
+  // ---- relations (Lectures 10–11): elements are integers or single letters; a relation is a list of [x, y] pairs
+  const EL = '(?:-?\\d+|[A-Za-z])';
+  const normEl = (x) => (/^-?\d+$/.test(x) ? String(Number(x)) : x);
+  function parsePairs(str) {
+    const t = String(str).replace(/\s/g, '').replace(/−/g, '-').replace(/^\{(.*)\}$/, '$1');
+    if (/^(∅|empty)$/i.test(t)) return [];
+    if (!new RegExp(`^(\\(${EL},${EL}\\)[,;]?)*$`).test(t)) return null;
+    const keys = (t.match(new RegExp(`\\(${EL},${EL}\\)`, 'g')) || []).map((p) => p.slice(1, -1).split(',').map(normEl).join(','));
+    return [...new Set(keys)].map((k) => k.split(','));
+  }
+  function parseElems(str) {
+    const t = String(str).replace(/[{}\s]/g, '').replace(/−/g, '-').split(/[,;]/).filter(Boolean);
+    if (!t.length || t.some((x) => !new RegExp(`^${EL}$`).test(x))) return null;
+    return [...new Set(t.map(normEl))];
+  }
+  const relKey = (p) => p.join(',');
+  const relSet = (R) => new Set(R.map(relKey));
+  const relUniq = (R) => [...relSet(R)].map((k) => k.split(','));
+  const inverse = (R) => R.map(([a, b]) => [b, a]);
+  // S∘R as in the notes: first R, then S
+  const compose = (S, R) => relUniq(R.flatMap(([a, b]) => S.filter(([c]) => c === b).map(([, d]) => [a, d])));
+  const relUnion = (...Rs) => relUniq(Rs.flat());
+  function transClosure(R) {
+    let T = relUniq(R);
+    for (;;) { const n = relUnion(T, compose(R, T)); if (n.length === T.length) return T; T = n; }
+  }
+  // each property is null when it holds, otherwise a witness that breaks it
+  function relProps(A, R) {
+    const has = relSet(R), on = (a, b) => has.has(a + ',' + b);
+    const refl = A.find((a) => !on(a, a));
+    const sym = R.find(([a, b]) => !on(b, a));
+    const anti = R.find(([a, b]) => a !== b && on(b, a));
+    let trans = null;
+    for (const [a, b] of R) for (const [c, d] of R) if (!trans && b === c && !on(a, d)) trans = [a, b, d];
+    return { reflexive: refl === undefined ? null : refl, symmetric: sym || null, antisymmetric: anti || null, transitive: trans };
+  }
+  const reflClosure = (A, R) => relUnion(R, A.map((a) => [a, a]));
+  const symClosure = (R) => relUnion(R, inverse(R));
+  const eqClosure = (A, R) => transClosure(symClosure(reflClosure(A, R)));
+  // equivalence classes [a] = {x | aRx}, each listed once, in the order of A
+  function eqClasses(A, R) {
+    const has = relSet(R), seen = new Set(), out = [];
+    for (const a of A) {
+      if (seen.has(a)) continue;
+      const cls = A.filter((x) => has.has(a + ',' + x));
+      cls.forEach((x) => seen.add(x));
+      out.push(cls);
+    }
+    return out;
+  }
+  const cmpEl = (p, q) => (/^-?\d+$/.test(p) && /^-?\d+$/.test(q) ? p - q : p < q ? -1 : p > q ? 1 : 0);
+  const sortEls = (xs) => [...xs].sort(cmpEl);
+  const sortRel = (R) => [...R].sort((p, q) => cmpEl(p[0], q[0]) || cmpEl(p[1], q[1]));
+  const relStr = (R) => (R.length ? '{' + sortRel(R).map(([a, b]) => `(${a}, ${b})`).join(', ') + '}' : '∅');
+
+  // a set of ordered pairs, typed as (a, b), (c, d), … with optional braces; elements are integers or letters
   function gradePairs(input, answer) {
-    const parse_ = (str) => {
-      const t = String(str).replace(/\s/g, '').replace(/−/g, '-').replace(/^\{(.*)\}$/, '$1');
-      if (!/^(\(-?\d+,-?\d+\)[,;]?)*$/.test(t)) return null;
-      const pairs = (t.match(/\(-?\d+,-?\d+\)/g) || []).map((p) => p.slice(1, -1).split(',').map(Number).join(','));
-      return [...new Set(pairs)];
-    };
-    if (!String(input).trim()) return { status: 'error', msg: 'Type the pairs first, for example (0, 1), (1, 1).' };
+    const parse_ = (str) => { const R = parsePairs(str); return R && R.map(relKey); };
+    if (!String(input).trim()) return { status: 'error', msg: 'Type the pairs first, for example (0, 1), (1, 1). For the empty relation, type {}.' };
     const u = parse_(input), a = parse_(answer);
     if (u === null) return { status: 'error', msg: 'Write each pair as (a, b) and separate the pairs with commas, for example (0, 1), (1, 1).' };
     const missing = a.filter((x) => !u.includes(x)), extra = u.filter((x) => !a.includes(x));
@@ -517,6 +567,7 @@ const Core = (() => {
     ParseError, parse, ev, varsOf, sortVars, table, minterms, envFor, show, steps,
     asSop, sopIssues, termStr, countEL, primeImplicants, minimalSums, patStr, patLits, patCells,
     covers, toBits, sumStr, csopStr, grade, gradeBits, gradeNum, gradeSet, gradePairs, simpler,
+    parsePairs, parseElems, inverse, compose, relUnion, transClosure, relProps, reflClosure, symClosure, eqClosure, eqClasses, sortEls, relStr,
   };
 })();
 if (typeof module !== 'undefined') module.exports = Core;

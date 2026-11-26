@@ -106,6 +106,29 @@ eq('pairs extra', C.gradePairs('(0,0),(0,1),(1,1),(2,1)', '(0,1),(1,1),(2,1)').m
 eq('pairs swapped', C.gradePairs('(1,0),(1,1),(1,2)', '(0,1),(1,1),(2,1)').status, 'wrong');
 eq('pairs format', C.gradePairs('0 1, 1 1', '(0,1),(1,1)').status, 'error');
 eq('pairs empty', C.gradePairs('  ', '(0,1)').status, 'error');
+eq('pairs letters', C.gradePairs('{(b, a), (1, x)}', '(1,x),(b,a)').status, 'ok');
+eq('pairs letters swapped', C.gradePairs('(a, b)', '(b,a)').status, 'wrong');
+eq('pairs empty relation', C.gradePairs('{}', '').status, 'ok');
+eq('pairs word rejected', C.gradePairs('(ab, c)', '(a,c)').status, 'error');
+
+// relations (Lectures 10–11), checked against worked examples in the notes
+const P = (s) => C.parsePairs(s), A4 = ['1', '2', '3', '4'];
+eq('compose ex16', C.relStr(C.compose(P('(1,0),(2,0),(3,1),(3,2),(4,1)'), P('(1,1),(1,4),(2,3),(3,1),(3,4)'))), '{(1, 0), (1, 1), (2, 1), (2, 2), (3, 0), (3, 1)}');
+eq('compose ex18', C.relStr(C.compose(P('(b,x),(b,z),(c,y),(d,z)'), P('(1,a),(2,d),(3,a),(3,b),(3,d)'))), '{(2, z), (3, x), (3, z)}');
+eq('trans closure ex23', C.relStr(C.transClosure(P('(1,2),(2,3),(3,3)'))), '{(1, 2), (1, 3), (2, 3), (3, 3)}');
+eq('refl closure ex19', C.relStr(C.reflClosure(A4, P('(1,1),(1,3),(2,4),(3,1),(3,3),(4,3)'))), '{(1, 1), (1, 3), (2, 2), (2, 4), (3, 1), (3, 3), (4, 3), (4, 4)}');
+const ex7 = ['(1,1),(1,2),(2,1),(2,2),(3,4),(4,1),(4,4)', '(1,1),(1,2),(2,1)', '(1,1),(1,2),(1,4),(2,1),(2,2),(3,3),(4,1),(4,4)', '(2,1),(3,1),(3,2),(4,1),(4,2),(4,3)',
+  '(1,1),(1,2),(1,3),(1,4),(2,2),(2,3),(2,4),(3,3),(3,4),(4,4)', '(3,4)'].map((r) => C.relProps(A4, P(r)));
+const which = (prop) => ex7.flatMap((p, i) => (p[prop] === null ? [i + 1] : [])).join(',');
+eq('ex7 reflexive', which('reflexive'), '3,5');
+eq('ex9 symmetric', which('symmetric'), '2,3');
+eq('ex9 antisymmetric', which('antisymmetric'), '4,5,6');
+eq('ex11 transitive', which('transitive'), '4,5,6');
+eq('ex11 R1 witness', ex7[0].transitive.join(','), '3,4,1');
+eq('classes set1 #10', JSON.stringify(C.eqClasses(['1', '2', '3', '4', '5', '6'], P('(1,1),(1,5),(2,2),(2,3),(2,6),(3,2),(3,3),(3,6),(4,4),(5,1),(5,5),(6,2),(6,3),(6,6)'))), '[["1","5"],["2","3","6"],["4"]]');
+eq('eq closure set2 #14', C.eqClosure(['a', 'b', 'c', 'd', 'e'], P('(a,b),(a,c),(d,e)')).length, 13);
+eq('elems', C.parseElems('{a, 2, −1}').join(','), 'a,2,-1');
+eq('elems bad', C.parseElems('1, xy'), null);
 
 // printing and steps
 eq('show bool', C.show(C.parse("(x+y')'z")), '(x + y′)′z');

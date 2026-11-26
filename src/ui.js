@@ -683,6 +683,43 @@
   }
 
   // ------------------------------------------------------------ truth-table tool
+  // Lectures 10–11: matrix, properties, closures and classes of a relation on a finite set
+  function buildRelTool(el) {
+    const setIn = $('#rt-set', el), relIn = $('#rt-rel', el), out = $('#rt-out', el);
+    const fb = (cls, icon, ...kids) => h('p', { class: 'fb ' + cls }, h('span', { class: 'fb-icon', 'aria-hidden': 'true' }, icon), h('span', {}, ...kids));
+    const pair = (a, b) => math(`(${a}, ${b})`);
+    const render = () => {
+      out.replaceChildren();
+      const A = Core.parseElems(setIn.value), R = Core.parsePairs(relIn.value);
+      if (!A) { out.append(fb('error', '!', 'Write the set as elements separated by commas, for example 1, 2, 3 or a, b, c.')); return; }
+      if (A.length > 12) { out.append(fb('error', '!', 'Use at most 12 elements.')); return; }
+      if (!R) { out.append(fb('error', '!', 'Write each pair as (a, b) and separate the pairs with commas. Type {} for the empty relation.')); return; }
+      const stray = R.flat().find((x) => !A.includes(x));
+      if (stray !== undefined) { out.append(fb('error', '!', `${stray} appears in a pair but is not in the set.`)); return; }
+      const on = new Set(R.map((p) => p.join(',')));
+      const matrix = h('table', { class: 'tt' },
+        h('thead', {}, h('tr', {}, h('th', { scope: 'col', class: 'm var' }, 'R'), ...A.map((b) => h('th', { scope: 'col', class: 'm' }, b)))),
+        h('tbody', {}, ...A.map((a) => h('tr', {}, h('th', { scope: 'row', class: 'm var' }, a),
+          ...A.map((b) => { const one = on.has(a + ',' + b); return h('td', { class: one ? 'fin' : 'zero' }, one ? '1' : '0'); })))));
+      out.append(h('div', { class: 'scroll' }, matrix));
+      const p = Core.relProps(A, R);
+      const row = (name, w, why) => h('li', {}, w === null ? fb('ok', '✓', `${name[0].toUpperCase()}${name.slice(1)}.`) : fb('wrong', '✗', `Not ${name}: `, ...why(w)));
+      out.append(h('ul', { class: 'rt-props' },
+        row('reflexive', p.reflexive, (a) => [pair(a, a), ' is missing.']),
+        row('symmetric', p.symmetric, ([a, b]) => [pair(a, b), ' is in R but ', pair(b, a), ' is not.']),
+        row('antisymmetric', p.antisymmetric, ([a, b]) => [pair(a, b), ' and ', pair(b, a), ' are both in R.']),
+        row('transitive', p.transitive, ([a, b, c]) => [pair(a, b), ' and ', pair(b, c), ' are in R but ', pair(a, c), ' is not.'])));
+      if (p.reflexive === null && p.symmetric === null && p.transitive === null) out.append(fb('ok', '✓', 'An equivalence relation. Classes: ', ...Core.eqClasses(A, R).flatMap((c, i) => [i ? ', ' : '', math(`[${c[0]}] = {${c.join(', ')}}`)])));
+      const ofR = (word) => [word + '(', math('R'), ')'];
+      const rows = [[[math('R⁻¹')], Core.inverse(R)], [[math('R² = R∘R')], Core.compose(R, R)], [ofR('reflexive'), Core.reflClosure(A, R)], [ofR('symmetric'), Core.symClosure(R)],
+        [ofR('transitive'), Core.transClosure(R)], [['smallest equivalence relation ⊇ ', math('R')], Core.eqClosure(A, R)]];
+      out.append(h('div', { class: 'scroll' }, h('table', { class: 'data rt-derived' }, h('tbody', {}, ...rows.map(([name, S]) => h('tr', {}, h('td', {}, ...name), h('td', {}, math(Core.relStr(S)))))))));
+      typeset(out);
+    };
+    [setIn, relIn].forEach((i) => i.addEventListener('input', render));
+    render();
+  }
+
   function buildTT(el) {
     const input = $('#tt-in', el), input2 = $('#tt-in2', el), out = $('#tt-out', el);
     const styleBtns = $$('[data-style]', el);
@@ -896,6 +933,7 @@
     const tt = $('#tt-tool'); if (tt) buildTT(tt);
     const kt = $('#kmap-tool'); if (kt) buildKTool(kt);
     const vt = $('#venn-tool'); if (vt) buildVennTool(vt);
+    const relTool = $('#rel-tool'); if (relTool) buildRelTool(relTool);
     typeset(document);
     updateCounts();
     wireLoaders();

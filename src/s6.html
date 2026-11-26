@@ -1,0 +1,420 @@
+    <section class="chapter" id="relations">
+      <p class="eyebrow">Lectures 10–11</p>
+      <h2>Relations</h2>
+      <p class="intro">A relation is just a set of ordered pairs, so everything from Lecture 1 applies: relations can be united, intersected and complemented. Lectures 10–11 add what is special about pairs: pictures (matrices and directed graphs), the four properties reflexive, symmetric, antisymmetric and transitive, composition, closures, and equivalence relations, which are the same thing as partitions.</p>
+
+      <h3 id="r-def"><span class="num">6.1</span>Relations and their pictures</h3>
+      <div class="blk def"><div class="lbl">Definition 1</div><div class="body">
+        <p>A <strong>binary relation from <span class="m">A</span> to <span class="m">B</span></strong> is a subset <span class="m">R ⊆ A × B</span>. Write <span class="m">aRb</span> when <span class="m">(a, b) ∈ R</span>. The <strong>domain</strong> is the set of first elements of the pairs in <span class="m">R</span>, the <strong>range</strong> the set of second elements. A relation from <span class="m">A</span> to itself is a <strong>relation on <span class="m">A</span></strong>.</p>
+        <p>Special relations on <span class="m">A</span>: the <strong>diagonal</strong> (identity) <span class="m">Δ<sub>A</sub> = {(a, a) | a ∈ A}</span>, the <strong>universal</strong> relation <span class="m">A × A</span> and the <strong>empty</strong> relation <span class="m">∅</span>.</p>
+        <p>A function <span class="m">f: A → B</span> is a relation in which every <span class="m">a ∈ A</span> is the first element of <em>exactly one</em> pair: its graph.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 4: how many relations?</div><div class="body">
+        <p><span class="m">A × A</span> has <span class="m">n²</span> elements when <span class="m">|A| = n</span>, and every subset is a relation, so there are <span class="m">2<sup>n²</sup></span> relations on <span class="m">A</span>: <span class="m">2⁹ = 512</span> on <span class="m">{a, b, c}</span>. From <span class="m">{a, b, c}</span> to <span class="m">{1, 2}</span> there are <span class="m">2⁶ = 64</span> (Exercise 1).</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 5 and Figure 3: “divides” on {1, 2, 3, 4}</div><div class="body">
+        <p><span class="m wrap">R = {(1, 1), (1, 2), (1, 3), (1, 4), (2, 2), (2, 4), (3, 3), (4, 4)}</span>. Its <strong>matrix</strong> has a 1 in row <span class="m">a</span>, column <span class="m">b</span> exactly when <span class="m">aRb</span>:</p>
+        <div class="scroll"><table class="tt">
+          <thead><tr><th class="m var">R</th><th class="m">1</th><th class="m">2</th><th class="m">3</th><th class="m">4</th></tr></thead>
+          <tbody>
+            <tr><th class="m var">1</th><td class="fin">1</td><td class="fin">1</td><td class="fin">1</td><td class="fin">1</td></tr>
+            <tr><th class="m var">2</th><td class="zero">0</td><td class="fin">1</td><td class="zero">0</td><td class="fin">1</td></tr>
+            <tr><th class="m var">3</th><td class="zero">0</td><td class="zero">0</td><td class="fin">1</td><td class="zero">0</td></tr>
+            <tr><th class="m var">4</th><td class="zero">0</td><td class="zero">0</td><td class="zero">0</td><td class="fin">1</td></tr>
+          </tbody>
+        </table></div>
+        <p>In the <strong>directed graph</strong> each element is a vertex and each pair <span class="m">(a, b)</span> an arrow from <span class="m">a</span> to <span class="m">b</span>; <span class="m">(a, a)</span> is a loop. For a relation from <span class="m">A</span> to <span class="m">B</span>, the <strong>arrow diagram</strong> draws <span class="m">A</span> and <span class="m">B</span> as two separate ovals.</p>
+      </div></div>
+
+      <div class="tool" id="rel-tool">
+        <h3>Relation checker</h3>
+        <p class="tool-desc">Type a finite set and a relation on it. You get the matrix, the four properties with a counterexample for each one that fails, the equivalence classes when there are any, and the inverse, the square and the closures. Use it to check an example you made up, such as Exercise 7 of Set 1.</p>
+        <div class="row"><label for="rt-set">Set</label><span class="field"><input id="rt-set" type="text" value="1, 2, 3, 4" autocomplete="off" spellcheck="false" autocapitalize="off"></span></div>
+        <div class="row"><label for="rt-rel">Relation</label><span class="field"><input id="rt-rel" type="text" value="(1, 1), (1, 3), (2, 4), (3, 1), (3, 3), (4, 3)" autocomplete="off" spellcheck="false" autocapitalize="off"></span></div>
+        <div id="rt-out" role="status" aria-live="polite"></div>
+      </div>
+
+      <h3 id="r-props"><span class="num">6.2</span>Properties of relations</h3>
+      <div class="blk def"><div class="lbl">Definitions 2–4: a relation R on A is</div><div class="body">
+        <p><strong>reflexive</strong> if <span class="m">(a, a) ∈ R</span> for every <span class="m">a ∈ A</span>, that is, <span class="m">Δ<sub>A</sub> ⊆ R</span>;</p>
+        <p><strong>symmetric</strong> if <span class="m">(a, b) ∈ R</span> implies <span class="m">(b, a) ∈ R</span>;</p>
+        <p><strong>antisymmetric</strong> if <span class="m">(a, b) ∈ R</span> and <span class="m">(b, a) ∈ R</span> imply <span class="m">a = b</span>: no two distinct elements are related both ways;</p>
+        <p><strong>transitive</strong> if <span class="m">(a, b) ∈ R</span> and <span class="m">(b, c) ∈ R</span> imply <span class="m">(a, c) ∈ R</span>.</p>
+      </div></div>
+      <div class="blk key"><div class="lbl">Reading the pictures</div><div class="body">
+        <div class="scroll"><table class="data">
+          <thead><tr><th>Property</th><th>Matrix</th><th>Directed graph</th><th>To disprove it, show</th></tr></thead>
+          <tbody>
+            <tr><th>Reflexive</th><td>all 1s on the diagonal</td><td>a loop at every vertex</td><td>one <span class="m">a</span> with <span class="m">(a, a) ∉ R</span></td></tr>
+            <tr><th>Symmetric</th><td>the matrix equals its transpose</td><td>every arrow has a return arrow</td><td><span class="m">(a, b) ∈ R</span>, <span class="m">(b, a) ∉ R</span></td></tr>
+            <tr><th>Antisymmetric</th><td>no 1 has a mirror 1 off the diagonal</td><td>no pair of opposite arrows</td><td><span class="m">a ≠ b</span> with both pairs in <span class="m">R</span></td></tr>
+            <tr><th>Transitive</th><td>see Theorem 2: <span class="m">R² ⊆ R</span></td><td>every two-step path has a shortcut</td><td><span class="m">(a, b), (b, c) ∈ R</span>, <span class="m">(a, c) ∉ R</span></td></tr>
+          </tbody>
+        </table></div>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Examples 7, 9 and 11, on A = {1, 2, 3, 4}</div><div class="body">
+        <div class="scroll"><table class="data">
+          <thead><tr><th>Relation</th><th>Refl.</th><th>Sym.</th><th>Antisym.</th><th>Trans.</th></tr></thead>
+          <tbody>
+            <tr><td><span class="m wrap">R₁ = {(1,1), (1,2), (2,1), (2,2), (3,4), (4,1), (4,4)}</span></td><td>no</td><td>no</td><td>no</td><td>no: <span class="m">(3,4), (4,1)</span></td></tr>
+            <tr><td><span class="m">R₂ = {(1,1), (1,2), (2,1)}</span></td><td>no</td><td>yes</td><td>no</td><td>no: <span class="m">(2,1), (1,2)</span></td></tr>
+            <tr><td><span class="m wrap">R₃ = {(1,1), (1,2), (1,4), (2,1), (2,2), (3,3), (4,1), (4,4)}</span></td><td>yes</td><td>yes</td><td>no</td><td>no: <span class="m">(4,1), (1,2)</span></td></tr>
+            <tr><td><span class="m wrap">R₄ = {(2,1), (3,1), (3,2), (4,1), (4,2), (4,3)}</span></td><td>no</td><td>no</td><td>yes</td><td>yes</td></tr>
+            <tr><td><span class="m wrap">R₅ = {(a, b) | a ≤ b}</span></td><td>yes</td><td>no</td><td>yes</td><td>yes</td></tr>
+            <tr><td><span class="m">R₆ = {(3, 4)}</span></td><td>no</td><td>no</td><td>yes</td><td>yes</td></tr>
+          </tbody>
+        </table></div>
+        <p class="small muted">Symmetric and antisymmetric are not opposites: <span class="m">{(1, 1), (2, 2)}</span> is both, and <span class="m">{(1, 3), (3, 1), (2, 3)}</span> is neither. <span class="m">R₆</span> is transitive because no two pairs chain together, so the condition is never tested.</p>
+      </div></div>
+
+      <h3 id="r-comb"><span class="num">6.3</span>Combining relations</h3>
+      <div class="blk def"><div class="lbl">Definitions 5–7</div><div class="body">
+        <p>Relations from <span class="m">A</span> to <span class="m">B</span> are sets, so <span class="m">R₁ ∪ R₂</span>, <span class="m">R₁ ∩ R₂</span>, <span class="m">R₁ − R₂</span> and the complement <span class="m">R′ = (A × B) − R</span> are relations too.</p>
+        <p>The <strong>inverse</strong> is <span class="m">R⁻¹ = {(b, a) | (a, b) ∈ R}</span>: reverse every pair (every arrow). <span class="m">(R⁻¹)⁻¹ = R</span>, and the domain and range swap.</p>
+        <p>For <span class="m">R</span> from <span class="m">A</span> to <span class="m">B</span> and <span class="m">S</span> from <span class="m">B</span> to <span class="m">C</span>, the <strong>composite</strong> is <span class="m wrap">S∘R = {(a, c) | there is a b with (a, b) ∈ R and (b, c) ∈ S}</span>. <strong><span class="m">R</span> is applied first</strong>, as with functions. Composition is associative: <span class="m">T∘(S∘R) = (T∘S)∘R</span> (Theorem 1).</p>
+        <p>Powers: <span class="m">R¹ = R</span>, <span class="m">Rⁿ⁺¹ = Rⁿ∘R</span>. <span class="m">(a, b) ∈ Rⁿ</span> exactly when there is a path of length <span class="m">n</span> from <span class="m">a</span> to <span class="m">b</span> (Theorem 3).</p>
+      </div></div>
+      <div class="blk key"><div class="lbl">Three ways to compute S∘R</div><div class="body">
+        <p><strong>1. Middle elements.</strong> For each <span class="m">(a, b) ∈ R</span>, list every <span class="m">(b, c) ∈ S</span> and write down <span class="m">(a, c)</span>.</p>
+        <p><strong>2. Arrow diagrams.</strong> Draw <span class="m">R</span> and <span class="m">S</span> side by side; <span class="m">(a, c) ∈ S∘R</span> when an arrow of <span class="m">R</span> followed by one of <span class="m">S</span> leads from <span class="m">a</span> to <span class="m">c</span>.</p>
+        <p><strong>3. Matrices.</strong> Multiply <span class="m">M<sub>R</sub>·M<sub>S</sub></span> (rows of <span class="m">R</span> times columns of <span class="m">S</span>). The nonzero entries are the pairs of <span class="m">S∘R</span>; an entry counts the paths. Note the order: <span class="m">M<sub>R</sub></span> comes first.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 16</div><div class="body">
+        <p><span class="m wrap">R = {(1, 1), (1, 4), (2, 3), (3, 1), (3, 4)}</span>, <span class="m wrap">S = {(1, 0), (2, 0), (3, 1), (3, 2), (4, 1)}</span>. From 1: <span class="m">1 → 1 → 0</span> and <span class="m">1 → 4 → 1</span>. From 2: <span class="m">2 → 3 → 1, 2</span>. From 3: <span class="m">3 → 1 → 0</span> and <span class="m">3 → 4 → 1</span>. So <span class="m wrap">S∘R = {(1, 0), (1, 1), (2, 1), (2, 2), (3, 0), (3, 1)}</span>.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Theorem 2</div><div class="body">
+        <p><span class="m">R</span> is transitive if and only if <span class="m">Rⁿ ⊆ R</span> for every <span class="m">n ≥ 1</span>. In practice: <span class="m">R</span> is transitive exactly when <span class="m">R² ⊆ R</span>. The “only if” half is an induction on <span class="m">n</span>.</p>
+      </div></div>
+
+      <h3 id="r-closure"><span class="num">6.4</span>Closures</h3>
+      <div class="blk def"><div class="lbl">Definition 9 and Theorems 4–6</div><div class="body">
+        <p>The <strong><span class="m">P</span>-closure</strong> of <span class="m">R</span> is the smallest relation with property <span class="m">P</span> that contains <span class="m">R</span>.</p>
+        <p><span class="m">reflexive(R) = R ∪ Δ<sub>A</sub></span>: add the missing loops.</p>
+        <p><span class="m">symmetric(R) = R ∪ R⁻¹</span>: add the missing return arrows.</p>
+        <p><span class="m">transitive(R) = R* = R ∪ R² ∪ R³ ∪ ⋯</span>, the <strong>connectivity relation</strong>: <span class="m">(a, b)</span> is in it when some path leads from <span class="m">a</span> to <span class="m">b</span>. On a set of <span class="m">n</span> elements a shortest path never needs more than <span class="m">n</span> steps (Lemma 1, by the pigeonhole principle), so <span class="m wrap">transitive(R) = R ∪ R² ∪ ⋯ ∪ Rⁿ</span>.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Examples 19 and 23</div><div class="body">
+        <p><span class="m wrap">R = {(1, 1), (1, 3), (2, 4), (3, 1), (3, 3), (4, 3)}</span> on <span class="m">{1, 2, 3, 4}</span>: <span class="m">reflexive(R) = R ∪ {(2, 2), (4, 4)}</span> and <span class="m">symmetric(R) = R ∪ {(4, 2), (3, 4)}</span>.</p>
+        <p><span class="m">R = {(1, 2), (2, 3), (3, 3)}</span> on <span class="m">{1, 2, 3}</span>: <span class="m">R² = R³ = {(1, 3), (2, 3), (3, 3)}</span>, so <span class="m wrap">transitive(R) = {(1, 2), (1, 3), (2, 3), (3, 3)}</span>.</p>
+      </div></div>
+      <div class="blk trap"><div class="lbl">Watch out</div><div class="body">
+        <p>Closing under one property can destroy another: <span class="m">R = {(1, 2)}</span> is transitive, but <span class="m">R ∪ R⁻¹ = {(1, 2), (2, 1)}</span> is not, because <span class="m">(1, 1)</span> is missing (Exercise 7(c)). When a problem asks for the smallest relation that is <em>symmetric and transitive</em>, take the symmetric closure first and then the transitive closure.</p>
+      </div></div>
+
+      <h3 id="r-equiv"><span class="num">6.5</span>Equivalence relations and partitions</h3>
+      <div class="blk def"><div class="lbl">Definitions 11–12</div><div class="body">
+        <p>An <strong>equivalence relation</strong> is reflexive, symmetric and transitive. Examples: equality; “has the same length as” on strings (Example 25); congruence modulo <span class="m">m</span>, <span class="m">a ≡ b (mod m)</span> when <span class="m">m | a − b</span>. Not an example: <span class="m">⊆</span>, which is not symmetric.</p>
+        <p>The <strong>equivalence class</strong> of <span class="m">a</span> is <span class="m">[a] = {x | (a, x) ∈ R}</span>; any element of <span class="m">[a]</span> is a representative. The set of all classes is the <strong>quotient set</strong> <span class="m">S/R</span>.</p>
+      </div></div>
+      <div class="blk def"><div class="lbl">Theorem 7</div><div class="body">
+        <p>If <span class="m">R</span> is an equivalence relation on <span class="m">S</span>, then <span class="m">S/R</span> is a partition of <span class="m">S</span>: (i) <span class="m">a ∈ [a]</span>; (ii) <span class="m">[a] = [b]</span> if and only if <span class="m">(a, b) ∈ R</span>; (iii) if <span class="m">[a] ≠ [b]</span>, the classes are disjoint.</p>
+        <p>Conversely, every partition <span class="m">{Aᵢ}</span> of <span class="m">S</span> comes from the equivalence relation “<span class="m">a</span> and <span class="m">b</span> lie in the same block”, and its classes are the blocks.</p>
+      </div></div>
+      <div class="blk ex"><div class="lbl">Example 27 and Exercise 10</div><div class="body">
+        <p>Congruence mod 5 splits <span class="m">ℤ</span> into the five classes <span class="m">A₀, …, A₄</span>, where <span class="m">Aᵣ</span> holds the integers with remainder <span class="m">r</span>; for instance <span class="m">A₂ = {…, −8, −3, 2, 7, 12, …}</span>.</p>
+        <p>To find the classes of a finite relation, take an element not yet placed, collect everything related to it, and repeat. For the relation of Exercise 10 on <span class="m">{1, …, 6}</span> this gives <span class="m">[1] = {1, 5}</span>, <span class="m">[2] = {2, 3, 6}</span>, <span class="m">[4] = {4}</span>.</p>
+      </div></div>
+      <div class="proof-box">
+        <h4>Template for “prove that R is an equivalence relation”</h4>
+        <ol>
+          <li><b>Reflexive.</b> Take an arbitrary <span class="m">a</span> and show <span class="m">aRa</span>.</li>
+          <li><b>Symmetric.</b> Assume <span class="m">aRb</span>, write out what it means, and show <span class="m">bRa</span>.</li>
+          <li><b>Transitive.</b> Assume <span class="m">aRb</span> and <span class="m">bRc</span>, write out both conditions, and combine them into <span class="m">aRc</span>.</li>
+          <li><b>Conclusion.</b> “Hence <span class="m">R</span> is an equivalence relation.”</li>
+        </ol>
+        <p class="small muted">Shortcut (Set 2, Exercise 10): if <span class="m">aRb</span> means <span class="m">f(a) = f(b)</span> for some function <span class="m">f</span>, then <span class="m">R</span> is an equivalence relation, and its classes are the nonempty preimages <span class="m">f⁻¹(y)</span>.</p>
+      </div>
+
+      <section class="pset" id="ps12">
+        <div class="pset-head"><h3>Practice 12 · Relations, properties and composition</h3><p>12 problems from Lectures 10–11, Parts 1–4. Type relations as pairs, for example <span class="m">(1, a), (2, b)</span>; the order of the pairs does not matter, and <span class="m">{}</span> is the empty relation.</p></div>
+        <div class="probs">
+
+          <article class="prob" id="p12-1">
+            <div class="p-head"><span class="pnum">P12.1</span><h4>How many relations?</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>Relations from <span class="m">{a, b, c}</span> to <span class="m">{1, 2}</span>. (Exercise 1)</li>
+              <li>Relations on <span class="m">{a, b, c}</span>. (Example 4)</li>
+              <li>Relations on a 4-element set.</li>
+              <li>Reflexive relations on <span class="m">{a, b, c}</span>.</li>
+            </ol></div>
+            <div class="check" data-kind="num" data-answer="64" data-label="(a)"></div>
+            <div class="check" data-kind="num" data-answer="512" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="65536" data-label="(c)"></div>
+            <div class="check" data-kind="num" data-answer="64" data-label="(d)"></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>(d) The 3 diagonal pairs must be in the relation; each of the other pairs is free.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">2<sup>3·2</sup> = 64</span>. (b) <span class="m">2⁹ = 512</span>. (c) <span class="m">2¹⁶ = 65 536</span>. (d) <span class="m">9 − 3 = 6</span> free pairs: <span class="m">2⁶ = 64</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p12-2">
+            <div class="p-head"><span class="pnum">P12.2</span><h4>Divides, as a set of pairs</h4></div>
+            <div class="p-body"><p>List the relation <span class="m">R = {(a, b) | a divides b}</span> on <span class="m">{1, 2, 3, 4, 5, 6}</span> (Example 5 has <span class="m">{1, 2, 3, 4}</span>). Then decide which properties it has.</p></div>
+            <div class="check" data-kind="pairs" data-answer="(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(2,2),(2,4),(2,6),(3,3),(3,6),(4,4),(5,5),(6,6)" data-label="R ="></div>
+            <details><summary>Answer</summary><div class="d-body"><p>14 pairs: 1 divides all six numbers, 2 divides 2, 4, 6, 3 divides 3, 6, and 4, 5, 6 divide only themselves. <span class="m">R</span> is reflexive, antisymmetric and transitive, but not symmetric: <span class="m">(1, 2) ∈ R</span>, <span class="m">(2, 1) ∉ R</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p12-3">
+            <div class="p-head"><span class="pnum">P12.3</span><h4>Inverse and powers</h4></div>
+            <div class="p-body"><p><span class="m wrap">R = {(1, 3), (1, 4), (3, 2), (3, 3), (3, 4)}</span> on <span class="m">{1, 2, 3, 4}</span> (Set 2, Exercise 1). Find the domain, the range, <span class="m">R⁻¹</span>, <span class="m">R∘R</span>, <span class="m">R∘R⁻¹</span> and <span class="m">R⁻¹∘R</span>.</p></div>
+            <div class="check" data-kind="set" data-answer="1,3" data-label="Domain ="></div>
+            <div class="check" data-kind="set" data-answer="2,3,4" data-label="Range ="></div>
+            <div class="check" data-kind="pairs" data-answer="(2,3),(3,1),(3,3),(4,1),(4,3)" data-label="R⁻¹ ="></div>
+            <div class="check" data-kind="pairs" data-answer="(1,2),(1,3),(1,4),(3,2),(3,3),(3,4)" data-label="R∘R ="></div>
+            <div class="check" data-kind="pairs" data-answer="(2,2),(2,3),(2,4),(3,2),(3,3),(3,4),(4,2),(4,3),(4,4)" data-label="R∘R⁻¹ ="></div>
+            <div class="check" data-kind="pairs" data-answer="(1,1),(1,3),(3,1),(3,3)" data-label="R⁻¹∘R ="></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p><span class="m">R∘R⁻¹</span> applies <span class="m">R⁻¹</span> first: from <span class="m">a</span> go <em>backwards</em> along an arrow of <span class="m">R</span>, then forwards along another.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>Domain <span class="m">{1, 3}</span>, range <span class="m">{2, 3, 4}</span>. <span class="m wrap">R⁻¹ = {(3, 1), (4, 1), (2, 3), (3, 3), (4, 3)}</span>.</p>
+              <p><span class="m">R∘R</span>: from 1 to 3 and then to 2, 3, 4; from 3 to 3 and then to 2, 3, 4; nothing leaves 2 or 4. <span class="m wrap">R∘R = {(1, 2), (1, 3), (1, 4), (3, 2), (3, 3), (3, 4)}</span>.</p>
+              <p><span class="m">R∘R⁻¹</span>: each of 2, 3, 4 is reached from 3, and 3 leads to 2, 3, 4, so all nine pairs on <span class="m">{2, 3, 4}</span>. <span class="m">R⁻¹∘R</span>: from 1 or 3 forward to 3 or 4, then back to 1 or 3: <span class="m">{(1, 1), (1, 3), (3, 1), (3, 3)}</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p12-4">
+            <div class="p-head"><span class="pnum">P12.4</span><h4>Composition across three sets</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li><span class="m">R = {(1, b), (2, a), (2, c)}</span> from <span class="m">{1, 2, 3}</span> to <span class="m">{a, b, c}</span> and <span class="m wrap">S = {(a, y), (b, x), (c, y), (c, z)}</span> to <span class="m">{x, y, z}</span>. Find <span class="m">S∘R</span>, and the entry of <span class="m">M<sub>R</sub>·M<sub>S</sub></span> in row 2, column <span class="m">y</span>. (Set 1, Exercise 3)</li>
+              <li><span class="m wrap">R = {(1, b), (3, a), (3, b), (4, c)}</span> and <span class="m">S = {(a, y), (c, x), (a, z)}</span>. Find <span class="m">S∘R</span>. (Set 2, Exercise 2)</li>
+            </ol></div>
+            <div class="check" data-kind="pairs" data-answer="(1,x),(2,y),(2,z)" data-label="(a) S∘R ="></div>
+            <div class="check" data-kind="num" data-answer="2" data-label="(a) entry (2, y) ="></div>
+            <div class="check" data-kind="pairs" data-answer="(3,y),(3,z),(4,x)" data-label="(b) S∘R ="></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m">1 → b → x</span>, <span class="m">2 → a → y</span>, <span class="m">2 → c → y</span>, <span class="m">2 → c → z</span>: <span class="m">S∘R = {(1, x), (2, y), (2, z)}</span>. The entry is 2, because two paths lead from 2 to <span class="m">y</span>.</p>
+              <p>(b) <span class="m">b</span> has no arrow in <span class="m">S</span>, so 1 leads nowhere; <span class="m">3 → a → y, z</span> and <span class="m">4 → c → x</span>: <span class="m">{(3, y), (3, z), (4, x)}</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p12-5">
+            <div class="p-head"><span class="pnum">P12.5</span><h4>Order matters in composition</h4></div>
+            <div class="p-body"><p>On <span class="m">{a, b, c, d}</span> let <span class="m wrap">R = {(a, a), (a, c), (c, b), (c, d), (d, b)}</span> and <span class="m wrap">S = {(b, a), (c, c), (c, d), (d, a)}</span> (Set 2, Exercise 3). Find</p>
+              <ol class="parts"><li><span class="m">R∘S</span></li><li><span class="m">S∘R</span></li><li><span class="m">R∘R</span></li><li><span class="m">S∘S</span></li></ol></div>
+            <div class="check" data-kind="pairs" data-answer="(b,a),(b,c),(c,b),(c,d),(d,a),(d,c)" data-label="(a) R∘S ="></div>
+            <div class="check" data-kind="pairs" data-answer="(a,c),(a,d),(c,a),(d,a)" data-label="(b) S∘R ="></div>
+            <div class="check" data-kind="pairs" data-answer="(a,a),(a,b),(a,c),(a,d),(c,b)" data-label="(c) R∘R ="></div>
+            <div class="check" data-kind="pairs" data-answer="(c,a),(c,c),(c,d)" data-label="(d) S∘S ="></div>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(a) <span class="m">S</span> first, then <span class="m">R</span>: <span class="m">b → a → a, c</span>; <span class="m">c → c → b, d</span>; <span class="m">c → d → b</span>; <span class="m">d → a → a, c</span>. So <span class="m wrap">R∘S = {(b, a), (b, c), (c, b), (c, d), (d, a), (d, c)}</span>.</p>
+              <p>(b) <span class="m">R</span> first: <span class="m">a → c → c, d</span>; <span class="m">c → b → a</span>; <span class="m">c → d → a</span>; <span class="m">d → b → a</span>; <span class="m">(a, a)</span> leads nowhere, since <span class="m">a</span> has no arrow in <span class="m">S</span>. So <span class="m">S∘R = {(a, c), (a, d), (c, a), (d, a)}</span>, which is not <span class="m">R∘S</span>.</p>
+              <p>(c) <span class="m wrap">{(a, a), (a, b), (a, c), (a, d), (c, b)}</span>. (d) <span class="m">{(c, a), (c, c), (c, d)}</span>.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p12-6">
+            <div class="p-head"><span class="pnum">P12.6</span><h4>Union, intersection, complement</h4></div>
+            <div class="p-body"><p>On <span class="m">A = {1, 2, 3}</span> let <span class="m wrap">R = {(1, 1), (1, 2), (2, 3), (3, 1), (3, 3)}</span> and <span class="m wrap">S = {(1, 2), (1, 3), (2, 1), (3, 3)}</span> (Set 1, Exercise 5). Find <span class="m">R ∩ S</span>, the complement <span class="m">R′</span>, <span class="m">S∘R</span> and <span class="m">S²</span>.</p></div>
+            <div class="check" data-kind="pairs" data-answer="(1,2),(3,3)" data-label="R ∩ S ="></div>
+            <div class="check" data-kind="pairs" data-answer="(1,3),(2,1),(2,2),(3,2)" data-label="R′ ="></div>
+            <div class="check" data-kind="pairs" data-answer="(1,1),(1,2),(1,3),(2,3),(3,2),(3,3)" data-label="S∘R ="></div>
+            <div class="check" data-kind="pairs" data-answer="(1,1),(1,3),(2,2),(2,3),(3,3)" data-label="S² ="></div>
+            <details><summary>Answer</summary><div class="d-body"><p><span class="m">R′ = (A × A) − R</span> is the 4 pairs that are not in <span class="m">R</span>. <span class="m">S∘R</span>: <span class="m">(1, 1)</span> gives <span class="m">(1, 2), (1, 3)</span>; <span class="m">(1, 2)</span> gives <span class="m">(1, 1)</span>; <span class="m">(2, 3)</span> gives <span class="m">(2, 3)</span>; <span class="m">(3, 1)</span> gives <span class="m">(3, 2), (3, 3)</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p12-7">
+            <div class="p-head"><span class="pnum">P12.7</span><h4>Properties of Example 7's relations</h4></div>
+            <div class="p-body"><p>For the six relations <span class="m">R₁, …, R₆</span> of Example 7 (listed in the table in 6.2; <span class="m">R₅</span> is <span class="m">a ≤ b</span> on <span class="m">{1, 2, 3, 4}</span>), type the indices of the relations that are</p>
+              <ol class="parts"><li>reflexive</li><li>symmetric</li><li>antisymmetric</li><li>transitive</li></ol></div>
+            <div class="check" data-kind="set" data-answer="3,5" data-label="(a)" data-ph="e.g. 1, 4"></div>
+            <div class="check" data-kind="set" data-answer="2,3" data-label="(b)" data-ph="e.g. 1, 4"></div>
+            <div class="check" data-kind="set" data-answer="4,5,6" data-label="(c)" data-ph="e.g. 1, 4"></div>
+            <div class="check" data-kind="set" data-answer="4,5,6" data-label="(d)" data-ph="e.g. 1, 4"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>See the table in 6.2: reflexive <span class="m">R₃, R₅</span>; symmetric <span class="m">R₂, R₃</span>; antisymmetric and transitive <span class="m">R₄, R₅, R₆</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p12-8">
+            <div class="p-head"><span class="pnum">P12.8</span><h4>Five relations on {1, 2, 3}</h4></div>
+            <div class="p-body"><p>Number the relations (Set 1, Exercise 6): 1 is <span class="m">R = {(1, 1), (1, 2), (1, 3), (3, 3)}</span>, 2 is <span class="m wrap">S = {(1, 1), (1, 2), (2, 1), (2, 2), (3, 3)}</span>, 3 is <span class="m">T = {(1, 1), (1, 2), (2, 2), (2, 3)}</span>, 4 is <span class="m">∅</span> and 5 is <span class="m">A × A</span>. Which are</p>
+              <ol class="parts"><li>reflexive</li><li>symmetric</li><li>transitive</li><li>antisymmetric?</li></ol></div>
+            <div class="check" data-kind="set" data-answer="2,5" data-label="(a)" data-ph="e.g. 1, 4"></div>
+            <div class="check" data-kind="set" data-answer="2,4,5" data-label="(b)" data-ph="e.g. 1, 4"></div>
+            <div class="check" data-kind="set" data-answer="1,2,4,5" data-label="(c)" data-ph="e.g. 1, 4"></div>
+            <div class="check" data-kind="set" data-answer="1,3,4" data-label="(d)" data-ph="e.g. 1, 4"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">(2, 2) ∉ R</span>, <span class="m">(3, 3) ∉ T</span>, and <span class="m">∅</span> has no loops. (b) <span class="m">(1, 2) ∈ R</span> without <span class="m">(2, 1)</span>, and the same in <span class="m">T</span>. (c) Only <span class="m">T</span> fails: <span class="m">(1, 2), (2, 3) ∈ T</span> but <span class="m">(1, 3) ∉ T</span>. (d) <span class="m">S</span> and <span class="m">A × A</span> contain both <span class="m">(1, 2)</span> and <span class="m">(2, 1)</span>. The empty relation has every property except reflexivity: its conditions are never tested.</p></div></details>
+          </article>
+
+          <article class="prob" id="p12-9">
+            <div class="p-head"><span class="pnum">P12.9</span><h4>Relations on the integers</h4></div>
+            <div class="p-body"><p>Example 10: <span class="m">R₁: a ≤ b</span>, <span class="m">R₂: a &gt; b</span>, <span class="m">R₃: a = b</span> or <span class="m">a = −b</span>, <span class="m">R₄: a = b</span>, <span class="m">R₅: a = b + 1</span>, <span class="m">R₆: a + b ≤ 3</span>. Type the indices of the relations that are</p>
+              <ol class="parts"><li>reflexive</li><li>symmetric</li><li>antisymmetric</li><li>transitive</li></ol></div>
+            <div class="check" data-kind="set" data-answer="1,3,4" data-label="(a)" data-ph="e.g. 1, 4"></div>
+            <div class="check" data-kind="set" data-answer="3,4,6" data-label="(b)" data-ph="e.g. 1, 4"></div>
+            <div class="check" data-kind="set" data-answer="1,2,4,5" data-label="(c)" data-ph="e.g. 1, 4"></div>
+            <div class="check" data-kind="set" data-answer="1,2,3,4" data-label="(d)" data-ph="e.g. 1, 4"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) <span class="m">a ≤ a</span>, <span class="m">a = ±a</span>, <span class="m">a = a</span>; but <span class="m">2 + 2 &gt; 3</span>, so <span class="m">R₆</span> is not reflexive. (b) <span class="m">R₃, R₄, R₆</span>, because their conditions do not change when <span class="m">a</span> and <span class="m">b</span> are swapped. (c) <span class="m">a ≤ b ≤ a</span> forces <span class="m">a = b</span>; <span class="m">R₂</span> and <span class="m">R₅</span> never hold both ways. (d) <span class="m">R₅</span> fails with <span class="m">(2, 1), (1, 0)</span>, and <span class="m">R₆</span> with <span class="m">(2, 1), (1, 2)</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p12-10">
+            <div class="p-head"><span class="pnum">P12.10</span><h4>Make your own examples</h4></div>
+            <div class="p-body"><p>Give a relation on <span class="m">{1, 2, 3}</span> that is (Set 1, Exercise 7)</p>
+              <ol class="parts"><li>both symmetric and antisymmetric;</li><li>neither symmetric nor antisymmetric;</li><li>transitive, while <span class="m">R ∪ R⁻¹</span> is not transitive.</li></ol>
+              <p>Check each of your examples in the relation checker in 6.1.</p></div>
+            <details><summary>Possible answers</summary><div class="d-body"><p>(a) <span class="m">{(1, 1), (2, 2)}</span>: only loops, so it is both. (b) <span class="m">{(1, 2), (2, 1), (2, 3)}</span>. The notes give <span class="m">{(1, 2), (2, 3)}</span>, but that one is antisymmetric, so it does not answer (b). (c) <span class="m">{(1, 2)}</span>: <span class="m">R ∪ R⁻¹ = {(1, 2), (2, 1)}</span> lacks <span class="m">(1, 1)</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p12-11">
+            <div class="p-head"><span class="pnum">P12.11</span><h4>Proofs: properties that survive intersection</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>If every relation in a collection <span class="m">C</span> on <span class="m">A</span> is symmetric (transitive), then <span class="m">T = ∩C</span> is symmetric (transitive). (Set 2, Exercise 4)</li>
+              <li>If <span class="m">R</span> is antisymmetric and <span class="m">S</span> is any relation on <span class="m">A</span>, then <span class="m">R ∩ S</span> is antisymmetric. (Set 2, Exercise 6)</li>
+            </ol></div>
+            <details><summary>Model proof</summary><div class="d-body">
+              <p>(a) Symmetric: let <span class="m">(a, b) ∈ T</span>. Then <span class="m">(a, b) ∈ S</span> for every <span class="m">S ∈ C</span>. Each <span class="m">S</span> is symmetric, so <span class="m">(b, a) ∈ S</span> for every <span class="m">S</span>, that is, <span class="m">(b, a) ∈ T</span>.</p>
+              <p>Transitive: let <span class="m">(a, b), (b, c) ∈ T</span>. Both pairs lie in every <span class="m">S ∈ C</span>; each <span class="m">S</span> is transitive, so <span class="m">(a, c)</span> lies in every <span class="m">S</span>, that is, in <span class="m">T</span>. ∎</p>
+              <p>(b) Let <span class="m">(a, b) ∈ R ∩ S</span> and <span class="m">(b, a) ∈ R ∩ S</span>. Then both pairs are in <span class="m">R</span>, and <span class="m">R</span> is antisymmetric, so <span class="m">a = b</span>. ∎</p>
+              <p class="small muted">This is why closures exist for symmetry and transitivity: the intersection of all symmetric (transitive) relations containing <span class="m">R</span> is still symmetric (transitive), and it is the smallest one.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p12-12">
+            <div class="p-head"><span class="pnum">P12.12</span><h4>True or false: combining properties</h4></div>
+            <p class="small muted">Set 2, Exercise 5, for relations <span class="m">R, S</span> on a set <span class="m">A</span> with at least three elements.</p>
+            <ol class="tf">
+              <li data-a="T"><span class="q">If <span class="m">R</span> and <span class="m">S</span> are symmetric, then <span class="m">R ∩ S</span> is symmetric.</span><span class="why">P12.11(a) with two relations.</span></li>
+              <li data-a="T"><span class="q">If <span class="m">R</span> and <span class="m">S</span> are symmetric, then <span class="m">R ∪ S</span> is symmetric.</span><span class="why">A pair of <span class="m">R ∪ S</span> lies in <span class="m">R</span> or in <span class="m">S</span>, and so does its reverse.</span></li>
+              <li data-a="T"><span class="q">If <span class="m">R</span> and <span class="m">S</span> are reflexive, then <span class="m">R ∩ S</span> is reflexive.</span><span class="why">Both contain <span class="m">Δ<sub>A</sub></span>, so their intersection does.</span></li>
+              <li data-a="F"><span class="q">If <span class="m">R</span> and <span class="m">S</span> are transitive, then <span class="m">R ∪ S</span> is transitive.</span><span class="why"><span class="m">R = {(1, 2)}</span>, <span class="m">S = {(2, 3)}</span>: the union lacks <span class="m">(1, 3)</span>.</span></li>
+              <li data-a="F"><span class="q">If <span class="m">R</span> and <span class="m">S</span> are antisymmetric, then <span class="m">R ∪ S</span> is antisymmetric.</span><span class="why"><span class="m">R = {(1, 2)}</span>, <span class="m">S = {(2, 1)}</span>.</span></li>
+              <li data-a="T"><span class="q">If <span class="m">R</span> is antisymmetric, then <span class="m">R⁻¹</span> is antisymmetric.</span><span class="why">Reversing every arrow keeps “no pair of opposite arrows”.</span></li>
+              <li data-a="T"><span class="q">If <span class="m">R</span> is reflexive, then <span class="m">R ∩ R⁻¹</span> is not empty.</span><span class="why">It contains every <span class="m">(a, a)</span>, and <span class="m">A</span> is not empty.</span></li>
+              <li data-a="F"><span class="q">If <span class="m">R</span> is symmetric, then <span class="m">R ∩ R⁻¹</span> is not empty.</span><span class="why">The empty relation is symmetric and <span class="m">∅ ∩ ∅ = ∅</span>. The answer list in the notes marks this one true; see the errata.</span></li>
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <section class="pset" id="ps13">
+        <div class="pset-head"><h3>Practice 13 · Closures, equivalence relations and partitions</h3><p>11 problems from Lectures 10–11, Parts 5–6.</p></div>
+        <div class="probs">
+
+          <article class="prob" id="p13-1">
+            <div class="p-head"><span class="pnum">P13.1</span><h4>Reflexive and symmetric closures</h4></div>
+            <div class="p-body"><p><span class="m wrap">R = {(0, 1), (1, 1), (1, 2), (2, 0), (2, 2), (3, 0)}</span> on <span class="m">{0, 1, 2, 3}</span> (Set 2, Exercise 7). Find</p>
+              <ol class="parts"><li>the reflexive closure;</li><li>the symmetric closure.</li></ol></div>
+            <div class="check" data-kind="pairs" data-answer="(0,0),(0,1),(1,1),(1,2),(2,0),(2,2),(3,0),(3,3)" data-label="(a)"></div>
+            <div class="check" data-kind="pairs" data-answer="(0,1),(0,2),(0,3),(1,0),(1,1),(1,2),(2,0),(2,1),(2,2),(3,0)" data-label="(b)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) Add <span class="m">(0, 0)</span> and <span class="m">(3, 3)</span>. (b) Add <span class="m">(1, 0), (2, 1), (0, 2), (0, 3)</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p13-2">
+            <div class="p-head"><span class="pnum">P13.2</span><h4>All three closures</h4></div>
+            <div class="p-body"><p><span class="m">R = {(a, a), (a, b), (b, c), (c, c)}</span> on <span class="m">{a, b, c}</span> (Set 1, Exercise 8). Find</p>
+              <ol class="parts"><li><span class="m">reflexive(R)</span></li><li><span class="m">symmetric(R)</span></li><li><span class="m">R²</span></li><li><span class="m">transitive(R)</span></li></ol></div>
+            <div class="check" data-kind="pairs" data-answer="(a,a),(a,b),(b,b),(b,c),(c,c)" data-label="(a)"></div>
+            <div class="check" data-kind="pairs" data-answer="(a,a),(a,b),(b,a),(b,c),(c,b),(c,c)" data-label="(b)"></div>
+            <div class="check" data-kind="pairs" data-answer="(a,a),(a,b),(a,c),(b,c),(c,c)" data-label="(c)"></div>
+            <div class="check" data-kind="pairs" data-answer="(a,a),(a,b),(a,c),(b,c),(c,c)" data-label="(d)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) Add <span class="m">(b, b)</span>. (b) Add <span class="m">(b, a), (c, b)</span>. (c) The new pair is <span class="m">(a, c)</span>, from <span class="m">a → b → c</span>. (d) <span class="m">R³ = R²</span>, so <span class="m">R ∪ R² ∪ R³ = R ∪ {(a, c)}</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p13-3">
+            <div class="p-head"><span class="pnum">P13.3</span><h4>Transitive closure by powers</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li><span class="m">R = {(1, 2), (2, 3), (3, 3)}</span> on <span class="m">{1, 2, 3}</span>: find <span class="m">R²</span>. (Example 23)</li>
+              <li><span class="m">R = {(1, 2), (2, 1), (2, 3), (4, 4)}</span> on <span class="m">{1, 2, 3, 4}</span>: find <span class="m">R²</span> and <span class="m">transitive(R)</span>.</li>
+              <li>The relation of Example 19, <span class="m wrap">{(1, 1), (1, 3), (2, 4), (3, 1), (3, 3), (4, 3)}</span>: find <span class="m">transitive(R)</span>.</li>
+            </ol></div>
+            <div class="check" data-kind="pairs" data-answer="(1,3),(2,3),(3,3)" data-label="(a) R² ="></div>
+            <div class="check" data-kind="pairs" data-answer="(1,1),(1,3),(2,2),(4,4)" data-label="(b) R² ="></div>
+            <div class="check" data-kind="pairs" data-answer="(1,1),(1,2),(1,3),(2,1),(2,2),(2,3),(4,4)" data-label="(b) transitive(R) ="></div>
+            <div class="check" data-kind="pairs" data-answer="(1,1),(1,3),(2,1),(2,3),(2,4),(3,1),(3,3),(4,1),(4,3)" data-label="(c) transitive(R) ="></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Think of paths in the directed graph: <span class="m">(a, b)</span> belongs to the transitive closure when some path of length at least 1 leads from <span class="m">a</span> to <span class="m">b</span>.</p></div></details>
+            <details><summary>Answer</summary><div class="d-body">
+              <p>(b) <span class="m">R²</span>: <span class="m">1 → 2 → 1</span>, <span class="m">1 → 2 → 3</span>, <span class="m">2 → 1 → 2</span>, <span class="m">4 → 4 → 4</span>. <span class="m">R³ = R</span> on <span class="m">{1, 2}</span> again, so nothing new appears. The closure is <span class="m">R ∪ R²</span>. Note <span class="m">(1, 1)</span> and <span class="m">(2, 2)</span>: a cycle puts loops in the closure.</p>
+              <p>(c) From 2: <span class="m">2 → 4 → 3 → 1</span>, so 2 reaches 4, 3, 1. From 4: 3 and 1. From 1 and 3: 1 and 3. Nothing reaches 2.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p13-4">
+            <div class="p-head"><span class="pnum">P13.4</span><h4>Smallest relations with two properties</h4></div>
+            <div class="p-body"><p><span class="m">R = {(1, 2), (1, 4), (3, 3), (4, 1)}</span> on <span class="m">{1, 2, 3, 4}</span> (Set 2, Exercise 8). Find the smallest relation containing <span class="m">R</span> that is</p>
+              <ol class="parts"><li>reflexive and transitive;</li><li>symmetric and transitive;</li><li>an equivalence relation.</li></ol></div>
+            <div class="check" data-kind="pairs" data-answer="(1,1),(1,2),(1,4),(2,2),(3,3),(4,1),(4,2),(4,4)" data-label="(a)"></div>
+            <div class="check" data-kind="pairs" data-answer="(1,1),(1,2),(1,4),(2,1),(2,2),(2,4),(3,3),(4,1),(4,2),(4,4)" data-label="(b)"></div>
+            <div class="check" data-kind="pairs" data-answer="(1,1),(1,2),(1,4),(2,1),(2,2),(2,4),(3,3),(4,1),(4,2),(4,4)" data-label="(c)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) Add the loops, then the path <span class="m">4 → 1 → 2</span> gives <span class="m">(4, 2)</span>. (b) Symmetric closure first; then 1, 2, 4 are all connected, so all nine pairs on <span class="m">{1, 2, 4}</span>, plus <span class="m">(3, 3)</span>. (c) The same set: (b) is already reflexive, because every element appears in some pair. The classes are <span class="m">{1, 2, 4}</span> and <span class="m">{3}</span>.</p></div></details>
+          </article>
+
+          <article class="prob" id="p13-5">
+            <div class="p-head"><span class="pnum">P13.5</span><h4>Equivalence classes</h4></div>
+            <div class="p-body"><p>The equivalence relation of Set 1, Exercise 10, on <span class="m">{1, 2, 3, 4, 5, 6}</span>:</p>
+              <p class="m wrap">R = {(1, 1), (1, 5), (2, 2), (2, 3), (2, 6), (3, 2), (3, 3), (3, 6), (4, 4), (5, 1), (5, 5), (6, 2), (6, 3), (6, 6)}.</p>
+              <p>Find the classes <span class="m">[1]</span>, <span class="m">[6]</span> and <span class="m">[4]</span>, and the number of classes.</p></div>
+            <div class="check" data-kind="set" data-answer="1,5" data-label="[1] ="></div>
+            <div class="check" data-kind="set" data-answer="2,3,6" data-label="[6] ="></div>
+            <div class="check" data-kind="set" data-answer="4" data-label="[4] ="></div>
+            <div class="check" data-kind="num" data-answer="3" data-label="Number of classes ="></div>
+            <details><summary>Answer</summary><div class="d-body"><p>The partition is <span class="m">{{1, 5}, {2, 3, 6}, {4}}</span>. <span class="m">[6] = [2] = [3]</span>, as Theorem 7(ii) predicts, because 6 is related to 2 and 3.</p></div></details>
+          </article>
+
+          <article class="prob" id="p13-6">
+            <div class="p-head"><span class="pnum">P13.6</span><h4>Congruence classes</h4></div>
+            <div class="p-body"><ol class="parts">
+              <li>Which integers from 0 to 20 lie in the class of 13 modulo 5?</li>
+              <li>Which integers from 0 to 20 lie in the class of 11 modulo 4? (Example 24(c))</li>
+              <li>How many classes does congruence modulo 7 have on <span class="m">ℤ</span>?</li>
+            </ol></div>
+            <div class="check" data-kind="set" data-answer="3,8,13,18" data-label="(a)"></div>
+            <div class="check" data-kind="set" data-answer="3,7,11,15,19" data-label="(b)"></div>
+            <div class="check" data-kind="num" data-answer="7" data-label="(c)"></div>
+            <details><summary>Answer</summary><div class="d-body"><p>(a) Remainder 3: <span class="m">{3, 8, 13, 18}</span>. (b) Remainder 3: <span class="m">{3, 7, 11, 15, 19}</span>. (c) One class per remainder <span class="m">0, …, 6</span>: 7.</p></div></details>
+          </article>
+
+          <article class="prob" id="p13-7">
+            <div class="p-head"><span class="pnum">P13.7</span><h4>The smallest equivalence relation</h4></div>
+            <div class="p-body"><p>Find the smallest equivalence relation on <span class="m">{a, b, c, d, e}</span> containing <span class="m">{(a, b), (a, c), (d, e)}</span> (Set 2, Exercise 14).</p></div>
+            <div class="check" data-kind="pairs" data-answer="(a,a),(a,b),(a,c),(b,a),(b,b),(b,c),(c,a),(c,b),(c,c),(d,d),(d,e),(e,d),(e,e)" data-label="Relation ="></div>
+            <details class="hint"><summary>Hint</summary><div class="d-body"><p>Find the partition first: which elements must be in one class?</p></div></details>
+            <details><summary>Answer</summary><div class="d-body"><p>The classes are <span class="m">{a, b, c}</span> and <span class="m">{d, e}</span>; take all pairs inside each block: <span class="m">9 + 4 = 13</span> pairs.</p></div></details>
+          </article>
+
+          <article class="prob" id="p13-8">
+            <div class="p-head"><span class="pnum">P13.8</span><h4>Puzzle: ad = bc is an equivalence relation</h4></div>
+            <div class="p-body"><p>Put the steps of Set 1, Exercise 9 in order: on pairs of nonzero integers, <span class="m">(a, b) ≈ (c, d)</span> whenever <span class="m">ad = bc</span>.</p></div>
+            <div class="order"><ol class="order-key">
+              <li>Reflexive: <span class="m">(a, b) ≈ (a, b)</span> because <span class="m">ab = ba</span>.</li>
+              <li>Symmetric: if <span class="m">ad = bc</span>, then <span class="m">cb = da</span>, which says <span class="m">(c, d) ≈ (a, b)</span>.</li>
+              <li>Transitive: assume <span class="m">ad = bc</span> and <span class="m">cf = de</span>.</li>
+              <li>Multiplying the two equations gives <span class="m">(ad)(cf) = (bc)(de)</span>.</li>
+              <li>Cancel <span class="m">c ≠ 0</span> and <span class="m">d ≠ 0</span> to get <span class="m">af = be</span>, that is, <span class="m">(a, b) ≈ (e, f)</span>.</li>
+              <li>Hence <span class="m">≈</span> is an equivalence relation. ∎</li>
+            </ol></div>
+          </article>
+
+          <article class="prob" id="p13-9">
+            <div class="p-head"><span class="pnum">P13.9</span><h4>Proof: a + d = b + c</h4></div>
+            <div class="p-body"><p>On pairs of positive integers, <span class="m">((a, b), (c, d)) ∈ R</span> if and only if <span class="m">a + d = b + c</span> (Set 2, Exercises 11 and 13).</p>
+              <ol class="parts"><li>Prove that <span class="m">R</span> is an equivalence relation.</li><li>Describe the class of <span class="m">(1, 2)</span>. What does a class stand for?</li></ol></div>
+            <details><summary>Model proof</summary><div class="d-body">
+              <p>(a) <span class="m">a + d = b + c</span> is the same as <span class="m">a − b = c − d</span>, so <span class="m">R</span> is “<span class="m">f(a, b) = f(c, d)</span>” for <span class="m">f(x, y) = x − y</span>, and every relation of this form is an equivalence relation (Set 2, Exercise 10).</p>
+              <p>Directly: reflexive, <span class="m">a + b = b + a</span>. Symmetric, <span class="m">a + d = b + c</span> gives <span class="m">c + b = d + a</span>. Transitive, add <span class="m">a + d = b + c</span> and <span class="m">c + f = d + e</span> and cancel <span class="m">c + d</span>: <span class="m">a + f = b + e</span>. ∎</p>
+              <p>(b) <span class="m wrap">[(1, 2)] = {(a, b) | a − b = −1} = {(1, 2), (2, 3), (3, 4), …}</span>. Each class stands for one integer, the difference <span class="m">a − b</span>; this is how the integers can be built from the positive integers.</p>
+            </div></details>
+          </article>
+
+          <article class="prob" id="p13-10">
+            <div class="p-head"><span class="pnum">P13.10</span><h4>Equivalence relations on functions</h4></div>
+            <p class="small muted">Set 2, Exercise 9: relations on the functions from <span class="m">ℤ</span> to <span class="m">ℤ</span>. True if it is an equivalence relation.</p>
+            <ol class="tf">
+              <li data-a="T"><span class="q"><span class="m">f(1) = g(1)</span></span><span class="why">It has the form <span class="m">F(f) = F(g)</span> with <span class="m">F(f) = f(1)</span>.</span></li>
+              <li data-a="F"><span class="q"><span class="m">f(0) = g(0)</span> or <span class="m">f(1) = g(1)</span></span><span class="why">Not transitive: <span class="m">f</span> and <span class="m">g</span> can agree at 0, and <span class="m">g</span> and <span class="m">h</span> at 1, while <span class="m">f</span> and <span class="m">h</span> agree at neither.</span></li>
+              <li data-a="F"><span class="q"><span class="m">f(x) − g(x) = 1</span> for all <span class="m">x</span></span><span class="why">Not reflexive (<span class="m">f − f = 0</span>), not symmetric (<span class="m">g − f = −1</span>), not transitive (<span class="m">f − h = 2</span>).</span></li>
+              <li data-a="T"><span class="q"><span class="m">f(x) − g(x) = C</span> for all <span class="m">x</span>, for some constant <span class="m">C</span></span><span class="why">“Differ by a constant”: <span class="m">C = 0</span>, <span class="m">−C</span>, <span class="m">C₁ + C₂</span> prove the three properties.</span></li>
+              <li data-a="F"><span class="q"><span class="m">f(0) = g(1)</span> and <span class="m">f(1) = g(0)</span></span><span class="why">Symmetric, but not reflexive (it needs <span class="m">f(0) = f(1)</span>) and not transitive.</span></li>
+            </ol>
+          </article>
+
+          <article class="prob" id="p13-11">
+            <div class="p-head"><span class="pnum">P13.11</span><h4>True or false: partitions and closures</h4></div>
+            <ol class="tf">
+              <li data-a="F"><span class="q"><span class="m">{1, 2}, {2, 3, 4}, {4, 5, 6}</span> is a partition of <span class="m">{1, …, 6}</span>.</span><span class="why">The blocks overlap in 2 and 4 (Set 2, Exercise 15(a)).</span></li>
+              <li data-a="T"><span class="q"><span class="m">{1}, {2, 3, 6}, {4}, {5}</span> is a partition of <span class="m">{1, …, 6}</span>.</span><span class="why">Nonempty, disjoint, and they cover the set.</span></li>
+              <li data-a="F"><span class="q"><span class="m">{1, 4, 5}, {2, 6}</span> is a partition of <span class="m">{1, …, 6}</span>.</span><span class="why">3 is in no block.</span></li>
+              <li data-a="T"><span class="q">The bit strings of length 8 that begin with 1, with 00 and with 01 form a partition.</span><span class="why">Every string begins with exactly one of these (Set 2, Exercise 16(a)).</span></li>
+              <li data-a="F"><span class="q">The bit strings of length 8 that contain 00, 01, 10 and 11 form a partition.</span><span class="why">00110101 contains all four, so the sets overlap.</span></li>
+              <li data-a="T"><span class="q">If <span class="m">[a] ∩ [b] ≠ ∅</span>, then <span class="m">[a] = [b]</span>.</span><span class="why">Theorem 7(iii) in contrapositive form.</span></li>
+              <li data-a="F"><span class="q">Set inclusion <span class="m">⊆</span> is an equivalence relation on a collection of sets.</span><span class="why">It is reflexive and transitive but not symmetric (Example 24(b)).</span></li>
+              <li data-a="T"><span class="q">On a set with <span class="m">n</span> elements, <span class="m">transitive(R) = R ∪ R² ∪ ⋯ ∪ Rⁿ</span>.</span><span class="why">Theorem 6: shortest paths never need more than <span class="m">n</span> steps.</span></li>
+            </ol>
+          </article>
+        </div>
+      </section>
+    </section>
