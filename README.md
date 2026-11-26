@@ -38,6 +38,7 @@ Every answer box accepts plain-keyboard input:
 | `→` / `↔` | `->` / `<->` |
 | `∖` difference | `\` or `-` |
 | `∅` empty set | `{}` or `empty` |
+| numbers | arithmetic is worked out exactly: `26*25*10^3`, `26²·10³`, `12!/(3!2!)`, `C(13, 6)`, `P(7, 3)` |
 | ordered pairs | `(0, 1), (1, a)`; `{}` is the empty relation |
 | `↔` between variables | `=` (as in `p = q`); a leading `E =` is a label and is ignored |
 

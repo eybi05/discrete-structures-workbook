@@ -84,7 +84,7 @@
     const kind = box.dataset.kind || 'bool';
     const owner = box.closest('[id]');
     const id = `${owner ? owner.id : 'c'}-in${++seq}`;
-    const ph = box.dataset.ph || (kind === 'bits' ? 'e.g. 01100101' : kind === 'set' ? 'e.g. {1, 2, 3}; type {} for ∅' : kind === 'num' ? 'a whole number'
+    const ph = box.dataset.ph || (kind === 'bits' ? 'e.g. 01100101' : kind === 'set' ? 'e.g. {1, 2, 3}; type {} for ∅' : kind === 'num' ? 'e.g. 26*25*10^3 or C(13, 6)'
       : kind === 'pairs' ? 'e.g. (0, 1), (1, 1)' : "use ' for the prime ′");
     const input = h('input', {
       id, type: 'text', autocomplete: 'off', autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false',
@@ -102,6 +102,19 @@
       h('label', { for: id, class: 'm' }, box.dataset.label || 'Your answer'),
       h('span', { class: 'field' }, input, ...keys),
       h('button', { type: 'submit', class: 'btn' }, 'Check'));
+    if (kind === 'num') {
+      // live value of an arithmetic answer, e.g. 26*26*10^3 → = 676 000; says nothing about correctness
+      const val = h('span', { class: 'num-val', 'aria-hidden': 'true' });
+      $('.field', form).after(val);
+      input.addEventListener('input', () => {
+        const raw = input.value.trim();
+        let txt = '';
+        if (raw && !/^[−-]?[\d ,]+$/.test(raw)) {
+          try { const v = Core.evalNum(raw); txt = '= ' + (v.d === 1n ? Core.groupDigits(v.n) : `${v.n}/${v.d}`); } catch (e) { txt = ''; }
+        }
+        val.textContent = txt;
+      });
+    }
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       let res;

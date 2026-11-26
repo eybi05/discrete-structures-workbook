@@ -302,6 +302,8 @@ ol.parts { list-style: lower-alpha; }
 .check { margin: 0.4rem 0 0.8rem; }
 .check-form { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem 0.6rem; }
 .check-form label { font-size: 1rem; min-width: 0; }
+.num-val { font: 0.92rem var(--f-mono); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.num-val:empty { display: none; }
 .field { display: inline-flex; flex: 1 1 13rem; min-width: 0; border: 1px solid var(--ink-3); border-radius: 7px; background: var(--paper); overflow: hidden; }
 .field:focus-within { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
 .field input { flex: 1 1 auto; min-width: 0; border: 0; background: transparent; color: var(--ink); font: 400 1rem var(--f-mono); padding: 0.45rem 0.6rem; outline: none; }
